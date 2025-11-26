@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="simple_rebrand_web_layout" inherit_id="web.layout" priority="1000">
+        <xpath expr="." position="inside">
+            <style>
+                /* remove logo*/
+                .navbar-brand, a.navbar-brand, .o_header_logo { display: none !important; }
+
+                /* remove links */
+                .o_social_links, .social-links, [class*="social"] { display: none !important; }
+
+                /* remove odoo themes */
+                section:has(h2:contains("Connect")),
+                section:has(h2:contains("Contact")),
+                section:has(h2:contains("اتصل")),
+                section:has(h2:contains("تواصل")) { display: none !important; }
+            </style>
+        </xpath>
+    </template>
+
+    <template id="simple_rebrand_website_layout" inherit_id="website.layout" priority="1000">
+        <xpath expr="." position="inside">
+            <style>
+                .navbar-brand, a.navbar-brand, .o_header_logo { display: none !important; }
+                .o_social_links, .social-links, [class*="social"] { display: none !important; }
+            </style>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,59 @@
+<odoo>
+  <!-- Inject a <style> in the website layout head for logged-in users -->
+  <template id="wnm_hide_styles" inherit_id="website.layout" name="WNM Hide Styles">
+    <xpath expr="//head" position="inside">
+      <t t-if="request.env.user and not request.env.user._is_public()">
+        <style id="wnm_hide_styles_css">
+          <!-- PAGE -->
+          <t t-if="request.env['ir.config_parameter'].sudo().get_param('website_new_menu_control.wnm_hide_page') == '1'">
+            .o_new_content_element[aria-label="New Page"]{display:none!important;}
+            .o_new_content_element span.fw-bold:where(:is(:not([aria-label])), :is([aria-label="New Page"])):contains('Page'){display:none!important;}
+          </t>
+
+          <!-- BLOG -->
+          <t t-if="request.env['ir.config_parameter'].sudo().get_param('website_new_menu_control.wnm_hide_blog') == '1'">
+            .o_new_content_element[aria-label="Blog Post"],
+            .o_new_content_element[data-module-xml-id*="website_blog"]{display:none!important;}
+          </t>
+
+          <!-- EVENT -->
+          <t t-if="request.env['ir.config_parameter'].sudo().get_param('website_new_menu_control.wnm_hide_event') == '1'">
+            .o_new_content_element[aria-label="Event"],
+            .o_new_content_element[data-module-xml-id*="website_event"]{display:none!important;}
+          </t>
+
+          <!-- FORUM -->
+          <t t-if="request.env['ir.config_parameter'].sudo().get_param('website_new_menu_control.wnm_hide_forum') == '1'">
+            .o_new_content_element[aria-label="Forum"],
+            .o_new_content_element[data-module-xml-id*="website_forum"]{display:none!important;}
+          </t>
+
+          <!-- JOB POSITION -->
+          <t t-if="request.env['ir.config_parameter'].sudo().get_param('website_new_menu_control.wnm_hide_job') == '1'">
+            .o_new_content_element[aria-label="Job Position"],
+            .o_new_content_element[data-module-xml-id*="website_hr_recruitment"]{display:none!important;}
+          </t>
+
+          <!-- PRODUCT -->
+          <t t-if="request.env['ir.config_parameter'].sudo().get_param('website_new_menu_control.wnm_hide_product') == '1'">
+            .o_new_content_element[aria-label="Product"],
+            .o_new_content_element[data-module-xml-id*="website_sale"]{display:none!important;}
+          </t>
+
+          <!-- COURSE -->
+          <t t-if="request.env['ir.config_parameter'].sudo().get_param('website_new_menu_control.wnm_hide_course') == '1'">
+            .o_new_content_element[aria-label="Course"],
+            .o_new_content_element[data-module-xml-id*="website_slides"]{display:none!important;}
+          </t>
+
+          <!-- LIVECHAT WIDGET (mapped to appointment toggle) -->
+          <t t-if="request.env['ir.config_parameter'].sudo().get_param('website_new_menu_control.wnm_hide_appointment') == '1'">
+            .o_new_content_element[aria-label="Livechat Widget"],
+            .o_new_content_element[aria-label="Live Chat Widget"],
+            .o_new_content_element[data-module-xml-id*="website_livechat"]{display:none!important;}
+          </t>
+        </style>
+      </t>
+    </xpath>
+  </template>
+</odoo>
