@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ypu_teacher,access_ypu_teacher,model_ypu_teacher,base.group_user,1,1,1,1
+access_ypu_teacher_category,access_ypu_teacher_category,model_ypu_teacher_category,base.group_user,1,1,1,1
