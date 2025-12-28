@@ -94,10 +94,7 @@
                                     </div>
                                 </div>
                                 <dl class="row mb-0 ypu-meta small mt-3">
-                                    <dt class="col-6">Experience</dt>
-                                    <dd class="col-6 text-end">
-                                        <t t-esc="teacher.get('years_of_experience') or 0"/> yrs
-                                    </dd>
+
                                     <dt class="col-6">Email</dt>
                                     <dd class="col-6 text-end">
                                         <t t-esc="teacher.get('email') or '-'"/>
@@ -105,6 +102,10 @@
                                     <dt class="col-6">Phone</dt>
                                     <dd class="col-6 text-end">
                                         <t t-esc="teacher.get('phone') or '-'"/>
+                                    </dd>
+                                    <dt class="col-6">Social Media</dt>
+                                    <dd class="col-6 text-end">
+                                        <t t-esc="teacher.get('years_of_experience') or 0"/> yrs
                                     </dd>
                                 </dl>
                             </div>
