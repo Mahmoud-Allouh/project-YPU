@@ -103,10 +103,11 @@
                                     <dd class="col-6 text-end">
                                         <t t-esc="teacher.get('phone') or '-'"/>
                                     </dd>
-                                    <dt class="col-6">Social Media</dt>
+                                   <dt class="col-6">Social Media</dt>
                                     <dd class="col-6 text-end">
-                                        <t t-esc="teacher.get('years_of_experience') or 0"/> yrs
+                                        <t t-esc="teacher.get('years_of_experience') or '-'"/>
                                     </dd>
+
                                 </dl>
                             </div>
                         </div>
