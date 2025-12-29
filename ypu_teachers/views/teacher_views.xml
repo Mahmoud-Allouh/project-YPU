@@ -11,9 +11,11 @@
                 <field name="subject"/>
                 <field name="category_id"/>
                 <field name="years_of_experience"/>
+                <field name="research_gate"/>
                 <field name="available"/>
                 <field name="website_published"/>
                 <field name="is_public"/>
+                <field name="is_dean"/>
             </list>
         </field>
     </record>
@@ -32,12 +34,14 @@
                             <field name="subject"/>
                             <field name="category_id"/>
                             <field name="years_of_experience"/>
+                            <field name="research_gate"/>
                             <field name="available"/>
                             <field name="website_published"/>
                             <field name="is_public"/>
+                            <field name="is_dean"/>
                         </group>
                         <group>
-                            <field name="image_1920" widget="image_1920" class="oe_avatar" options="{'size': [180, 180]}"/>
+                            <field name="image_1920" widget="image" class="oe_avatar" options="{'size': [180, 180]}"/>
                             <field name="email"/>
                             <field name="phone"/>
                         </group>
