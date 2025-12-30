@@ -28,15 +28,17 @@ class YpuTeacherPortal(Controller):
             category_ids=category_ids,
             available=available_flag,
         )
+
         teachers = Teacher.search_read(
             domain=domain,
             fields=[
-                'id', 'name', 'subject', 'department', 'email', 'phone', 'category_id',
-                'years_of_experience', 'available', 'image_1920',
+                'id', 'name', 'subject', 'department', 'email', 'phone', 'category_id','position_id',
+                'years_of_experience', 'research_gate', 'available', 'image_1920','is_dean'
             ],
             limit=60,
-            order='name asc',
+            order='is_dean desc, name asc',
         )
+
         categories = Category.search_read(
             domain=[('active', '=', True)],
             fields=['id', 'name', 'teacher_count'],

@@ -75,7 +75,7 @@
                                     </span>
 
                                     <div class="d-flex" style="height: 100%;">
-                                        <div class="ypu-avatar me-3" style="height: 100%; width: 180px; min-width: 180px; max-width: 180px; flex: 0 0 180px; overflow: hidden;">
+                                        <div class="ypu-avatar me-3" style="height: 100%; width: 240px; min-width: 240px; max-width: 240px; flex: 0 0 240px; overflow: hidden;">
                                             <t t-if="dean.get('image_1920')">
                                                 <img t-att-src="'/web/image/ypu.teacher/%s/image_1920' % dean['id']" alt="Teacher photo" style="width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block;"/>
                                             </t>
@@ -108,6 +108,11 @@
                                                         <t t-esc="dean['subject']"/>
                                                     </span>
                                                 </t>
+                                                <t t-if="dean['position_id']">
+                                                    <span class="ypu-tag">
+                                                        <t t-esc="dean['position_id'][1]"/>
+                                                    </span>
+                                                </t>
                                             </div>
 
                                             <div class="small mt-3 d-flex justify-content-center">
@@ -125,11 +130,12 @@
                                                     <span class="text-muted fw-semibold" style="white-space: nowrap;">Phone</span>
                                                     <span class="text-break"><t t-esc="dean.get('phone') or '-'"/></span>
 
+                                                    <span class="text-muted fw-semibold" style="white-space: nowrap;">LinkedIn</span>
+                                                    <span class="text-break"><t t-esc="dean.get('years_of_experience') or 0"/></span>
+
                                                     <span class="text-muted fw-semibold" style="white-space: nowrap;">Research Gate</span>
                                                     <span class="text-break"><t t-esc="dean.get('research_gate') or '-'"/></span>
 
-                                                    <span class="text-muted fw-semibold" style="white-space: nowrap;">Social Media</span>
-                                                    <span class="text-break"><t t-esc="dean.get('years_of_experience') or 0"/></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -181,6 +187,12 @@
                                                             <t t-esc="teacher['subject']"/>
                                                         </span>
                                                     </t>
+                                                    <t t-if="dean['position_id']">
+                                                    <span class="ypu-tag">
+                                                        <t t-esc="dean['position_id'][1]"/>
+                                                    </span>
+                                                </t>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -196,15 +208,15 @@
                                                 <t t-esc="teacher.get('phone') or '-'"/>
                                             </dd>
 
+                                            <dt class="col-4">LinkedIn</dt>
+                                            <dd class="col-8">
+                                                <t t-esc="teacher.get('years_of_experience') or 0"/>
+                                            </dd>
                                             <dt class="col-4">Research Gate</dt>
                                             <dd class="col-8">
                                                 <t t-esc="teacher.get('research_gate') or '-'"/>
                                             </dd>
 
-                                            <dt class="col-4">Social Media</dt>
-                                            <dd class="col-8">
-                                                <t t-esc="teacher.get('years_of_experience') or 0"/>
-                                            </dd>
                                         </dl>
                                     </div>
                                 </div>

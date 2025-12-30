@@ -13,6 +13,8 @@
     'data': [
         'security/ir.model.access.csv',
         'views/teacher_category_views.xml',
+        'views/teacher_position_views.xml',
+        'views/teacher_views.xml',
         'views/teacher_views.xml',
         'data/website_menu.xml',
         'views/website_templates.xml',
