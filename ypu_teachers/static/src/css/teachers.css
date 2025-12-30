@@ -291,3 +291,26 @@
         white-space: normal;
     }
 }
+
+
+
+header .navbar-brand.logo,
+header a.navbar-brand.logo{
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px;
+}
+
+header .navbar-brand.logo img,
+header a.navbar-brand.logo img{
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    height: 48px !important;
+    max-height: 48px !important;
+    width: auto !important;
+    max-width: 200px !important;
+
+    object-fit: contain !important;
+}
