@@ -5,8 +5,8 @@
     'description': """
         Standalone teacher directory with backend forms and a public website page to browse teachers.
     """,
-    'author': "Kaizen",
-    'website': "https://www.kaizenae.com",
+    'author': "Komorebi Technologies",
+    'website': "https://www.komorebitechnologies.com",
     'category': 'Website',
     'version': '19.0.1.0.0',
     'depends': ['base', 'website'],

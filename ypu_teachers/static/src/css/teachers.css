@@ -200,6 +200,28 @@
     text-align: center;
 }
 
+.ypu-card--has-action:not(.ypu-card--featured) {
+    position: relative;
+    padding-bottom: 52px;
+}
+
+.ypu-card--has-action:not(.ypu-card--featured) .ypu-card-action {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+}
+
+.ypu-card--featured.ypu-card--has-action .flex-grow-1 {
+    padding-bottom: 64px;
+}
+
+.ypu-card--featured .ypu-card-action {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    z-index: 2;
+}
+
 .ypu-card--featured .flex-grow-1 .d-flex.justify-content-between.align-items-start {
     width: 100%;
     justify-content: center !important;

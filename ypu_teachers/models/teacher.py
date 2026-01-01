@@ -21,6 +21,15 @@ class YpuTeacher(models.Model):
     available = fields.Boolean(string='Available', default=True)
     image_1920 = fields.Image("Photo", max_width=512, max_height=512)
     website_published = fields.Boolean(string='Publish on Website', default=True)
+    show_link_button = fields.Boolean(
+        string='Show CV Button',
+        default=False,
+        help="Enable a button on the website card that opens the link below.",
+    )
+    link_url = fields.Char(
+        string='Card Link',
+        help="URL to open from the website card button.",
+    )
     is_public = fields.Boolean(
         string='Publicly Visible',
         default=True,

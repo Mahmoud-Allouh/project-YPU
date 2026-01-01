@@ -15,6 +15,8 @@
                 <field name="research_gate"/>
                 <field name="available"/>
                 <field name="website_published"/>
+                <field name="show_link_button"/>
+                <field name="link_url"/>
                 <field name="is_public"/>
                 <field name="is_dean"/>
             </list>
@@ -39,6 +41,8 @@
                             <field name="research_gate"/>
                             <field name="available"/>
                             <field name="website_published"/>
+                            <field name="show_link_button"/>
+                            <field name="link_url" invisible="not show_link_button"/>
                             <field name="is_public"/>
                             <field name="is_dean"/>
                         </group>

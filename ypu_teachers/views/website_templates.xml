@@ -67,7 +67,7 @@
                     <t t-if="show_featured">
                         <div class="row g-4 mb-4">
                             <div class="col-12">
-                                <div class="ypu-card h-100 p-3 ypu-card--featured position-relative" style="height: 279px; min-height: 279px; max-height: 279px; overflow: hidden;">
+                                <div t-attf-class="ypu-card h-100 p-3 ypu-card--featured position-relative#{' ypu-card--has-action' if dean.get('show_link_button') and dean.get('link_url') else ''}" style="height: 279px; min-height: 279px; max-height: 279px; overflow: hidden;">
 
                                     <span t-att-class="'ypu-badge position-absolute top-0 end-0 m-3 ' + ('available' if dean['available'] else 'unavailable')"
                                           style="z-index: 2;">
@@ -138,6 +138,11 @@
 
                                                 </div>
                                             </div>
+                                            <t t-if="dean.get('show_link_button') and dean.get('link_url')">
+                                                <div class="ypu-card-action">
+                                                    <a class="btn btn-primary" t-att-href="dean.get('link_url')">Visit Link</a>
+                                                </div>
+                                            </t>
                                         </div>
                                     </div>
 
@@ -150,7 +155,7 @@
                         <t t-foreach="teachers" t-as="teacher">
                             <t t-if="(not show_featured) or (teacher['id'] != dean['id'])">
                                 <div class="col">
-                                    <div class="ypu-card h-100 p-3">
+                                    <div t-attf-class="ypu-card h-100 p-3#{' ypu-card--has-action' if teacher.get('show_link_button') and teacher.get('link_url') else ''}">
                                         <div class="d-flex">
                                             <div class="ypu-avatar me-3">
                                                 <t t-if="teacher.get('image_1920')">
@@ -218,6 +223,11 @@
                                             </dd>
 
                                         </dl>
+                                        <t t-if="teacher.get('show_link_button') and teacher.get('link_url')">
+                                            <div class="ypu-card-action">
+                                                <a class="btn btn-primary btn-sm" t-att-href="teacher.get('link_url')">Visit Link</a>
+                                            </div>
+                                        </t>
                                     </div>
                                 </div>
                             </t>

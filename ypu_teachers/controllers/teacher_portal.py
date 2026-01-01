@@ -33,7 +33,8 @@ class YpuTeacherPortal(Controller):
             domain=domain,
             fields=[
                 'id', 'name', 'subject', 'department', 'email', 'phone', 'category_id','position_id',
-                'years_of_experience', 'research_gate', 'available', 'image_1920','is_dean'
+                'years_of_experience', 'research_gate', 'available', 'image_1920', 'is_dean',
+                'show_link_button', 'link_url',
             ],
             limit=60,
             order='is_dean desc, name asc',
