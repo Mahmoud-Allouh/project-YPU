@@ -127,6 +127,9 @@
                                                     <span class="text-muted fw-semibold" style="white-space: nowrap;">Research Gate</span>
                                                     <span class="text-break"><t t-esc="dean.get('research_gate') or '-'"/></span>
 
+                                                     <span class="text-muted fw-semibold" style="white-space: nowrap;">Subject</span>
+                                                    <span class="text-break"><t t-esc="dean.get('subject') or '-'"/></span>
+
                                                 </div>
                                             </div>
                                             <t t-if="dean.get('show_link_button') and dean.get('link_url')">
@@ -202,11 +205,15 @@
                                             <dd class="col-8">
                                                 <t t-esc="teacher.get('research_gate') or '-'"/>
                                             </dd>
+                                            <dt class="col-4">Subject</dt>
+                                            <dd class="col-8">
+                                                <t t-esc="teacher.get('subject') or '-'"/>
+                                            </dd>
 
                                         </dl>
                                         <t t-if="teacher.get('show_link_button') and teacher.get('link_url')">
                                             <div class="ypu-card-action">
-                                                <a class="btn btn-primary btn-sm" t-att-href="teacher.get('link_url')">Visit Link</a>
+                                                <a class="btn btn-primary btn-sm" t-att-href="teacher.get('link_url')">View Profile</a>
                                             </div>
                                         </t>
                                     </div>
