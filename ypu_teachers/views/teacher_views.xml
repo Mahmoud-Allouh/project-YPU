@@ -9,6 +9,7 @@
                 <field name="name"/>
                 <field name="department"/>
                 <field name="subject"/>
+                <field name="rank"/>
                 <field name="category_id"/>
                 <field name="position_id"/>
                 <field name="years_of_experience"/>
@@ -35,6 +36,7 @@
                             <field name="name"/>
                             <field name="department"/>
                             <field name="subject"/>
+                            <field name="rank"/>
                             <field name="category_id"/>
                             <field name="position_id"/>
                             <field name="years_of_experience"/>

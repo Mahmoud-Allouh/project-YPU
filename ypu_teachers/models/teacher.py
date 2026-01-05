@@ -9,7 +9,8 @@ class YpuTeacher(models.Model):
 
     name = fields.Char(required=True, help="Teacher full name.")
     department = fields.Char(help="Department or faculty.")
-    subject = fields.Char(help="Main subject taught.")
+    subject = fields.Char(string='Subject',help="Main subject")
+    rank = fields.Char(string = 'Rank', help="Rank of teacher.")
     email = fields.Char()
     phone = fields.Char()
     bio = fields.Html(string='Profile')

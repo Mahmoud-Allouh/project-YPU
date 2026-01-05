@@ -32,7 +32,7 @@ class YpuTeacherPortal(Controller):
         teachers = Teacher.search_read(
             domain=domain,
             fields=[
-                'id', 'name', 'subject', 'department', 'email', 'phone', 'category_id','position_id',
+                'id', 'name', 'subject', 'rank','department', 'email', 'phone', 'category_id','position_id',
                 'years_of_experience', 'research_gate', 'available', 'image_1920', 'is_dean',
                 'show_link_button', 'link_url',
             ],

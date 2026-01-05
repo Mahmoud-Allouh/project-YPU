@@ -88,32 +88,23 @@
                                             <div class="d-flex align-items-start">
                                                 <div>
                                                     <h5 class="mb-1"><t t-esc="dean['name']"/></h5>
-                                                    <div class="text-muted small">
-                                                        <t t-esc="dean.get('subject') or ''"/>
-                                                    </div>
-                                                    <div class="text-muted small">
-                                                        <t t-if="dean['department']"><t t-esc="dean['department']"/></t>
-                                                    </div>
                                                 </div>
                                             </div>
 
                                             <div class="mt-2">
-                                                <t t-if="dean['category_id']">
-                                                    <span class="ypu-tag">
-                                                        <t t-esc="dean['category_id'][1]"/>
-                                                    </span>
+                                                <t t-if="dean.get('rank')">
+                                                    <span class="ypu-tag"><t t-esc="dean['rank']"/></span>
                                                 </t>
-                                                <t t-if="dean.get('subject')">
-                                                    <span class="ypu-tag">
-                                                        <t t-esc="dean['subject']"/>
-                                                    </span>
+
+                                                <t t-if="dean.get('position_id')">
+                                                    <span class="ypu-tag"><t t-esc="dean['position_id'][1]"/></span>
                                                 </t>
-                                                <t t-if="dean['position_id']">
-                                                    <span class="ypu-tag">
-                                                        <t t-esc="dean['position_id'][1]"/>
-                                                    </span>
+
+                                                <t t-if="dean.get('category_id')">
+                                                    <span class="ypu-tag"><t t-esc="dean['category_id'][1]"/></span>
                                                 </t>
                                             </div>
+
 
                                             <div class="small mt-3 d-flex justify-content-center">
                                                 <div class="text-start"
@@ -140,7 +131,7 @@
                                             </div>
                                             <t t-if="dean.get('show_link_button') and dean.get('link_url')">
                                                 <div class="ypu-card-action">
-                                                    <a class="btn btn-primary" t-att-href="dean.get('link_url')">Visit Link</a>
+                                                    <a class="btn btn-primary" t-att-href="dean.get('link_url')">View Profile</a>
                                                 </div>
                                             </t>
                                         </div>
@@ -170,35 +161,25 @@
                                                 <div class="d-flex justify-content-between align-items-start">
                                                     <div>
                                                         <h5 class="mb-1"><t t-esc="teacher['name']"/></h5>
-                                                        <div class="text-muted small">
-                                                            <t t-esc="teacher.get('subject') or ''"/>
-                                                        </div>
-                                                        <div class="text-muted small">
-                                                            <t t-if="teacher['department']"><t t-esc="teacher['department']"/></t>
-                                                        </div>
                                                     </div>
                                                     <span class="ypu-badge" t-att-class="'ypu-badge ' + ('available' if teacher['available'] else 'unavailable')">
                                                         <t t-esc="'Available' if teacher['available'] else 'Unavailable'"/>
                                                     </span>
                                                 </div>
                                                 <div class="mt-2">
-                                                    <t t-if="teacher['category_id']">
-                                                        <span class="ypu-tag">
-                                                            <t t-esc="teacher['category_id'][1]"/>
-                                                        </span>
+                                                    <t t-if="teacher.get('rank')">
+                                                        <span class="ypu-tag"><t t-esc="teacher['rank']"/></span>
                                                     </t>
-                                                    <t t-if="teacher.get('subject')">
-                                                        <span class="ypu-tag">
-                                                            <t t-esc="teacher['subject']"/>
-                                                        </span>
-                                                    </t>
-                                                    <t t-if="dean['position_id']">
-                                                    <span class="ypu-tag">
-                                                        <t t-esc="dean['position_id'][1]"/>
-                                                    </span>
-                                                </t>
 
+                                                    <t t-if="teacher.get('position_id')">
+                                                        <span class="ypu-tag"><t t-esc="teacher['position_id'][1]"/></span>
+                                                    </t>
+
+                                                    <t t-if="teacher.get('category_id')">
+                                                        <span class="ypu-tag"><t t-esc="teacher['category_id'][1]"/></span>
+                                                    </t>
                                                 </div>
+
                                             </div>
                                         </div>
 
