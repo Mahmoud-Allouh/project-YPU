@@ -22,10 +22,9 @@
         </BuilderRow>
 
         <BuilderRow label.translate="Category">
-            <t t-set="catList" t-value="this.categories || []"/>
             <BuilderSelect dataAttributeAction="'categoryId'">
                 <BuilderSelectItem dataAttributeActionValue="'0'">All categories</BuilderSelectItem>
-                <t t-foreach="catList" t-as="cat" t-key="cat.id">
+                <t t-foreach="this.catState.categories" t-as="cat" t-key="cat.id">
                     <BuilderSelectItem dataAttributeActionValue="'' + cat.id"><t t-esc="cat.name"/></BuilderSelectItem>
                 </t>
             </BuilderSelect>
