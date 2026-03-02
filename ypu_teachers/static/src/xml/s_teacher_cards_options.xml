@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <!-- Builder option panel for the Teacher Cards snippet -->
+    <t t-name="ypu_teachers.TeacherCardsOption">
+        <BuilderRow label.translate="Design">
+            <BuilderSelect dataAttributeAction="'design'">
+                <BuilderSelectItem dataAttributeActionValue="'cards'">Cards (Vertical)</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'horizontal'">Horizontal</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'minimal'">Minimal (Circle)</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'list'">Compact List</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Cards per slide">
+            <BuilderSelect dataAttributeAction="'limit'">
+                <BuilderSelectItem dataAttributeActionValue="'2'">2</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'3'">3</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'4'">4</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'6'">6</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Category">
+            <BuilderSelect dataAttributeAction="'categoryId'">
+                <BuilderSelectItem dataAttributeActionValue="'0'">All categories</BuilderSelectItem>
+                <t t-foreach="this.state.categories" t-as="cat" t-key="cat.id">
+                    <BuilderSelectItem dataAttributeActionValue="'' + cat.id"><t t-esc="cat.name"/></BuilderSelectItem>
+                </t>
+            </BuilderSelect>
+        </BuilderRow>
+    </t>
+
+</templates>

@@ -34,7 +34,7 @@ class YpuTeacherPortal(Controller):
             domain,
             limit=TEACHERS_PER_PAGE,
             offset=offset,
-            order='is_dean desc, sequence, name',
+            order='sequence, is_dean desc, name',
         )
 
         categories = Category.search([('active', '=', True)], order='sequence, name')

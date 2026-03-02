@@ -17,7 +17,7 @@ Key Features
     'author': "Komorebi Technologies",
     'website': "https://www.komorebitechnologies.com",
     'category': 'Website',
-    'version': '19.0.2.0.0',
+    'version': '19.0.3.0.0',
     'license': 'LGPL-3',
     'depends': ['base', 'website'],
     'data': [
@@ -27,10 +27,21 @@ Key Features
         'views/teacher_views.xml',
         'data/website_menu.xml',
         'views/website_templates.xml',
+        'views/snippets.xml',
     ],
     'assets': {
         'web.assets_frontend': [
             'ypu_teachers/static/src/css/teachers.css',
+            'ypu_teachers/static/src/scss/s_teacher_cards.scss',
+            'ypu_teachers/static/src/xml/s_teacher_cards.xml',
+            'ypu_teachers/static/src/js/s_teacher_cards.js',
+        ],
+        'website.assets_inside_builder_iframe': [
+            'ypu_teachers/static/src/js/s_teacher_cards.edit.js',
+        ],
+        'website.website_builder_assets': [
+            'ypu_teachers/static/src/js/s_teacher_cards_options.js',
+            'ypu_teachers/static/src/xml/s_teacher_cards_options.xml',
         ],
     },
     'installable': True,

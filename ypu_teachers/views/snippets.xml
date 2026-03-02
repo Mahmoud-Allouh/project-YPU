@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- ═══════════════ Snippet body (dropped onto page) ═══════════════ -->
+    <template id="s_teacher_cards" name="Teacher Cards">
+        <section class="s_teacher_cards pt48 pb48"
+                 data-snippet="s_teacher_cards"
+                 data-design="cards"
+                 data-category-id="0"
+                 data-limit="4">
+            <div class="container">
+                <div class="s_teacher_cards_content text-center text-muted py-5">
+                    <i class="fa fa-users fa-3x mb-3 d-block"/>
+                    <p>Teacher cards will appear here.</p>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- ═══════════════ Register in snippet panel ═══════════════ -->
+    <template id="s_teacher_cards_snippet"
+              inherit_id="website.snippets" name="Teacher Cards: Snippet Menu">
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="ypu_teachers.s_teacher_cards"
+               string="Teacher Cards"
+               group="people"
+               t-thumbnail="/ypu_teachers/static/src/img/s_teacher_cards_thumb.png">
+                <keywords>teacher, professor, faculty, staff, team, university, education, cards, directory</keywords>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

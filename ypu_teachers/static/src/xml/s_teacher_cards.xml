@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <!-- ═══════════ Main entry point ═══════════ -->
+    <t t-name="ypu_teachers.s_teacher_cards_content">
+        <t t-if="!teachers.length">
+            <div class="alert alert-info text-center">No teachers found.</div>
+        </t>
+        <t t-if="teachers.length">
+            <t t-set="itemWidth" t-value="(100 / chunkSize).toFixed(2)"/>
+            <div t-att-id="unique_id"
+                 class="carousel slide o_carousel_multi_items"
+                 t-attf-style="--o-carousel-item-width-percentage: #{itemWidth}%;"
+                 data-bs-interval="0">
+                <div class="carousel-inner" role="listbox" aria-label="Teacher carousel">
+                    <t t-foreach="teachers" t-as="teacher" t-key="teacher.id">
+                        <div t-attf-class="carousel-item px-2 #{teacher_first ? 'active' : ''}" role="option">
+                            <!-- Design: Cards (vertical) -->
+                            <t t-if="design === 'cards'"
+                               t-call="ypu_teachers.card_design_cards"/>
+                            <!-- Design: Horizontal -->
+                            <t t-if="design === 'horizontal'"
+                               t-call="ypu_teachers.card_design_horizontal"/>
+                            <!-- Design: Minimal (circle) -->
+                            <t t-if="design === 'minimal'"
+                               t-call="ypu_teachers.card_design_minimal"/>
+                            <!-- Design: List -->
+                            <t t-if="design === 'list'"
+                               t-call="ypu_teachers.card_design_list"/>
+                        </div>
+                    </t>
+                </div>
+                <!-- Arrows -->
+                <t t-if="teachers.length > chunkSize">
+                    <a t-attf-href="##{unique_id}" class="carousel-control-prev" data-bs-slide="prev" role="button" aria-label="Previous">
+                        <span class="oi oi-chevron-left rounded-pill p-3 bg-700"/>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                    <a t-attf-href="##{unique_id}" class="carousel-control-next" data-bs-slide="next" role="button" aria-label="Next">
+                        <span class="oi oi-chevron-right rounded-pill p-3 bg-700"/>
+                        <span class="visually-hidden">Next</span>
+                    </a>
+                </t>
+            </div>
+        </t>
+    </t>
+
+    <!-- ═══════════ Design 1: Cards (vertical) ═══════════ -->
+    <t t-name="ypu_teachers.card_design_cards">
+        <div class="ypu-card ypu-card--vertical h-100">
+            <div class="ypu-card__img-wrap">
+                <t t-if="teacher.has_image">
+                    <img t-att-src="teacher.image_url" t-att-alt="teacher.name"
+                         class="ypu-card__img" loading="lazy"/>
+                </t>
+                <t t-else="">
+                    <span class="ypu-card__initial" t-esc="teacher.name[0].toUpperCase()"/>
+                </t>
+            </div>
+            <div class="ypu-card__body">
+                <h6 class="ypu-card__name mb-1" t-esc="teacher.name"/>
+                <t t-call="ypu_teachers.card_tags"/>
+                <t t-call="ypu_teachers.card_meta"/>
+                <t t-call="ypu_teachers.card_badge"/>
+            </div>
+            <t t-call="ypu_teachers.card_action"/>
+        </div>
+    </t>
+
+    <!-- ═══════════ Design 2: Horizontal ═══════════ -->
+    <t t-name="ypu_teachers.card_design_horizontal">
+        <div class="ypu-card ypu-card--horizontal h-100 d-flex flex-row">
+            <div class="ypu-card__img-wrap ypu-card__img-wrap--side">
+                <t t-if="teacher.has_image">
+                    <img t-att-src="teacher.image_url" t-att-alt="teacher.name"
+                         class="ypu-card__img" loading="lazy"/>
+                </t>
+                <t t-else="">
+                    <span class="ypu-card__initial" t-esc="teacher.name[0].toUpperCase()"/>
+                </t>
+            </div>
+            <div class="ypu-card__body flex-1">
+                <h6 class="ypu-card__name mb-1" t-esc="teacher.name"/>
+                <t t-call="ypu_teachers.card_tags"/>
+                <t t-call="ypu_teachers.card_meta"/>
+                <div class="d-flex align-items-center gap-2 mt-2">
+                    <t t-call="ypu_teachers.card_badge"/>
+                    <t t-call="ypu_teachers.card_action_inline"/>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- ═══════════ Design 3: Minimal (circle avatar) ═══════════ -->
+    <t t-name="ypu_teachers.card_design_minimal">
+        <div class="ypu-card ypu-card--minimal h-100 text-center">
+            <div class="ypu-card__avatar-circle mx-auto">
+                <t t-if="teacher.has_image">
+                    <img t-att-src="teacher.image_url" t-att-alt="teacher.name"
+                         class="rounded-circle" loading="lazy"/>
+                </t>
+                <t t-else="">
+                    <span class="ypu-card__initial" t-esc="teacher.name[0].toUpperCase()"/>
+                </t>
+            </div>
+            <div class="ypu-card__body pt-3">
+                <h6 class="ypu-card__name mb-0" t-esc="teacher.name"/>
+                <p class="text-muted small mb-1" t-if="teacher.position" t-esc="teacher.position"/>
+                <p class="text-muted small mb-1" t-if="teacher.category" t-esc="teacher.category"/>
+                <t t-call="ypu_teachers.card_badge"/>
+            </div>
+        </div>
+    </t>
+
+    <!-- ═══════════ Design 4: Compact list ═══════════ -->
+    <t t-name="ypu_teachers.card_design_list">
+        <div class="ypu-card ypu-card--list h-100 d-flex align-items-center gap-3 px-3 py-2">
+            <div class="ypu-card__avatar-sm flex-shrink-0">
+                <t t-if="teacher.has_image">
+                    <img t-att-src="teacher.image_url" t-att-alt="teacher.name"
+                         class="rounded-circle" loading="lazy"/>
+                </t>
+                <t t-else="">
+                    <span class="ypu-card__initial ypu-card__initial--sm" t-esc="teacher.name[0].toUpperCase()"/>
+                </t>
+            </div>
+            <div class="flex-grow-1 min-width-0">
+                <h6 class="ypu-card__name mb-0 text-truncate" t-esc="teacher.name"/>
+                <small class="text-muted" t-if="teacher.position" t-esc="teacher.position"/>
+            </div>
+            <div class="flex-shrink-0 d-flex align-items-center gap-2">
+                <t t-call="ypu_teachers.card_badge"/>
+                <t t-call="ypu_teachers.card_action_inline"/>
+            </div>
+        </div>
+    </t>
+
+    <!-- ═══════════ Shared sub-templates ═══════════ -->
+
+    <t t-name="ypu_teachers.card_tags">
+        <div class="ypu-card__tags">
+            <span t-if="teacher.rank" class="badge text-bg-light" t-esc="teacher.rank"/>
+            <span t-if="teacher.position" class="badge text-bg-light" t-esc="teacher.position"/>
+            <span t-if="teacher.category" class="badge text-bg-light" t-esc="teacher.category"/>
+        </div>
+    </t>
+
+    <t t-name="ypu_teachers.card_meta">
+        <ul class="ypu-card__meta list-unstyled mb-0 small text-muted">
+            <li t-if="teacher.email"><i class="fa fa-envelope-o me-1"/><span t-esc="teacher.email"/></li>
+            <li t-if="teacher.phone"><i class="fa fa-phone me-1"/><span t-esc="teacher.phone"/></li>
+            <li t-if="teacher.subject"><i class="fa fa-book me-1"/><span t-esc="teacher.subject"/></li>
+        </ul>
+    </t>
+
+    <t t-name="ypu_teachers.card_badge">
+        <span t-attf-class="badge rounded-pill #{teacher.available ? 'text-bg-success' : 'text-bg-secondary'}">
+            <t t-if="teacher.available">Available</t>
+            <t t-else="">Unavailable</t>
+        </span>
+    </t>
+
+    <t t-name="ypu_teachers.card_action">
+        <t t-if="teacher.show_link_button and teacher.link_url">
+            <div class="ypu-card__action p-2 text-end">
+                <a class="btn btn-sm btn-primary" t-att-href="teacher.link_url" target="_blank">View Profile</a>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="ypu_teachers.card_action_inline">
+        <t t-if="teacher.show_link_button and teacher.link_url">
+            <a class="btn btn-sm btn-outline-primary" t-att-href="teacher.link_url" target="_blank">View</a>
+        </t>
+    </t>
+
+</templates>

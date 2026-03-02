@@ -1,0 +1,202 @@
+/* ================================================================
+   YPU Teachers – Dynamic Snippet Styles (4 designs + BS carousel)
+   ================================================================ */
+
+/* ── Snippet container ────────────────────────────────────────── */
+
+.s_teacher_cards {
+    position: relative;
+}
+
+.s_teacher_cards .carousel-control-prev,
+.s_teacher_cards .carousel-control-next {
+    width: auto;
+    opacity: 0.85;
+    &:hover { opacity: 1; }
+}
+
+/* ── Shared card shell ────────────────────────────────────────── */
+
+.ypu-card {
+    background: #fff;
+    border: 1px solid var(--ypu-border, #e5e7eb);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+.ypu-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+}
+
+/* ── Shared pieces ────────────────────────────────────────────── */
+
+.ypu-card__name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ypu-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.ypu-card__meta li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+.ypu-card__initial {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--ypu-accent, #2563eb);
+}
+
+.ypu-card__initial--sm {
+    font-size: 1.2rem;
+}
+
+/* ── Design 1: Cards (vertical) ───────────────────────────────── */
+
+.ypu-card--vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.ypu-card--vertical .ypu-card__img-wrap {
+    width: 100%;
+    height: 180px;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.ypu-card--vertical .ypu-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ypu-card--vertical .ypu-card__body {
+    padding: 14px 16px;
+    flex: 1;
+}
+
+/* ── Design 2: Horizontal ─────────────────────────────────────── */
+
+.ypu-card--horizontal {
+    border-radius: 14px;
+}
+
+.ypu-card--horizontal .ypu-card__img-wrap--side {
+    width: 140px;
+    min-height: 140px;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.ypu-card--horizontal .ypu-card__img-wrap--side .ypu-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ypu-card--horizontal .ypu-card__body {
+    padding: 14px 16px;
+    min-width: 0;
+}
+
+@media (max-width: 575.98px) {
+    .ypu-card--horizontal {
+        flex-direction: column !important;
+    }
+    .ypu-card--horizontal .ypu-card__img-wrap--side {
+        width: 100%;
+        height: 160px;
+    }
+}
+
+/* ── Design 3: Minimal (circle avatar) ────────────────────────── */
+
+.ypu-card--minimal {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    padding: 16px 8px;
+}
+
+.ypu-card--minimal:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.ypu-card__avatar-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ypu-card__avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ── Design 4: Compact list ───────────────────────────────────── */
+
+.ypu-card--list {
+    border-radius: 10px;
+    padding: 10px 16px;
+}
+
+.ypu-card--list:hover {
+    transform: none;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.1);
+}
+
+.ypu-card__avatar-sm {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ypu-card__avatar-sm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+
+@media (max-width: 767.98px) {
+    .ypu-card__avatar-circle {
+        width: 90px;
+        height: 90px;
+    }
+}
