@@ -19,10 +19,13 @@ export class TeacherCardsOption extends BaseOptionComponent {
     static template = "ypu_teachers.TeacherCardsOption";
     static selector = ".s_teacher_cards";
 
+    // Class-level safe default so `this.catState` is never undefined,
+    // even if the template renders before setup() completes.
+    catState = { categories: [] };
+
     setup() {
         super.setup();
-        // Separate reactive object so we don't collide with
-        // BaseOptionComponent's own `this.state`.
+        // Replace with reactive version so OWL re-renders when data arrives.
         this.catState = useState({ categories: [] });
         onMounted(() => {
             this._loadCategories();
