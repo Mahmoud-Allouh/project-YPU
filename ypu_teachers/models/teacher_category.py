@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class YpuTeacherCategory(models.Model):
@@ -7,11 +6,14 @@ class YpuTeacherCategory(models.Model):
     _description = 'Teacher Category'
     _order = 'sequence, name'
 
-    name = fields.Char(required=True)
-    description = fields.Text()
-    sequence = fields.Integer(default=10)
-    active = fields.Boolean(default=True)
-    teacher_count = fields.Integer(compute='_compute_teacher_count')
+    name = fields.Char(required=True, string="Name")
+    description = fields.Text(string="Description")
+    sequence = fields.Integer(default=10, string="Sequence")
+    active = fields.Boolean(default=True, string="Active")
+    teacher_count = fields.Integer(
+        string="# Teachers",
+        compute='_compute_teacher_count',
+    )
 
     def _compute_teacher_count(self):
         grouped = self.env['ypu.teacher'].read_group(
@@ -20,5 +22,5 @@ class YpuTeacherCategory(models.Model):
             ['category_id'],
         )
         count_map = {g['category_id'][0]: g['category_id_count'] for g in grouped}
-        for category in self:
-            category.teacher_count = count_map.get(category.id, 0)
+        for rec in self:
+            rec.teacher_count = count_map.get(rec.id, 0)

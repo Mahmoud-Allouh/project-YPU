@@ -1,48 +1,81 @@
-# -*- coding: utf-8 -*-
 from odoo import api, fields, models
 
 
 class YpuTeacher(models.Model):
     _name = 'ypu.teacher'
     _description = 'Teacher'
-    _order = 'name'
+    _order = 'sequence, name'
 
-    name = fields.Char(required=True, help="Teacher full name.")
-    department = fields.Char(help="Department or faculty.")
-    subject = fields.Char(string='Subject',help="Main subject")
-    rank = fields.Char(string = 'Rank', help="Rank of teacher.")
-    email = fields.Char()
-    phone = fields.Char()
-    bio = fields.Html(string='Profile')
-    category_id = fields.Many2one('ypu.teacher.category', string='Category')
-    position_id = fields.Many2one('ypu.teacher.position', string='Position')
-    years_of_experience = fields.Char(string='LinkedIn', default='')
-    is_dean = fields.Boolean(string='Dean Card', default=False)
-    research_gate = fields.Char(string='Research Gate')
-    available = fields.Boolean(string='Available', default=True)
+    # ── Identity ─────────────────────────────────────────────
+    name = fields.Char(required=True, string="Full Name")
     image_1920 = fields.Image("Photo", max_width=512, max_height=512)
-    website_published = fields.Boolean(string='Publish on Website', default=True)
+    bio = fields.Html(string="Profile")
+
+    # ── Academic info ────────────────────────────────────────
+    department = fields.Char(string="Department")
+    subject = fields.Char(string="Subject")
+    rank = fields.Char(string="Rank")
+    category_id = fields.Many2one(
+        'ypu.teacher.category',
+        string="Category",
+        ondelete='set null',
+        index=True,
+    )
+    position_id = fields.Many2one(
+        'ypu.teacher.position',
+        string="Position",
+        ondelete='set null',
+        index=True,
+    )
+
+    # ── Contact / links ──────────────────────────────────────
+    email = fields.Char(string="Email")
+    phone = fields.Char(string="Phone")
+    linkedin_url = fields.Char(string="LinkedIn URL")
+    research_gate = fields.Char(string="Research Gate")
+
+    # ── Website display ──────────────────────────────────────
+    sequence = fields.Integer(
+        string="Sequence",
+        default=10,
+        help="Controls the display order of teacher cards on the website.",
+    )
+    is_dean = fields.Boolean(string="Featured (Dean Card)", default=False)
+    available = fields.Boolean(string="Available", default=True)
+    website_published = fields.Boolean(string="Publish on Website", default=True)
+    is_public = fields.Boolean(
+        string="Publicly Visible",
+        default=True,
+        help="When disabled the teacher is hidden from the public listing.",
+    )
     show_link_button = fields.Boolean(
-        string='Show CV Button',
+        string="Show Link Button",
         default=False,
-        help="Enable a button on the website card that opens the link below.",
+        help="Display an action button on the website card.",
     )
     link_url = fields.Char(
-        string='Card Link',
-        help="URL to open from the website card button.",
-    )
-    is_public = fields.Boolean(
-        string='Publicly Visible',
-        default=True,
-        help="If disabled, the teacher will be hidden from the public listing.",
+        string="Card Link URL",
+        help="URL opened by the card action button.",
     )
 
-    def _website_search_domain(self, search='', category_ids=None, available=None):
-        domain = [('website_published', '=', True), ('is_public', '=', True)]
+    # ── Helpers ──────────────────────────────────────────────
+
+    @api.model
+    def website_search_domain(self, search='', category_id=False, available=None):
+        """Return a domain suitable for the public teacher listing."""
+        domain = [
+            ('website_published', '=', True),
+            ('is_public', '=', True),
+        ]
         if search:
-            domain += ['|', ('name', 'ilike', search), ('subject', 'ilike', search)]
-        if category_ids:
-            domain.append(('category_id', 'in', category_ids))
+            domain += [
+                '|', '|',
+                ('name', 'ilike', search),
+                ('subject', 'ilike', search),
+                ('department', 'ilike', search),
+            ]
+        if category_id:
+            domain.append(('category_id', '=', int(category_id)))
         if available is not None:
             domain.append(('available', '=', available))
         return domain

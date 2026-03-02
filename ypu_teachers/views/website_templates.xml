@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <template id="website_teachers" name="Teachers">
+
+    <template id="website_teachers" name="Teachers Directory">
         <t t-call="website.layout">
             <div class="container py-5">
+
+                <!-- ── Hero ────────────────────────────────── -->
                 <div class="ypu-hero mb-4">
                     <div class="row align-items-center">
                         <div class="col-lg-8">
                             <h1 class="h2 mb-2">Meet Our Staff</h1>
-                            <p class="mb-0">Explore profiles by subject, category, and availability—no login required.</p>
+                            <p class="mb-0">
+                                Explore profiles by subject, category, and availability — no login required.
+                            </p>
                         </div>
                         <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-                            <span class="ypu-badge">Profiles kept up-to-date</span>
+                            <span class="ypu-badge"><t t-esc="total"/> profiles</span>
                         </div>
                     </div>
                 </div>
 
+                <!-- ── Filters ─────────────────────────────── -->
                 <form class="row g-3 mb-4 ypu-filters" method="get" action="/teachers">
                     <div class="col-md-5">
                         <label class="form-label text-muted small mb-1">Search</label>
-                        <input type="search" name="search" t-att-value="search" class="form-control"
-                               placeholder="Search by name or subject"/>
+                        <input type="search" name="search" t-att-value="search"
+                               class="form-control"
+                               placeholder="Name, subject, or department…"/>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label text-muted small mb-1">Category</label>
                         <select name="category_id" class="form-select">
                             <option value="">All categories</option>
-                            <t t-foreach="categories" t-as="category">
-                                <option t-att-value="category['id']"
-                                        t-att-selected="True if selected_category == category['id'] else None">
-                                    <t t-esc="category['name']"/> (<t t-esc="category['teacher_count'] or 0"/>)
+                            <t t-foreach="categories" t-as="cat">
+                                <option t-att-value="cat.id"
+                                        t-att-selected="'selected' if selected_category == cat.id else None">
+                                    <t t-esc="cat.name"/> (<t t-esc="cat.teacher_count"/>)
                                 </option>
                             </t>
                         </select>
@@ -37,8 +44,14 @@
                         <label class="form-label text-muted small mb-1">Availability</label>
                         <select name="available" class="form-select">
                             <option value="">Any</option>
-                            <option value="1" t-att-selected="True if selected_available is True else None">Available</option>
-                            <option value="0" t-att-selected="True if selected_available is False else None">Not available</option>
+                            <option value="1"
+                                    t-att-selected="'selected' if selected_available == True else None">
+                                Available
+                            </option>
+                            <option value="0"
+                                    t-att-selected="'selected' if selected_available == False else None">
+                                Unavailable
+                            </option>
                         </select>
                     </div>
                     <div class="col-md-2 d-flex align-items-end">
@@ -46,95 +59,85 @@
                     </div>
                 </form>
 
+                <!-- ── Empty state ─────────────────────────── -->
                 <t t-if="not teachers">
-                    <div class="alert alert-info">
-                        No teachers available with the current filters.
+                    <div class="alert alert-info text-center">
+                        No teachers match the current filters.
                     </div>
                 </t>
 
                 <t t-if="teachers">
-                    <t t-set="page_arg" t-value="request.httprequest.args.get('page')"/>
+                    <!-- Determine featured teacher (only on unfiltered first page) -->
                     <t t-set="has_filters"
-                       t-value="bool((request.httprequest.args.get('search') or '').strip() or request.httprequest.args.get('category_id') or request.httprequest.args.get('available') or (page_arg and page_arg != '1'))"/>
+                       t-value="bool((search or '').strip() or selected_category or selected_available is not None or pager['current'] != 1)"/>
                     <t t-set="show_featured" t-value="not has_filters"/>
 
-                    <t t-set="dean" t-value="False"/>
-                    <t t-foreach="teachers" t-as="t">
-                        <t t-if="t.get('is_dean') and not dean" t-set="dean" t-value="t"/>
-                    </t>
-                    <t t-if="not dean" t-set="dean" t-value="teachers[0]"/>
-
+                    <t t-set="featured" t-value="False"/>
                     <t t-if="show_featured">
+                        <t t-foreach="teachers" t-as="t_rec">
+                            <t t-if="t_rec.is_dean and not featured">
+                                <t t-set="featured" t-value="t_rec"/>
+                            </t>
+                        </t>
+                        <t t-if="not featured">
+                            <t t-set="featured" t-value="teachers[0]"/>
+                        </t>
+                    </t>
+
+                    <!-- ── Featured card ───────────────────── -->
+                    <t t-if="featured">
                         <div class="row g-4 mb-4">
                             <div class="col-12">
-                                <div t-attf-class="ypu-card h-100 p-3 ypu-card--featured position-relative#{' ypu-card--has-action' if dean.get('show_link_button') and dean.get('link_url') else ''}" style="height: 279px; min-height: 279px; max-height: 279px; overflow: hidden;">
+                                <div t-attf-class="ypu-card ypu-card--featured position-relative#{ ' ypu-card--has-action' if featured.show_link_button and featured.link_url else '' }">
 
-                                    <span t-att-class="'ypu-badge position-absolute top-0 end-0 m-3 ' + ('available' if dean['available'] else 'unavailable')"
-                                          style="z-index: 2;">
-                                        <t t-esc="'Available' if dean['available'] else 'Unavailable'"/>
+                                    <span t-attf-class="ypu-badge position-absolute top-0 end-0 m-3 {{ 'available' if featured.available else 'unavailable' }}"
+                                          style="z-index:2;">
+                                        <t t-esc="'Available' if featured.available else 'Unavailable'"/>
                                     </span>
 
-                                    <div class="d-flex" style="height: 100%;">
-                                        <div class="ypu-avatar me-3" style="height: 100%; width: 240px; min-width: 240px; max-width: 240px; flex: 0 0 240px; overflow: hidden;">
-                                            <t t-if="dean.get('image_1920')">
-                                                <img t-att-src="'/web/image/ypu.teacher/%s/image_1920' % dean['id']" alt="Teacher photo" style="width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block;"/>
+                                    <div class="d-flex">
+                                        <div class="ypu-avatar me-3">
+                                            <t t-if="featured.image_1920">
+                                                <img t-attf-src="/web/image/ypu.teacher/{{ featured.id }}/image_1920"
+                                                     alt="Photo"/>
                                             </t>
                                             <t t-else="">
-                                                <t t-esc="(dean['name'] or ' ')[0].upper()"/>
+                                                <t t-esc="(featured.name or ' ')[0].upper()"/>
                                             </t>
                                         </div>
 
-                                        <div class="flex-grow-1" style="position: relative; top: -18px;">
-                                            <div class="d-flex align-items-start">
-                                                <div>
-                                                    <h5 class="mb-1"><t t-esc="dean['name']"/></h5>
-                                                </div>
-                                            </div>
+                                        <div class="flex-grow-1">
+                                            <h5 class="mb-1"><t t-esc="featured.name"/></h5>
 
                                             <div class="mt-2">
-                                                <t t-if="dean.get('rank')">
-                                                    <span class="ypu-tag"><t t-esc="dean['rank']"/></span>
+                                                <t t-if="featured.rank">
+                                                    <span class="ypu-tag"><t t-esc="featured.rank"/></span>
                                                 </t>
-
-                                                <t t-if="dean.get('position_id')">
-                                                    <span class="ypu-tag"><t t-esc="dean['position_id'][1]"/></span>
+                                                <t t-if="featured.position_id">
+                                                    <span class="ypu-tag"><t t-esc="featured.position_id.name"/></span>
                                                 </t>
-
-                                                <t t-if="dean.get('category_id')">
-                                                    <span class="ypu-tag"><t t-esc="dean['category_id'][1]"/></span>
+                                                <t t-if="featured.category_id">
+                                                    <span class="ypu-tag"><t t-esc="featured.category_id.name"/></span>
                                                 </t>
                                             </div>
 
+                                            <dl class="row mb-0 ypu-meta small mt-3">
+                                                <dt>Email</dt>
+                                                <dd><t t-esc="featured.email or '-'"/></dd>
+                                                <dt>Phone</dt>
+                                                <dd><t t-esc="featured.phone or '-'"/></dd>
+                                                <dt>LinkedIn</dt>
+                                                <dd><t t-esc="featured.linkedin_url or '-'"/></dd>
+                                                <dt>Research Gate</dt>
+                                                <dd><t t-esc="featured.research_gate or '-'"/></dd>
+                                                <dt>Subject</dt>
+                                                <dd><t t-esc="featured.subject or '-'"/></dd>
+                                            </dl>
 
-                                            <div class="small mt-3 d-flex justify-content-center">
-                                                <div class="text-start"
-                                                     style="display:inline-grid;
-                                                            grid-template-columns: max-content auto;
-                                                            column-gap: 6px;
-                                                            row-gap: 3px;
-                                                            align-items: baseline;
-                                                            line-height: 1.2;
-                                                            padding-left: 24px;">
-                                                    <span class="text-muted fw-semibold" style="white-space: nowrap;">Email</span>
-                                                    <span class="text-break"><t t-esc="dean.get('email') or '-'"/></span>
-
-                                                    <span class="text-muted fw-semibold" style="white-space: nowrap;">Phone</span>
-                                                    <span class="text-break"><t t-esc="dean.get('phone') or '-'"/></span>
-
-                                                    <span class="text-muted fw-semibold" style="white-space: nowrap;">LinkedIn</span>
-                                                    <span class="text-break"><t t-esc="dean.get('years_of_experience') or 0"/></span>
-
-                                                    <span class="text-muted fw-semibold" style="white-space: nowrap;">Research Gate</span>
-                                                    <span class="text-break"><t t-esc="dean.get('research_gate') or '-'"/></span>
-
-                                                     <span class="text-muted fw-semibold" style="white-space: nowrap;">Subject</span>
-                                                    <span class="text-break"><t t-esc="dean.get('subject') or '-'"/></span>
-
-                                                </div>
-                                            </div>
-                                            <t t-if="dean.get('show_link_button') and dean.get('link_url')">
+                                            <t t-if="featured.show_link_button and featured.link_url">
                                                 <div class="ypu-card-action">
-                                                    <a class="btn btn-primary" t-att-href="dean.get('link_url')">View Profile</a>
+                                                    <a class="btn btn-primary"
+                                                       t-att-href="featured.link_url">View Profile</a>
                                                 </div>
                                             </t>
                                         </div>
@@ -145,75 +148,64 @@
                         </div>
                     </t>
 
+                    <!-- ── Teacher grid ────────────────────── -->
                     <div class="row row-cols-1 row-cols-md-2 g-4">
                         <t t-foreach="teachers" t-as="teacher">
-                            <t t-if="(not show_featured) or (teacher['id'] != dean['id'])">
+                            <t t-if="not featured or teacher.id != featured.id">
                                 <div class="col">
-                                    <div t-attf-class="ypu-card h-100 p-3#{' ypu-card--has-action' if teacher.get('show_link_button') and teacher.get('link_url') else ''}">
+                                    <div t-attf-class="ypu-card h-100 p-3#{ ' ypu-card--has-action' if teacher.show_link_button and teacher.link_url else '' }">
                                         <div class="d-flex">
                                             <div class="ypu-avatar me-3">
-                                                <t t-if="teacher.get('image_1920')">
-                                                    <img t-att-src="'/web/image/ypu.teacher/%s/image_1920' % teacher['id']" alt="Teacher photo"/>
+                                                <t t-if="teacher.image_1920">
+                                                    <img t-attf-src="/web/image/ypu.teacher/{{ teacher.id }}/image_1920"
+                                                         alt="Photo"/>
                                                 </t>
                                                 <t t-else="">
-                                                    <t t-esc="(teacher['name'] or ' ')[0].upper()"/>
+                                                    <t t-esc="(teacher.name or ' ')[0].upper()"/>
                                                 </t>
                                             </div>
 
                                             <div class="flex-grow-1">
                                                 <div class="d-flex justify-content-between align-items-start">
                                                     <div>
-                                                        <h5 class="mb-1"><t t-esc="teacher['name']"/></h5>
+                                                        <h5 class="mb-1"><t t-esc="teacher.name"/></h5>
                                                     </div>
-                                                    <span class="ypu-badge" t-att-class="'ypu-badge ' + ('available' if teacher['available'] else 'unavailable')">
-                                                        <t t-esc="'Available' if teacher['available'] else 'Unavailable'"/>
+                                                    <span t-attf-class="ypu-badge {{ 'available' if teacher.available else 'unavailable' }}">
+                                                        <t t-esc="'Available' if teacher.available else 'Unavailable'"/>
                                                     </span>
                                                 </div>
+
                                                 <div class="mt-2">
-                                                    <t t-if="teacher.get('rank')">
-                                                        <span class="ypu-tag"><t t-esc="teacher['rank']"/></span>
+                                                    <t t-if="teacher.rank">
+                                                        <span class="ypu-tag"><t t-esc="teacher.rank"/></span>
                                                     </t>
-
-                                                    <t t-if="teacher.get('position_id')">
-                                                        <span class="ypu-tag"><t t-esc="teacher['position_id'][1]"/></span>
+                                                    <t t-if="teacher.position_id">
+                                                        <span class="ypu-tag"><t t-esc="teacher.position_id.name"/></span>
                                                     </t>
-
-                                                    <t t-if="teacher.get('category_id')">
-                                                        <span class="ypu-tag"><t t-esc="teacher['category_id'][1]"/></span>
+                                                    <t t-if="teacher.category_id">
+                                                        <span class="ypu-tag"><t t-esc="teacher.category_id.name"/></span>
                                                     </t>
                                                 </div>
-
                                             </div>
                                         </div>
 
                                         <dl class="row mb-0 ypu-meta small mt-3">
-                                            <dt class="col-4">Email</dt>
-                                            <dd class="col-8">
-                                                <t t-esc="teacher.get('email') or '-'"/>
-                                            </dd>
-
-                                            <dt class="col-4">Phone</dt>
-                                            <dd class="col-8">
-                                                <t t-esc="teacher.get('phone') or '-'"/>
-                                            </dd>
-
-                                            <dt class="col-4">LinkedIn</dt>
-                                            <dd class="col-8">
-                                                <t t-esc="teacher.get('years_of_experience') or 0"/>
-                                            </dd>
-                                            <dt class="col-4">Research Gate</dt>
-                                            <dd class="col-8">
-                                                <t t-esc="teacher.get('research_gate') or '-'"/>
-                                            </dd>
-                                            <dt class="col-4">Subject</dt>
-                                            <dd class="col-8">
-                                                <t t-esc="teacher.get('subject') or '-'"/>
-                                            </dd>
-
+                                            <dt>Email</dt>
+                                            <dd><t t-esc="teacher.email or '-'"/></dd>
+                                            <dt>Phone</dt>
+                                            <dd><t t-esc="teacher.phone or '-'"/></dd>
+                                            <dt>LinkedIn</dt>
+                                            <dd><t t-esc="teacher.linkedin_url or '-'"/></dd>
+                                            <dt>Research Gate</dt>
+                                            <dd><t t-esc="teacher.research_gate or '-'"/></dd>
+                                            <dt>Subject</dt>
+                                            <dd><t t-esc="teacher.subject or '-'"/></dd>
                                         </dl>
-                                        <t t-if="teacher.get('show_link_button') and teacher.get('link_url')">
+
+                                        <t t-if="teacher.show_link_button and teacher.link_url">
                                             <div class="ypu-card-action">
-                                                <a class="btn btn-primary btn-sm" t-att-href="teacher.get('link_url')">View Profile</a>
+                                                <a class="btn btn-primary btn-sm"
+                                                   t-att-href="teacher.link_url">View Profile</a>
                                             </div>
                                         </t>
                                     </div>
@@ -221,9 +213,34 @@
                             </t>
                         </t>
                     </div>
+
+                    <!-- ── Pagination ──────────────────────── -->
+                    <t t-if="pager['total_pages'] > 1">
+                        <nav class="mt-4" aria-label="Teacher pages">
+                            <ul class="pagination justify-content-center">
+                                <li t-attf-class="page-item #{'disabled' if not pager['prev_url'] else ''}">
+                                    <a class="page-link"
+                                       t-att-href="pager.get('prev_url') or '#'">&#8249;</a>
+                                </li>
+                                <t t-foreach="pager['pages']" t-as="pg">
+                                    <li t-attf-class="page-item #{'active' if pg['active'] else ''}">
+                                        <a class="page-link" t-att-href="pg['url']">
+                                            <t t-esc="pg['num']"/>
+                                        </a>
+                                    </li>
+                                </t>
+                                <li t-attf-class="page-item #{'disabled' if not pager['next_url'] else ''}">
+                                    <a class="page-link"
+                                       t-att-href="pager.get('next_url') or '#'">&#8250;</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </t>
+
                 </t>
 
             </div>
         </t>
     </template>
+
 </odoo>

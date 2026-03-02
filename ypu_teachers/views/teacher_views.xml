@@ -1,29 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+
+    <!-- ════════════════════ Search ════════════════════ -->
+    <record id="view_ypu_teacher_search" model="ir.ui.view">
+        <field name="name">ypu.teacher.search</field>
+        <field name="model">ypu.teacher</field>
+        <field name="arch" type="xml">
+            <search string="Teachers">
+                <field name="name"/>
+                <field name="department"/>
+                <field name="subject"/>
+                <field name="email"/>
+                <field name="category_id"/>
+                <field name="position_id"/>
+                <filter name="published" string="Published" domain="[('website_published','=',True)]"/>
+                <filter name="public" string="Public" domain="[('is_public','=',True)]"/>
+                <filter name="available" string="Available" domain="[('available','=',True)]"/>
+                <filter name="dean" string="Featured (Dean)" domain="[('is_dean','=',True)]"/>
+                <separator/>
+                <filter name="group_category" string="Category" context="{'group_by':'category_id'}"/>
+                <filter name="group_position" string="Position" context="{'group_by':'position_id'}"/>
+                <filter name="group_department" string="Department" context="{'group_by':'department'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ════════════════════ List ════════════════════ -->
     <record id="view_ypu_teacher_list" model="ir.ui.view">
         <field name="name">ypu.teacher.list</field>
         <field name="model">ypu.teacher</field>
         <field name="arch" type="xml">
-            <list>
+            <list default_order="sequence, name">
+                <field name="sequence" widget="handle"/>
                 <field name="image_1920" widget="image" options="{'size': [32, 32]}"/>
                 <field name="name"/>
                 <field name="department"/>
                 <field name="subject"/>
-                <field name="rank"/>
+                <field name="rank" optional="show"/>
                 <field name="category_id"/>
                 <field name="position_id"/>
-                <field name="years_of_experience"/>
-                <field name="research_gate"/>
+                <field name="email" optional="hide"/>
+                <field name="linkedin_url" optional="hide"/>
+                <field name="research_gate" optional="hide"/>
                 <field name="available"/>
+                <field name="is_dean" string="Featured"/>
                 <field name="website_published"/>
-                <field name="show_link_button"/>
-                <field name="link_url"/>
                 <field name="is_public"/>
-                <field name="is_dean"/>
             </list>
         </field>
     </record>
 
+    <!-- ════════════════════ Form ════════════════════ -->
     <record id="view_ypu_teacher_form" model="ir.ui.view">
         <field name="name">ypu.teacher.form</field>
         <field name="model">ypu.teacher</field>
@@ -31,32 +58,45 @@
             <form string="Teacher">
                 <sheet>
                     <div class="oe_button_box" name="button_box"/>
+                    <field name="image_1920" widget="image" class="oe_avatar"
+                           options="{'size': [180, 180]}"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Full name"/></h1>
+                    </div>
+
                     <group>
-                        <group>
-                            <field name="name"/>
+                        <group string="Academic">
                             <field name="department"/>
                             <field name="subject"/>
                             <field name="rank"/>
                             <field name="category_id"/>
                             <field name="position_id"/>
-                            <field name="years_of_experience"/>
-                            <field name="research_gate"/>
-                            <field name="available"/>
-                            <field name="website_published"/>
-                            <field name="show_link_button"/>
-                            <field name="link_url" invisible="not show_link_button"/>
-                            <field name="is_public"/>
-                            <field name="is_dean"/>
                         </group>
-                        <group>
-                            <field name="image_1920" widget="image" class="oe_avatar" options="{'size': [180, 180]}"/>
-                            <field name="email"/>
-                            <field name="phone"/>
+                        <group string="Contact">
+                            <field name="email" widget="email"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="linkedin_url" widget="url" placeholder="https://linkedin.com/in/…"/>
+                            <field name="research_gate" widget="url" placeholder="https://researchgate.net/…"/>
                         </group>
                     </group>
+
+                    <group>
+                        <group string="Website Display">
+                            <field name="sequence"/>
+                            <field name="website_published"/>
+                            <field name="is_public"/>
+                            <field name="available"/>
+                            <field name="is_dean"/>
+                            <field name="show_link_button"/>
+                            <field name="link_url" widget="url"
+                                   invisible="not show_link_button"/>
+                        </group>
+                    </group>
+
                     <notebook>
-                        <page string="Profile">
-                            <field name="bio" nolabel="1"/>
+                        <page string="Profile / Bio">
+                            <field name="bio"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -64,13 +104,22 @@
         </field>
     </record>
 
+    <!-- ════════════════════ Action ════════════════════ -->
     <record id="action_ypu_teacher" model="ir.actions.act_window">
         <field name="name">Teachers</field>
         <field name="res_model">ypu.teacher</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ypu_teacher_search"/>
+        <field name="context">{'search_default_published': 1}</field>
     </record>
 
-    <menuitem id="menu_ypu_root" name="YP Teachers" sequence="10" />
-    <menuitem id="menu_ypu_teacher_root" name="Teachers" parent="menu_ypu_root" action="action_ypu_teacher" sequence="10"/>
-    <menuitem id="menu_ypu_teacher_category" name="Categories" parent="menu_ypu_root" action="action_ypu_teacher_category" sequence="20"/>
+    <!-- ════════════════════ Menus ════════════════════ -->
+    <menuitem id="menu_ypu_root" name="YPU Teachers" sequence="10"/>
+    <menuitem id="menu_ypu_teacher_root" name="Teachers"
+              parent="menu_ypu_root" action="action_ypu_teacher" sequence="10"/>
+    <menuitem id="menu_ypu_teacher_category" name="Categories"
+              parent="menu_ypu_root" action="action_ypu_teacher_category" sequence="20"/>
+    <menuitem id="menu_ypu_teacher_position" name="Positions"
+              parent="menu_ypu_root" action="action_ypu_teacher_position" sequence="30"/>
+
 </odoo>
