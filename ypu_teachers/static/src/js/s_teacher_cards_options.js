@@ -19,19 +19,23 @@ export class TeacherCardsOption extends BaseOptionComponent {
     static selector = ".s_teacher_cards";
 
     get categories() {
-        return this.state ? this.state.categories : [];
+        return this.catState ? this.catState.categories : [];
     }
 
     setup() {
         super.setup();
-        this.state = useState({ categories: [] });
+        // Use a separate reactive object — BaseOptionComponent may
+        // use `this.state` internally; overwriting it breaks things.
+        this.catState = useState({ categories: [] });
         onWillStart(async () => {
             try {
-                this.state.categories = await rpc(
+                const result = await rpc(
                     "/ypu_teachers/snippet/categories", {}
-                ) || [];
-            } catch {
-                this.state.categories = [];
+                );
+                this.catState.categories = Array.isArray(result) ? result : [];
+            } catch (e) {
+                console.warn("Failed to load teacher categories:", e);
+                this.catState.categories = [];
             }
         });
     }
