@@ -18,6 +18,10 @@ export class TeacherCardsOption extends BaseOptionComponent {
     static template = "ypu_teachers.TeacherCardsOption";
     static selector = ".s_teacher_cards";
 
+    get categories() {
+        return (this.state && this.state.categories) || [];
+    }
+
     setup() {
         super.setup();
         this.state = useState({ categories: [] });
