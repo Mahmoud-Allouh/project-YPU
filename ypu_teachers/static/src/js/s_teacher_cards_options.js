@@ -18,6 +18,9 @@ export class TeacherCardsOption extends BaseOptionComponent {
     static template = "ypu_teachers.TeacherCardsOption";
     static selector = ".s_teacher_cards";
 
+    // Class-level safe default — guarantee categories is never undefined
+    categories = { items: [] };
+
     setup() {
         super.setup();
         this.categories = useState({ items: [] });
