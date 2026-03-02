@@ -19,7 +19,7 @@ export class TeacherCardsOption extends BaseOptionComponent {
     static selector = ".s_teacher_cards";
 
     get categories() {
-        return (this.state && this.state.categories) || [];
+        return this.state ? this.state.categories : [];
     }
 
     setup() {
@@ -29,7 +29,7 @@ export class TeacherCardsOption extends BaseOptionComponent {
             try {
                 this.state.categories = await rpc(
                     "/ypu_teachers/snippet/categories", {}
-                );
+                ) || [];
             } catch {
                 this.state.categories = [];
             }
