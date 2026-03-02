@@ -24,8 +24,8 @@
         <BuilderRow label.translate="Category">
             <BuilderSelect dataAttributeAction="'categoryId'">
                 <BuilderSelectItem dataAttributeActionValue="'0'">All categories</BuilderSelectItem>
-                <t t-if="this.categories and this.categories.items">
-                    <t t-foreach="this.categories.items" t-as="cat" t-key="cat.id">
+                <t t-if="this.state and this.state.categories">
+                    <t t-foreach="this.state.categories" t-as="cat" t-key="cat.id">
                         <BuilderSelectItem dataAttributeActionValue="'' + cat.id"><t t-esc="cat.name"/></BuilderSelectItem>
                     </t>
                 </t>

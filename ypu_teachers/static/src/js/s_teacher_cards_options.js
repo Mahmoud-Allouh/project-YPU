@@ -6,7 +6,7 @@ import { Plugin } from "@html_editor/plugin";
 import { withSequence } from "@html_editor/utils/resource";
 import { registry } from "@web/core/registry";
 import { rpc } from "@web/core/network/rpc";
-import { useState } from "@odoo/owl";
+import { useDomState } from "@html_builder/core/utils";
 
 /**
  * Teacher Cards – Builder option component (Odoo 19 website builder).
@@ -18,36 +18,20 @@ export class TeacherCardsOption extends BaseOptionComponent {
     static template = "ypu_teachers.TeacherCardsOption";
     static selector = ".s_teacher_cards";
 
-    // Class-level safe default — guarantee categories is never undefined
-    categories = { items: [] };
-
     setup() {
         super.setup();
-        this.categories = useState({ items: [] });
-        console.log("[TeacherCardsOption] setup() called");
-        
-        // FALLBACK: Add a test category so we can verify UI works
-        this.categories.items = [{ id: 999, name: "⚙️ LOADING..." }];
-        
-        // Schedule load very soon after setup completes
-        setTimeout(() => {
-            console.log("[TeacherCardsOption] setTimeout callback firing");
-            this._loadCategories();
-        }, 100);
-    }
-
-    async _loadCategories() {
-        console.log("[TeacherCardsOption] _loadCategories() starting...");
-        try {
-            console.log("[TeacherCardsOption] About to call RPC...");
-            const result = await rpc("/ypu_teachers/snippet/categories", {});
-            console.log("[TeacherCardsOption] RPC returned:", result);
-            this.categories.items = Array.isArray(result) ? result : [];
-            console.log("✓ Categories loaded:", this.categories.items.length);
-        } catch (e) {
-            console.error("✗ Failed to load categories:", e);
-            this.categories.items = [];
-        }
+        this.state = useDomState(async () => {
+            try {
+                const result = await rpc("/ypu_teachers/snippet/categories", {});
+                return {
+                    categories: Array.isArray(result) ? result : [],
+                };
+            } catch {
+                return {
+                    categories: [],
+                };
+            }
+        });
     }
 }
 
