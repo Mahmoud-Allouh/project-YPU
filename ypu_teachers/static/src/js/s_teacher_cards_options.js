@@ -6,29 +6,31 @@ import { Plugin } from "@html_editor/plugin";
 import { withSequence } from "@html_editor/utils/resource";
 import { registry } from "@web/core/registry";
 import { rpc } from "@web/core/network/rpc";
-import { useState, onMounted } from "@odoo/owl";
+import { useState, onWillStart } from "@odoo/owl";
 
 /**
  * Teacher Cards – Builder option component (Odoo 19 website builder).
  *
  * Provides a "Cards per page" select and a "Category" select.
- * Categories are fetched dynamically from the database via onMounted
- * (onWillStart is NOT reliably awaited by the builder framework).
+ * Categories are fetched dynamically from the database.
  */
 export class TeacherCardsOption extends BaseOptionComponent {
     static template = "ypu_teachers.TeacherCardsOption";
     static selector = ".s_teacher_cards";
 
     // Class-level safe default so `this.catState` is never undefined,
-    // even if the template renders before setup() completes.
+    // even if the template renders during component construction.
     catState = { categories: [] };
 
     setup() {
         super.setup();
         // Replace with reactive version so OWL re-renders when data arrives.
         this.catState = useState({ categories: [] });
-        onMounted(() => {
-            this._loadCategories();
+        
+        // Load categories BEFORE first render by returning a promise
+        // that the framework must await.
+        onWillStart(async () => {
+            await this._loadCategories();
         });
     }
 
@@ -36,8 +38,9 @@ export class TeacherCardsOption extends BaseOptionComponent {
         try {
             const result = await rpc("/ypu_teachers/snippet/categories", {});
             this.catState.categories = Array.isArray(result) ? result : [];
+            console.log("Teacher categories loaded:", this.catState.categories.length);
         } catch (e) {
-            console.warn("Failed to load teacher categories:", e);
+            console.error("Failed to load teacher categories:", e);
             this.catState.categories = [];
         }
     }
