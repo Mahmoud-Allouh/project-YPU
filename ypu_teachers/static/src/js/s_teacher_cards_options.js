@@ -24,15 +24,24 @@ export class TeacherCardsOption extends BaseOptionComponent {
     setup() {
         super.setup();
         this.categories = useState({ items: [] });
+        console.log("[TeacherCardsOption] setup() called");
         
-        // Start loading immediately after component exists,
-        // using a microtask to ensure component structure is ready
-        Promise.resolve().then(() => this._loadCategories());
+        // FALLBACK: Add a test category so we can verify UI works
+        this.categories.items = [{ id: 999, name: "⚙️ LOADING..." }];
+        
+        // Schedule load very soon after setup completes
+        setTimeout(() => {
+            console.log("[TeacherCardsOption] setTimeout callback firing");
+            this._loadCategories();
+        }, 100);
     }
 
     async _loadCategories() {
+        console.log("[TeacherCardsOption] _loadCategories() starting...");
         try {
+            console.log("[TeacherCardsOption] About to call RPC...");
             const result = await rpc("/ypu_teachers/snippet/categories", {});
+            console.log("[TeacherCardsOption] RPC returned:", result);
             this.categories.items = Array.isArray(result) ? result : [];
             console.log("✓ Categories loaded:", this.categories.items.length);
         } catch (e) {
