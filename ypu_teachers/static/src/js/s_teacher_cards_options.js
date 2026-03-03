@@ -3,9 +3,7 @@
 console.log("🔵 [LOAD] s_teacher_cards_options.js module is loading...");
 
 import { BaseOptionComponent } from "@html_builder/core/utils";
-import { before, SNIPPET_SPECIFIC_END } from "@html_builder/utils/option_sequence";
 import { Plugin } from "@html_editor/plugin";
-import { withSequence } from "@html_editor/utils/resource";
 import { registry } from "@web/core/registry";
 import { rpc } from "@web/core/network/rpc";
 import { useDomState } from "@html_builder/core/utils";
@@ -56,7 +54,8 @@ class TeacherCardsOptionPlugin extends Plugin {
     /** @type {import("plugins").WebsiteResources} */
     resources = {
         builder_options: [
-            withSequence(before(SNIPPET_SPECIFIC_END), TeacherCardsOption),
+            // Simplified registration without withSequence for compatibility
+            TeacherCardsOption,
         ],
     };
 }
