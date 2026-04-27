@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="s_study_plan_snippet"
+              inherit_id="website.snippets" name="Study Plan: Snippet Menu">
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="ypu_study_plans.s_study_plan"
+               string="Study Plan"
+               group="content">
+                <keywords>study, plan, curriculum, courses, credits, university, faculty, table</keywords>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

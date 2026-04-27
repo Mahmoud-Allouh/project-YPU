@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="ypu_study_plans.s_study_plan_content">
+        <t t-if="!plan">
+            <div class="alert alert-info text-center">
+                No Study Plan selected. Open the right panel and pick a plan.
+            </div>
+        </t>
+        <t t-if="plan">
+            <div class="ypu-study-plan">
+                <t t-if="showHeader">
+                    <div class="ypu-study-plan__header text-center mb-4">
+                        <h2 class="ypu-study-plan__title mb-1" t-esc="plan.name"/>
+                        <p t-if="plan.subtitle" class="ypu-study-plan__subtitle text-muted mb-0"
+                           t-esc="plan.subtitle"/>
+                        <p t-if="plan.total_credit_hours" class="ypu-study-plan__totals small text-muted mt-2">
+                            Total credits: <strong t-esc="plan.total_credit_hours"/>
+                        </p>
+                    </div>
+                </t>
+                <t t-if="showDescription and plan.description">
+                    <div class="ypu-study-plan__description mb-4" t-out="plan.description"/>
+                </t>
+
+                <t t-if="!plan.sections.length">
+                    <div class="alert alert-warning text-center">
+                        This plan has no sections yet.
+                    </div>
+                </t>
+
+                <t t-foreach="plan.sections" t-as="section" t-key="section.id">
+                    <div class="ypu-study-plan__section mb-5">
+                        <div class="ypu-study-plan__section-head">
+                            <h4 class="ypu-study-plan__section-title mb-0" t-esc="section.name"/>
+                            <small t-if="section.subtitle" class="text-muted ypu-study-plan__section-subtitle"
+                                   t-esc="section.subtitle"/>
+                        </div>
+                        <div t-if="section.description"
+                             class="ypu-study-plan__section-desc mt-2 mb-2"
+                             t-out="section.description"/>
+
+                        <div class="table-responsive">
+                            <table class="table ypu-study-plan__table align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="ypu-col-code">Code</th>
+                                        <th class="ypu-col-name">Course Name (AR)</th>
+                                        <th class="ypu-col-name-en">Course Name (EN)</th>
+                                        <th class="ypu-col-num text-center">Theory</th>
+                                        <th class="ypu-col-num text-center">Practical</th>
+                                        <th class="ypu-col-num text-center">CH</th>
+                                        <th t-if="section.show_prerequisite_column" class="ypu-col-prereq">Prerequisite</th>
+                                        <th t-if="section.show_description_column" class="ypu-col-desc">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="!section.courses.length">
+                                        <tr>
+                                            <td colspan="8" class="text-center text-muted py-3">No courses in this section.</td>
+                                        </tr>
+                                    </t>
+                                    <t t-foreach="section.courses" t-as="course" t-key="course.id">
+                                        <tr>
+                                            <td class="ypu-col-code"><code t-esc="course.code or '-'"/></td>
+                                            <td class="ypu-col-name" t-esc="course.name_ar or '-'"/>
+                                            <td class="ypu-col-name-en" t-esc="course.name_en or '-'"/>
+                                            <td class="ypu-col-num text-center" t-esc="course.theory_hours ? course.theory_hours : '-'"/>
+                                            <td class="ypu-col-num text-center" t-esc="course.practical_hours ? course.practical_hours : '-'"/>
+                                            <td class="ypu-col-num text-center"><strong t-esc="course.credit_hours ? course.credit_hours : '-'"/></td>
+                                            <td t-if="section.show_prerequisite_column" class="ypu-col-prereq" t-esc="course.prerequisite || '-'"/>
+                                            <td t-if="section.show_description_column" class="ypu-col-desc small" t-esc="course.description || ''"/>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfoot t-if="section.show_total_row and section.courses.length">
+                                    <tr class="ypu-study-plan__totals-row">
+                                        <td colspan="3" class="text-end fw-bold">Total</td>
+                                        <td class="text-center fw-bold" t-esc="section.total_theory"/>
+                                        <td class="text-center fw-bold" t-esc="section.total_practical"/>
+                                        <td class="text-center fw-bold" t-esc="section.total_credit"/>
+                                        <td t-if="section.show_prerequisite_column"/>
+                                        <td t-if="section.show_description_column"/>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </t>
+
+</templates>

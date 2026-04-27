@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============== ACTIONS ============== -->
+    <record id="action_ypu_study_plan" model="ir.actions.act_window">
+        <field name="name">Study Plans</field>
+        <field name="res_model">ypu.study.plan</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first Study Plan</p>
+            <p>A Study Plan is a curriculum (e.g. "Faculty of Dentistry Plan") composed of
+                sections (e.g. "University Requirements", "Year 1 — Term 1") and courses.
+                You can drop a Study Plan onto any website page from the snippet panel.</p>
+        </field>
+    </record>
+
+    <!-- ============== LIST VIEW ============== -->
+    <record id="view_ypu_study_plan_list" model="ir.ui.view">
+        <field name="name">ypu.study.plan.list</field>
+        <field name="model">ypu.study.plan</field>
+        <field name="arch" type="xml">
+            <list string="Study Plans">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="subtitle"/>
+                <field name="section_count"/>
+                <field name="course_count"/>
+                <field name="total_credit_hours"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============== FORM VIEW ============== -->
+    <record id="view_ypu_study_plan_form" model="ir.ui.view">
+        <field name="name">ypu.study.plan.form</field>
+        <field name="model">ypu.study.plan</field>
+        <field name="arch" type="xml">
+            <form string="Study Plan">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Faculty of Dentistry Plan"/></h1>
+                        <field name="subtitle" placeholder="Optional subtitle (e.g. 2024-2025)"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" placeholder="e.g. dentistry_2024"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="section_count"/>
+                            <field name="course_count"/>
+                            <field name="total_credit_hours"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sections" name="sections">
+                            <field name="section_ids">
+                                <list string="Sections">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="subtitle"/>
+                                    <field name="section_type"/>
+                                    <field name="course_count"/>
+                                    <field name="total_credit"/>
+                                </list>
+                                <form string="Section">
+                                    <sheet>
+                                        <div class="oe_title">
+                                            <label for="name" class="oe_edit_only"/>
+                                            <h1><field name="name" placeholder="e.g. University Mandatory Requirements"/></h1>
+                                            <field name="subtitle" placeholder="e.g. 9 credit hours"/>
+                                        </div>
+                                        <group>
+                                            <group>
+                                                <field name="section_type"/>
+                                            </group>
+                                            <group>
+                                                <field name="show_total_row"/>
+                                                <field name="show_prerequisite_column"/>
+                                                <field name="show_description_column"/>
+                                            </group>
+                                        </group>
+                                        <notebook>
+                                            <page string="Courses" name="courses">
+                                                <field name="course_ids">
+                                                    <list string="Courses" editable="bottom">
+                                                        <field name="sequence" widget="handle"/>
+                                                        <field name="code"/>
+                                                        <field name="name_ar"/>
+                                                        <field name="name_en"/>
+                                                        <field name="theory_hours"/>
+                                                        <field name="practical_hours"/>
+                                                        <field name="credit_hours"/>
+                                                        <field name="prerequisite"/>
+                                                    </list>
+                                                    <form string="Course">
+                                                        <sheet>
+                                                            <group>
+                                                                <group>
+                                                                    <field name="code"/>
+                                                                    <field name="name_ar"/>
+                                                                    <field name="name_en"/>
+                                                                    <field name="prerequisite"/>
+                                                                </group>
+                                                                <group>
+                                                                    <field name="theory_hours"/>
+                                                                    <field name="practical_hours"/>
+                                                                    <field name="credit_hours"/>
+                                                                </group>
+                                                            </group>
+                                                            <group string="Description">
+                                                                <field name="description" nolabel="1" placeholder="Optional course description (Arabic or English)..."/>
+                                                            </group>
+                                                        </sheet>
+                                                    </form>
+                                                </field>
+                                                <group class="oe_subtotal_footer oe_right" colspan="2"
+                                                       name="totals">
+                                                    <field name="total_theory" string="Total Theory"/>
+                                                    <field name="total_practical" string="Total Practical"/>
+                                                    <field name="total_credit" string="Total Credit"/>
+                                                </group>
+                                            </page>
+                                            <page string="Description" name="section_description">
+                                                <field name="description" nolabel="1"/>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description" nolabel="1"
+                                   placeholder="Optional rich-text description shown above the plan on the website..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============== SEARCH VIEW ============== -->
+    <record id="view_ypu_study_plan_search" model="ir.ui.view">
+        <field name="name">ypu.study.plan.search</field>
+        <field name="model">ypu.study.plan</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="subtitle"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>

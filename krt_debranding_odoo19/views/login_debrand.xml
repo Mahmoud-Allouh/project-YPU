@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Remove Odoo brand promotion banner from the login page -->
     <template id="remove_login_brand_promotion" inherit_id="web.brand_promotion_message" priority="1000">
         <xpath expr="." position="replace">
             <div/>
         </xpath>
     </template>
 
-    <template id="remove_db_manager" inherit_id="web.login_layout" priority="1000">
-        <xpath expr="//a[contains(@href, '/web/database/manager')]" position="replace"/>
-        <xpath expr="//*[contains(@class, 'o_database') or contains(@class, 'database')]" position="attributes">
-            <attribute name="style" add="display:none !important;" separator=";"/>
+    <!--
+        Inject CSS to hide the database manager link and powered-by footer.
+        CSS injection is more robust than XPath element-removal since Odoo 19
+        restructured the login layout.
+    -->
+    <template id="remove_login_extras" inherit_id="web.login_layout" priority="1000">
+        <xpath expr="//div[@class='card-body']" position="inside">
+            <style type="text/css">
+                a[href*="/web/database/manager"] { display: none !important; }
+                a[href*="odoo.com"] { display: none !important; }
+            </style>
         </xpath>
     </template>
 
+    <!-- Hide company logo block on login page -->
     <template id="remove_company_logo" inherit_id="web.login_layout" priority="1000">
-        <xpath expr="//div[contains(@class, 'text-center')]//img | //header//img | //img[contains(@class, 'o_login_logo')]" position="replace"/>
+        <xpath expr="//div[contains(@class,'text-center') and contains(@class,'border-bottom')]" position="replace" optional="1"/>
     </template>
 </odoo>

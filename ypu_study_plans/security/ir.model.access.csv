@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ypu_study_plan_public,ypu.study.plan public read,model_ypu_study_plan,base.group_public,1,0,0,0
+access_ypu_study_plan_portal,ypu.study.plan portal read,model_ypu_study_plan,base.group_portal,1,0,0,0
+access_ypu_study_plan_user,ypu.study.plan user read,model_ypu_study_plan,base.group_user,1,0,0,0
+access_ypu_study_plan_manager,ypu.study.plan manager,model_ypu_study_plan,website.group_website_designer,1,1,1,1
+access_ypu_study_plan_section_public,ypu.study.plan.section public read,model_ypu_study_plan_section,base.group_public,1,0,0,0
+access_ypu_study_plan_section_portal,ypu.study.plan.section portal read,model_ypu_study_plan_section,base.group_portal,1,0,0,0
+access_ypu_study_plan_section_user,ypu.study.plan.section user read,model_ypu_study_plan_section,base.group_user,1,0,0,0
+access_ypu_study_plan_section_manager,ypu.study.plan.section manager,model_ypu_study_plan_section,website.group_website_designer,1,1,1,1
+access_ypu_study_plan_course_public,ypu.study.plan.course public read,model_ypu_study_plan_course,base.group_public,1,0,0,0
+access_ypu_study_plan_course_portal,ypu.study.plan.course portal read,model_ypu_study_plan_course,base.group_portal,1,0,0,0
+access_ypu_study_plan_course_user,ypu.study.plan.course user read,model_ypu_study_plan_course,base.group_user,1,0,0,0
+access_ypu_study_plan_course_manager,ypu.study.plan.course manager,model_ypu_study_plan_course,website.group_website_designer,1,1,1,1

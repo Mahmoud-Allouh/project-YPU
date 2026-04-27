@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="ypu_study_plans.StudyPlanOption">
+        <BuilderRow label.translate="Study Plan">
+            <BuilderSelect dataAttributeAction="'planId'">
+                <BuilderSelectItem dataAttributeActionValue="'0'">— Select a plan —</BuilderSelectItem>
+                <t t-if="this.state and this.state.plans">
+                    <t t-foreach="this.state.plans" t-as="p" t-key="p.id">
+                        <BuilderSelectItem dataAttributeActionValue="'' + p.id">
+                            <t t-esc="p.name"/>
+                        </BuilderSelectItem>
+                    </t>
+                </t>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Show Header">
+            <BuilderSelect dataAttributeAction="'showHeader'">
+                <BuilderSelectItem dataAttributeActionValue="'true'">Yes</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'false'">No</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Show Description">
+            <BuilderSelect dataAttributeAction="'showDescription'">
+                <BuilderSelectItem dataAttributeActionValue="'true'">Yes</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'false'">No</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Header Color">
+            <BuilderColorPicker styleAction="'--sp-header-bg'" enabledTabs="['custom']" defaultColor="'#1565c0'" noTransparency="true"/>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Table Style">
+            <BuilderSelect dataAttributeAction="'tableStyle'">
+                <BuilderSelectItem dataAttributeActionValue="'clean'">Clean (White)</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'striped'">Striped Rows</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'bordered'">Bordered</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'compact'">Compact</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+    </t>
+
+</templates>

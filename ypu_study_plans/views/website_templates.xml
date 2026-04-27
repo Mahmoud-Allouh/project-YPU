@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Snippet body dropped on a page -->
+    <template id="s_study_plan" name="Study Plan">
+        <section class="s_study_plan pt48 pb48"
+                 data-snippet="s_study_plan"
+                 data-plan-id="0"
+                 data-show-header="true"
+                 data-show-description="true"
+                 data-table-style="clean"
+                 style="--sp-header-bg: #1565c0;">
+            <div class="container">
+                <div class="s_study_plan_content text-center text-muted py-5">
+                    <i class="fa fa-table fa-3x mb-3 d-block"/>
+                    <p>The Study Plan table will appear here. Pick a plan from the right panel.</p>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- Study Plans public page -->
+    <record id="page_study_plans_view" model="ir.ui.view">
+        <field name="name">Study Plans</field>
+        <field name="type">qweb</field>
+        <field name="key">ypu_study_plans.page_study_plans</field>
+        <field name="arch" type="xml">
+            <t t-name="ypu_study_plans.page_study_plans">
+                <t t-call="website.layout">
+                    <div id="wrap" class="oe_structure oe_empty"/>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <record id="page_study_plans" model="website.page">
+        <field name="view_id" ref="page_study_plans_view"/>
+        <field name="url">/study-plans</field>
+        <field name="is_published" eval="True"/>
+        <field name="website_indexed" eval="True"/>
+    </record>
+
+</odoo>
