@@ -19,7 +19,6 @@ simple snippet picker on the page.
         'views/menu.xml',
         'views/website_templates.xml',
         'views/snippets.xml',
-        'data/website_menu.xml',
     ],
     'assets': {
         'web.assets_frontend': [

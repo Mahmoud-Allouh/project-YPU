@@ -19,25 +19,5 @@
         </section>
     </template>
 
-    <!-- Study Plans public page -->
-    <record id="page_study_plans_view" model="ir.ui.view">
-        <field name="name">Study Plans</field>
-        <field name="type">qweb</field>
-        <field name="key">ypu_study_plans.page_study_plans</field>
-        <field name="arch" type="xml">
-            <t t-name="ypu_study_plans.page_study_plans">
-                <t t-call="website.layout">
-                    <div id="wrap" class="oe_structure oe_empty"/>
-                </t>
-            </t>
-        </field>
-    </record>
-
-    <record id="page_study_plans" model="website.page">
-        <field name="view_id" ref="page_study_plans_view"/>
-        <field name="url">/study-plans</field>
-        <field name="is_published" eval="True"/>
-        <field name="website_indexed" eval="True"/>
-    </record>
 
 </odoo>

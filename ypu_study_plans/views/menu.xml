@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <menuitem id="menu_ypu_study_plans_root"
+              name="Study Plans"
+              sequence="11"/>
+
     <menuitem id="menu_ypu_study_plans"
               name="Study Plans"
-              parent="ypu_teachers.menu_ypu_root"
+              parent="menu_ypu_study_plans_root"
               action="action_ypu_study_plan"
-              sequence="40"/>
+              sequence="10"/>
 
 </odoo>
