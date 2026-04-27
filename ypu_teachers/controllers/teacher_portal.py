@@ -60,6 +60,17 @@ class YpuTeacherPortal(Controller):
             'total': total,
         })
 
+    @route('/teachers/<string:slug>', type='http', auth='public', website=True, sitemap=True)
+    def teacher_profile(self, slug, **kw):
+        teacher = request.env['ypu.teacher'].sudo().search([
+            ('website_slug', '=', slug),
+            ('website_published', '=', True),
+            ('is_public', '=', True),
+        ], limit=1)
+        if not teacher:
+            return request.not_found()
+        return request.render('ypu_teachers.website_teacher_profile', {'teacher': teacher})
+
     # ── Private helpers ──────────────────────────────────────
 
     @staticmethod

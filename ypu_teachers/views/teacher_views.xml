@@ -57,7 +57,11 @@
         <field name="arch" type="xml">
             <form string="Teacher">
                 <sheet>
-                    <div class="oe_button_box" name="button_box"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_create_profile_page" type="object"
+                                string="Create / Update Profile Page"
+                                class="oe_stat_button" icon="fa-globe"/>
+                    </div>
                     <field name="image_1920" widget="image" class="oe_avatar"
                            options="{'size': [180, 180]}"/>
                     <div class="oe_title">
@@ -88,15 +92,36 @@
                             <field name="is_public"/>
                             <field name="available"/>
                             <field name="is_dean"/>
-                            <field name="show_link_button"/>
                             <field name="link_url" widget="url"
-                                   invisible="not show_link_button"/>
+                                   placeholder="/teachers/auto-generated-on-import"
+                                   help="Profile page URL — set automatically when importing from Excel."/>
                         </group>
                     </group>
 
                     <notebook>
                         <page string="Profile / Bio">
                             <field name="bio"/>
+                        </page>
+                        <page string="Personal Info">
+                            <field name="personal_info"/>
+                        </page>
+                        <page string="Education">
+                            <field name="education"/>
+                        </page>
+                        <page string="Career">
+                            <field name="career"/>
+                        </page>
+                        <page string="Administration">
+                            <field name="administration"/>
+                        </page>
+                        <page string="Supervising">
+                            <field name="supervising"/>
+                        </page>
+                        <page string="Publications">
+                            <field name="publications"/>
+                        </page>
+                        <page string="Courses">
+                            <field name="courses"/>
                         </page>
                     </notebook>
                 </sheet>

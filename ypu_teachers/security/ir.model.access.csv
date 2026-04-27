@@ -5,4 +5,5 @@ access_ypu_teacher_category_user,ypu.teacher.category user,model_ypu_teacher_cat
 access_ypu_teacher_category_public,ypu.teacher.category public,model_ypu_teacher_category,base.group_public,1,0,0,0
 access_ypu_teacher_position_user,ypu.teacher.position user,model_ypu_teacher_position,base.group_user,1,1,1,1
 access_ypu_teacher_position_public,ypu.teacher.position public,model_ypu_teacher_position,base.group_public,1,0,0,0
+access_ypu_teacher_import_user,ypu.teacher.import user,model_ypu_teacher_import,base.group_user,1,1,1,1
 

@@ -88,7 +88,7 @@
                     <t t-if="featured">
                         <div class="row g-4 mb-4">
                             <div class="col-12">
-                                <div t-attf-class="ypu-card ypu-card--featured position-relative#{ ' ypu-card--has-action' if featured.show_link_button and featured.link_url else '' }">
+                                <div t-attf-class="ypu-card ypu-card--featured position-relative#{ ' ypu-card--has-action' if featured.link_url else '' }">
 
                                     <span t-attf-class="ypu-badge position-absolute top-0 end-0 m-3 {{ 'available' if featured.available else 'unavailable' }}"
                                           style="z-index:2;">
@@ -134,7 +134,7 @@
                                                 <dd><t t-esc="featured.subject or '-'"/></dd>
                                             </dl>
 
-                                            <t t-if="featured.show_link_button and featured.link_url">
+                                            <t t-if="featured.link_url">
                                                 <div class="ypu-card-action">
                                                     <a class="btn btn-primary"
                                                        t-att-href="featured.link_url">View Profile</a>
@@ -153,7 +153,7 @@
                         <t t-foreach="teachers" t-as="teacher">
                             <t t-if="not featured or teacher.id != featured.id">
                                 <div class="col">
-                                    <div t-attf-class="ypu-card h-100 p-3#{ ' ypu-card--has-action' if teacher.show_link_button and teacher.link_url else '' }">
+                                    <div t-attf-class="ypu-card h-100 p-3#{ ' ypu-card--has-action' if teacher.link_url else '' }">
                                         <div class="d-flex">
                                             <div class="ypu-avatar me-3">
                                                 <t t-if="teacher.image_1920">
@@ -202,7 +202,7 @@
                                             <dd><t t-esc="teacher.subject or '-'"/></dd>
                                         </dl>
 
-                                        <t t-if="teacher.show_link_button and teacher.link_url">
+                                        <t t-if="teacher.link_url">
                                             <div class="ypu-card-action">
                                                 <a class="btn btn-primary btn-sm"
                                                    t-att-href="teacher.link_url">View Profile</a>
@@ -240,6 +240,323 @@
                 </t>
 
             </div>
+        </t>
+    </template>
+
+    <!-- ═══════════════ Individual Teacher Profile ═══════════════ -->
+    <template id="website_teacher_profile" name="Teacher Profile">
+        <t t-call="website.layout">
+            <div id="wrap">
+
+                <!-- ── Section 1 : Name banner (same as existing pages: o_cc5 dark) ───── -->
+                <section class="s_text_block pt40 o_colored_level o_cc o_cc5 pb32"
+                         data-snippet="s_text_block">
+                    <div class="s_allow_columns container text-center">
+                        <a href="/teachers"
+                           class="d-inline-block mb-3 small"
+                           style="color:rgba(255,255,255,0.6); text-decoration:none;">
+                            &#8592; Back to Directory
+                        </a>
+                        <h1 style="text-align:center;"><t t-esc="teacher.name"/></h1>
+                        <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                            <t t-if="teacher.rank">
+                                <span class="badge rounded-pill"
+                                      style="background:rgba(255,255,255,0.15); font-weight:500; font-size:0.85rem;">
+                                    <t t-esc="teacher.rank"/>
+                                </span>
+                            </t>
+                            <t t-if="teacher.position_id">
+                                <span class="badge rounded-pill"
+                                      style="background:rgba(255,255,255,0.15); font-weight:500; font-size:0.85rem;">
+                                    <t t-esc="teacher.position_id.name"/>
+                                </span>
+                            </t>
+                            <t t-if="teacher.category_id">
+                                <span class="badge rounded-pill"
+                                      style="background:rgba(255,255,255,0.15); font-weight:500; font-size:0.85rem;">
+                                    <t t-esc="teacher.category_id.name"/>
+                                </span>
+                            </t>
+                            <t t-if="teacher.department">
+                                <span class="badge rounded-pill"
+                                      style="background:rgba(255,255,255,0.15); font-weight:500; font-size:0.85rem;">
+                                    <t t-esc="teacher.department"/>
+                                </span>
+                            </t>
+                            <t t-if="teacher.available">
+                                <span class="badge rounded-pill"
+                                      style="background:rgba(34,197,94,0.3); color:#bbf7d0; font-weight:500; font-size:0.85rem;">
+                                    Available
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <span class="badge rounded-pill"
+                                      style="background:rgba(148,163,184,0.2); color:#cbd5e1; font-weight:500; font-size:0.85rem;">
+                                    Unavailable
+                                </span>
+                            </t>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── Section 2 : Framed intro – photo + bio (o_cc2 light) ───────────── -->
+                <section class="s_framed_intro o_colored_level o_cc o_cc2 pb48 pt48"
+                         data-snippet="s_framed_intro" data-name="Framed Intro">
+                    <div class="container">
+                        <div class="row g-5 align-items-center">
+
+                            <!-- Bio left -->
+                            <div class="col-lg-7 order-2 order-lg-1">
+                                <t t-if="teacher.bio">
+                                    <div class="lead">
+                                        <t t-out="teacher.bio"/>
+                                    </div>
+                                </t>
+                                <t t-if="not teacher.bio and teacher.subject">
+                                    <p class="lead"><strong><t t-esc="teacher.subject"/></strong></p>
+                                </t>
+                            </div>
+
+                            <!-- Photo right -->
+                            <div class="col-lg-5 order-1 order-lg-2 text-center">
+                                <t t-if="teacher.image_1920">
+                                    <img t-attf-src="/web/image/ypu.teacher/{{ teacher.id }}/image_1920"
+                                         t-att-alt="teacher.name"
+                                         class="img img-fluid o_we_custom_image rounded"
+                                         style="max-width:380px; width:100%; border-radius:35px !important;
+                                                box-shadow:0 20px 50px rgba(0,0,0,0.18);"/>
+                                </t>
+                                <t t-else="">
+                                    <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle"
+                                         style="width:180px; height:180px; background:#e2e8f0; font-size:4rem; font-weight:700; color:#2563eb;">
+                                        <t t-esc="(teacher.name or ' ')[0].upper()"/>
+                                    </div>
+                                </t>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── Section 3 : Tabs (o_cc2) ─────────────────────────────────────── -->
+                <t t-set="has_personal"    t-value="bool(teacher.personal_info)"/>
+                <t t-set="has_contact"     t-value="bool(teacher.email or teacher.phone or teacher.linkedin_url or teacher.research_gate or teacher.contact_info)"/>
+                <t t-set="has_education"   t-value="bool(teacher.education)"/>
+                <t t-set="has_career"      t-value="bool(teacher.career)"/>
+                <t t-set="has_admin"       t-value="bool(teacher.administration)"/>
+                <t t-set="has_supervising" t-value="bool(teacher.supervising)"/>
+                <t t-set="has_pubs"        t-value="bool(teacher.publications)"/>
+                <t t-set="has_courses"     t-value="bool(teacher.courses)"/>
+                <t t-set="any_tab"         t-value="has_personal or has_contact or has_education or has_career or has_admin or has_supervising or has_pubs or has_courses"/>
+
+                <t t-if="any_tab">
+                    <section class="s_tabs_common s_tabs o_colored_level pb80 o_cc o_cc2 pt16"
+                             data-vcss="003" data-vxml="002"
+                             data-snippet="s_tabs" data-name="Tabs">
+                        <div class="container">
+                            <div class="s_tabs_main o_direction_horizontal">
+
+                                <!-- Tab headers -->
+                                <div class="s_tabs_nav mb-3 overflow-y-hidden overflow-x-auto"
+                                     data-name="Tab Header" role="navigation">
+                                    <ul class="nav nav-underline flex-nowrap nav-justified"
+                                        role="tablist">
+
+                                        <t t-if="has_personal">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link text-break active"
+                                                   data-bs-toggle="tab"
+                                                   href="#pane-personal"
+                                                   role="tab">Personal Information</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="has_contact">
+                                            <li class="nav-item" role="presentation">
+                                                <a t-attf-class="nav-link text-break{{ '' if has_personal else ' active' }}"
+                                                   data-bs-toggle="tab"
+                                                   href="#pane-contact"
+                                                   role="tab">Contact Information</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="has_education">
+                                            <li class="nav-item" role="presentation">
+                                                <a t-attf-class="nav-link text-break{{ '' if (has_personal or has_contact) else ' active' }}"
+                                                   data-bs-toggle="tab"
+                                                   href="#pane-education"
+                                                   role="tab">Education</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="has_career">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link text-break"
+                                                   data-bs-toggle="tab"
+                                                   href="#pane-career"
+                                                   role="tab">Career</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="has_admin">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link text-break"
+                                                   data-bs-toggle="tab"
+                                                   href="#pane-admin"
+                                                   role="tab">Administration</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="has_supervising">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link text-break"
+                                                   data-bs-toggle="tab"
+                                                   href="#pane-supervising"
+                                                   role="tab">Supervising</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="has_pubs">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link text-break"
+                                                   data-bs-toggle="tab"
+                                                   href="#pane-pubs"
+                                                   role="tab">Publications</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="has_courses">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link text-break"
+                                                   data-bs-toggle="tab"
+                                                   href="#pane-courses"
+                                                   role="tab">Courses</a>
+                                            </li>
+                                        </t>
+
+                                    </ul>
+                                </div><!-- /s_tabs_nav -->
+
+                                <!-- Tab panes -->
+                                <div class="s_tabs_content tab-content">
+
+                                    <t t-if="has_personal">
+                                        <div class="tab-pane fade show active"
+                                             id="pane-personal" role="tabpanel">
+                                            <div class="oe_structure oe_empty">
+                                                <section class="s_text_block" data-snippet="s_text_block">
+                                                    <div class="container s_allow_columns">
+                                                        <t t-out="teacher.personal_info"/>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </t>
+
+                                    <t t-if="has_contact">
+                                        <div t-attf-class="tab-pane fade{{ ' show active' if not has_personal else '' }}"
+                                             id="pane-contact" role="tabpanel">
+                                            <div class="oe_structure oe_empty">
+                                                <section class="s_text_block" data-snippet="s_text_block">
+                                                    <div class="container s_allow_columns">
+                                                        <t t-if="teacher.email">
+                                                            <p class="lead">Mobile phone: <t t-esc="teacher.phone or ''"/>  </p>
+                                                            <p class="lead">E-mail: <a t-attf-href="mailto:{{ teacher.email }}"><t t-esc="teacher.email"/></a></p>
+                                                        </t>
+                                                        <t t-if="teacher.phone and not teacher.email">
+                                                            <p class="lead">Phone: <t t-esc="teacher.phone"/></p>
+                                                        </t>
+                                                        <t t-if="teacher.linkedin_url">
+                                                            <p class="lead">LinkedIn: <a t-att-href="teacher.linkedin_url" target="_blank" rel="noopener noreferrer"><t t-esc="teacher.linkedin_url"/></a></p>
+                                                        </t>
+                                                        <t t-if="teacher.research_gate">
+                                                            <p class="lead">Research Gate: <a t-att-href="teacher.research_gate" target="_blank" rel="noopener noreferrer"><t t-esc="teacher.research_gate"/></a></p>
+                                                        </t>
+                                                        <t t-if="teacher.contact_info">
+                                                            <t t-out="teacher.contact_info"/>
+                                                        </t>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </t>
+
+                                    <t t-if="has_education">
+                                        <div t-attf-class="tab-pane fade{{ ' show active' if not has_personal and not has_contact else '' }}"
+                                             id="pane-education" role="tabpanel">
+                                            <div class="oe_structure oe_empty">
+                                                <section class="s_text_block" data-snippet="s_text_block">
+                                                    <div class="container s_allow_columns">
+                                                        <t t-out="teacher.education"/>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </t>
+
+                                    <t t-if="has_career">
+                                        <div class="tab-pane fade" id="pane-career" role="tabpanel">
+                                            <div class="oe_structure oe_empty">
+                                                <section class="s_text_block" data-snippet="s_text_block">
+                                                    <div class="container s_allow_columns">
+                                                        <t t-out="teacher.career"/>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </t>
+
+                                    <t t-if="has_admin">
+                                        <div class="tab-pane fade" id="pane-admin" role="tabpanel">
+                                            <div class="oe_structure oe_empty">
+                                                <section class="s_text_block" data-snippet="s_text_block">
+                                                    <div class="container s_allow_columns">
+                                                        <t t-out="teacher.administration"/>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </t>
+
+                                    <t t-if="has_supervising">
+                                        <div class="tab-pane fade" id="pane-supervising" role="tabpanel">
+                                            <div class="oe_structure oe_empty">
+                                                <section class="s_text_block" data-snippet="s_text_block">
+                                                    <div class="container s_allow_columns">
+                                                        <t t-out="teacher.supervising"/>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </t>
+
+                                    <t t-if="has_pubs">
+                                        <div class="tab-pane fade" id="pane-pubs" role="tabpanel">
+                                            <div class="oe_structure oe_empty">
+                                                <section class="s_text_block" data-snippet="s_text_block">
+                                                    <div class="container s_allow_columns">
+                                                        <t t-out="teacher.publications"/>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </t>
+
+                                    <t t-if="has_courses">
+                                        <div class="tab-pane fade" id="pane-courses" role="tabpanel">
+                                            <div class="oe_structure oe_empty">
+                                                <section class="s_text_block" data-snippet="s_text_block">
+                                                    <div class="container s_allow_columns">
+                                                        <t t-out="teacher.courses"/>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </t>
+
+                                </div><!-- /s_tabs_content -->
+                            </div><!-- /s_tabs_main -->
+                        </div>
+                    </section>
+                </t>
+
+                <!-- ── Extra editable zone below tabs ─────────────────────────────────── -->
+                <div class="oe_structure oe_empty" id="oe_structure_profile_extra"/>
+
+            </div><!-- /wrap -->
         </t>
     </template>
 

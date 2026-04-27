@@ -17,7 +17,7 @@ Key Features
     'author': "Komorebi Technologies",
     'website': "https://www.komorebitechnologies.com",
     'category': 'Website',
-    'version': '19.0.3.0.0',
+    'version': '19.0.4.0.0',
     'license': 'LGPL-3',
     'depends': ['base', 'website'],
     'data': [
@@ -25,6 +25,7 @@ Key Features
         'views/teacher_category_views.xml',
         'views/teacher_position_views.xml',
         'views/teacher_views.xml',
+        'views/teacher_import_views.xml',
         'data/website_menu.xml',
         'views/website_templates.xml',
         'views/snippets.xml',

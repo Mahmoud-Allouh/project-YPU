@@ -53,8 +53,8 @@ class YpuTeacherSnippet(Controller):
                     'position': t.position_id.name if t.position_id else '',
                     'has_image': bool(t.image_1920),
                     'image_url': f'/web/image/ypu.teacher/{t.id}/image_1920',
-                    'show_link_button': t.show_link_button,
-                    'link_url': t.link_url or '',
+                    'show_link_button': bool(t.link_url),
+                    'link_url': t.link_url or ''
                 }
                 for t in teachers
             ],
