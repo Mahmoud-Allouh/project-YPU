@@ -12,7 +12,7 @@ simple snippet picker on the page.
     'category': 'Website',
     'version': '19.0.1.0.0',
     'license': 'LGPL-3',
-    'depends': ['base', 'website', 'ypu_teachers'],
+    'depends': ['base', 'website'],
     'data': [
         'security/ir.model.access.csv',
         'views/study_plan_views.xml',
