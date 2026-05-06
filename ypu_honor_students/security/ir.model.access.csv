@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ypu_honor_faculty_user,ypu.honor.faculty user,model_ypu_honor_faculty,base.group_user,1,1,1,1
+access_ypu_honor_faculty_public,ypu.honor.faculty public,model_ypu_honor_faculty,base.group_public,1,0,0,0
+access_ypu_honor_student_user,ypu.honor.student user,model_ypu_honor_student,base.group_user,1,1,1,1
+access_ypu_honor_student_public,ypu.honor.student public,model_ypu_honor_student,base.group_public,1,0,0,0

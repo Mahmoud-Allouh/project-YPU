@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="ypu_honor_students.s_honor_students_content">
+        <div class="ypu-honor-students">
+            <t t-if="showFilters">
+                <div class="row g-3 align-items-end mb-4 ypu-honor-students__filters">
+                    <div class="col-12 col-md-4">
+                        <label class="form-label mb-1">Faculty</label>
+                        <select class="form-select" data-filter="faculty">
+                            <option value="0">All faculties</option>
+                            <t t-foreach="faculties" t-as="fac" t-key="fac.id">
+                                <option t-att-value="fac.id"
+                                        t-att-selected="selectedFacultyId === fac.id ? 'selected' : null">
+                                    <t t-esc="fac.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <label class="form-label mb-1">Year</label>
+                        <select class="form-select" data-filter="year">
+                            <option value="0">All years</option>
+                            <option value="1" t-att-selected="selectedStudyYear === '1' ? 'selected' : null">Year 1</option>
+                            <option value="2" t-att-selected="selectedStudyYear === '2' ? 'selected' : null">Year 2</option>
+                            <option value="3" t-att-selected="selectedStudyYear === '3' ? 'selected' : null">Year 3</option>
+                            <option value="4" t-att-selected="selectedStudyYear === '4' ? 'selected' : null">Year 4</option>
+                            <option value="5" t-att-selected="selectedStudyYear === '5' ? 'selected' : null">Year 5</option>
+                        </select>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <label class="form-label mb-1">Semester</label>
+                        <select class="form-select" data-filter="semester">
+                            <option value="0">All semesters</option>
+                            <option value="1" t-att-selected="selectedSemester === '1' ? 'selected' : null">Semester 1</option>
+                            <option value="2" t-att-selected="selectedSemester === '2' ? 'selected' : null">Semester 2</option>
+                            <option value="3" t-att-selected="selectedSemester === '3' ? 'selected' : null">Semester 3</option>
+                        </select>
+                    </div>
+                </div>
+            </t>
+
+            <t t-if="!students.length">
+                <div class="alert alert-info text-center my-3">
+                    No honor students found for the selected filters.
+                </div>
+            </t>
+
+            <t t-if="students.length">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <t t-foreach="students" t-as="student" t-key="student.id">
+                        <div class="col">
+                            <article class="ypu-hs-card h-100">
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div class="ypu-hs-card__avatar">
+                                        <t t-if="student.has_image">
+                                            <img t-att-src="student.image_url" t-att-alt="student.name" loading="lazy"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-esc="student.name[0].toUpperCase()"/>
+                                        </t>
+                                    </div>
+                                    <div class="min-width-0">
+                                        <h5 class="ypu-hs-card__name mb-1" t-esc="student.name"/>
+                                        <p class="small text-muted mb-0" t-if="student.student_number">
+                                            ID: <t t-esc="student.student_number"/>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <span class="badge text-bg-light" t-if="student.faculty" t-esc="student.faculty"/>
+                                    <span class="badge text-bg-light" t-if="student.year_label" t-esc="student.year_label"/>
+                                    <span class="badge text-bg-light" t-if="student.semester_label" t-esc="student.semester_label"/>
+                                </div>
+
+                                <p class="ypu-hs-card__title mb-2" t-if="student.honor_title" t-esc="student.honor_title"/>
+                                <p class="ypu-hs-card__achievement mb-2" t-if="student.achievement" t-esc="student.achievement"/>
+
+                                <p class="small mb-0" t-if="student.gpa &gt; 0">
+                                    GPA: <strong t-esc="student.gpa.toFixed(2)"/>
+                                </p>
+                            </article>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

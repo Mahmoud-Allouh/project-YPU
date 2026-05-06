@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_ypu_honor_faculty_list" model="ir.ui.view">
+        <field name="name">ypu.honor.faculty.list</field>
+        <field name="model">ypu.honor.faculty</field>
+        <field name="arch" type="xml">
+            <list default_order="sequence, name">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="student_count" string="# Students"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ypu_honor_faculty_form" model="ir.ui.view">
+        <field name="name">ypu.honor.faculty.form</field>
+        <field name="model">ypu.honor.faculty</field>
+        <field name="arch" type="xml">
+            <form string="Honor Student Faculty">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ypu_honor_faculty" model="ir.actions.act_window">
+        <field name="name">Faculties</field>
+        <field name="res_model">ypu.honor.faculty</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

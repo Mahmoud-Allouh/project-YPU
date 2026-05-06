@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="ypu_honor_students.HonorStudentsOption">
+        <BuilderRow label.translate="Cards to show">
+            <BuilderSelect dataAttributeAction="'limit'">
+                <BuilderSelectItem dataAttributeActionValue="'4'">4</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'6'">6</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'9'">9</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'12'">12</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Default Faculty">
+            <BuilderSelect dataAttributeAction="'facultyId'">
+                <BuilderSelectItem dataAttributeActionValue="'0'">All faculties</BuilderSelectItem>
+                <t t-if="this.state and this.state.faculties">
+                    <t t-foreach="this.state.faculties" t-as="fac" t-key="fac.id">
+                        <BuilderSelectItem dataAttributeActionValue="'' + fac.id"><t t-esc="fac.name"/></BuilderSelectItem>
+                    </t>
+                </t>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Default Year">
+            <BuilderSelect dataAttributeAction="'studyYear'">
+                <BuilderSelectItem dataAttributeActionValue="'0'">All years</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'1'">Year 1</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'2'">Year 2</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'3'">Year 3</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'4'">Year 4</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'5'">Year 5</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Default Semester">
+            <BuilderSelect dataAttributeAction="'semester'">
+                <BuilderSelectItem dataAttributeActionValue="'0'">All semesters</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'1'">Semester 1</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'2'">Semester 2</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'3'">Semester 3</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Show Filters">
+            <BuilderSelect dataAttributeAction="'showFilters'">
+                <BuilderSelectItem dataAttributeActionValue="'true'">Yes</BuilderSelectItem>
+                <BuilderSelectItem dataAttributeActionValue="'false'">No</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+    </t>
+
+</templates>

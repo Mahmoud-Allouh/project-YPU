@@ -1,0 +1,56 @@
+.s_honor_students {
+    .ypu-honor-students__filters {
+        padding: 1rem;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 0.75rem;
+        background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .ypu-hs-card {
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 1rem;
+        padding: 1rem;
+        background: #ffffff;
+        box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ypu-hs-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 24px rgba(15, 23, 42, 0.1);
+    }
+
+    .ypu-hs-card__avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 999px;
+        overflow: hidden;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #e2e8f0;
+        color: #0f172a;
+        font-weight: 700;
+    }
+
+    .ypu-hs-card__avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .ypu-hs-card__name {
+        margin: 0;
+        line-height: 1.3;
+    }
+
+    .ypu-hs-card__title {
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .ypu-hs-card__achievement {
+        color: #334155;
+    }
+}
