@@ -5,7 +5,7 @@
         <div class="ypu-honor-students">
             <t t-if="showFilters">
                 <div class="row g-3 align-items-end mb-4 ypu-honor-students__filters">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <label class="form-label mb-1">Faculty</label>
                         <select class="form-select" data-filter="faculty">
                             <option value="0">All faculties</option>
@@ -18,19 +18,33 @@
                         </select>
                     </div>
 
-                    <div class="col-6 col-md-4">
+                    <div class="col-6 col-md-3">
                         <label class="form-label mb-1">Year</label>
                         <select class="form-select" data-filter="year">
                             <option value="0">All years</option>
-                            <option value="1" t-att-selected="selectedStudyYear === '1' ? 'selected' : null">Year 1</option>
-                            <option value="2" t-att-selected="selectedStudyYear === '2' ? 'selected' : null">Year 2</option>
-                            <option value="3" t-att-selected="selectedStudyYear === '3' ? 'selected' : null">Year 3</option>
-                            <option value="4" t-att-selected="selectedStudyYear === '4' ? 'selected' : null">Year 4</option>
-                            <option value="5" t-att-selected="selectedStudyYear === '5' ? 'selected' : null">Year 5</option>
+                            <t t-foreach="years" t-as="year" t-key="year.id">
+                                <option t-att-value="year.id"
+                                        t-att-selected="selectedYearId === year.id ? 'selected' : null">
+                                    <t t-esc="year.name"/>
+                                </option>
+                            </t>
                         </select>
                     </div>
 
-                    <div class="col-6 col-md-4">
+                    <div class="col-6 col-md-3">
+                        <label class="form-label mb-1">Study Year</label>
+                        <select class="form-select" data-filter="study-year">
+                            <option value="0">All study years</option>
+                            <t t-foreach="studyYears" t-as="studyYear" t-key="'study_' + studyYear.id">
+                                <option t-att-value="studyYear.id"
+                                        t-att-selected="selectedStudyYearId === studyYear.id ? 'selected' : null">
+                                    <t t-esc="studyYear.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+
+                    <div class="col-6 col-md-3">
                         <label class="form-label mb-1">Semester</label>
                         <select class="form-select" data-filter="semester">
                             <option value="0">All semesters</option>
@@ -72,7 +86,8 @@
 
                                 <div class="d-flex flex-wrap gap-2 mb-3">
                                     <span class="badge text-bg-light" t-if="student.faculty" t-esc="student.faculty"/>
-                                    <span class="badge text-bg-light" t-if="student.year_label" t-esc="student.year_label"/>
+                                    <span class="badge text-bg-light" t-if="student.year_label">Year: <t t-esc="student.year_label"/></span>
+                                    <span class="badge text-bg-light" t-if="student.study_year_label">Study Year: <t t-esc="student.study_year_label"/></span>
                                     <span class="badge text-bg-light" t-if="student.semester_label" t-esc="student.semester_label"/>
                                 </div>
 

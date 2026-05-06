@@ -15,10 +15,18 @@ class YpuTeacherSnippet(Controller):
             ('is_public', '=', True),
         ]
         if category_id:
-            domain.append(('category_id', '=', int(category_id)))
+            try:
+                category_id = int(category_id)
+            except (TypeError, ValueError):
+                category_id = False
+            if category_id:
+                domain.append(('category_id', '=', category_id))
 
         total = Teacher.search_count(domain)
-        limit = int(limit)
+        try:
+            limit = int(limit)
+        except (TypeError, ValueError):
+            limit = 4
 
         if limit <= 0:
             # Carousel mode: fetch all matching teachers
@@ -26,7 +34,10 @@ class YpuTeacherSnippet(Controller):
             page = 1
             total_pages = 1
         else:
-            page = max(int(page), 1)
+            try:
+                page = max(int(page), 1)
+            except (TypeError, ValueError):
+                page = 1
             total_pages = max(math.ceil(total / limit), 1)
             page = min(page, total_pages)
             offset = (page - 1) * limit

@@ -3,43 +3,47 @@
 
     <!-- ═══════════ Main entry point ═══════════ -->
     <t t-name="ypu_teachers.s_teacher_cards_content">
-        <t t-if="!teachers.length">
+        <t t-if="!slides.length">
             <div class="alert alert-info text-center">No teachers found.</div>
         </t>
-        <t t-if="teachers.length">
-            <t t-set="itemWidth" t-value="(100 / chunkSize).toFixed(2)"/>
+        <t t-if="slides.length">
             <div t-att-id="unique_id"
-                 class="carousel slide o_carousel_multi_items"
-                 t-attf-style="--o-carousel-item-width-percentage: #{itemWidth}%;"
-                 data-bs-interval="0">
+                 class="carousel slide ypu-teacher-carousel"
+                 data-bs-interval="false">
                 <div class="carousel-inner" role="listbox" aria-label="Teacher carousel">
-                    <t t-foreach="teachers" t-as="teacher" t-key="teacher.id">
-                        <div t-attf-class="carousel-item px-2 #{teacher_first ? 'active' : ''}" role="option">
-                            <!-- Design: Cards (vertical) -->
-                            <t t-if="design === 'cards'"
-                               t-call="ypu_teachers.card_design_cards"/>
-                            <!-- Design: Horizontal -->
-                            <t t-if="design === 'horizontal'"
-                               t-call="ypu_teachers.card_design_horizontal"/>
-                            <!-- Design: Minimal (circle) -->
-                            <t t-if="design === 'minimal'"
-                               t-call="ypu_teachers.card_design_minimal"/>
-                            <!-- Design: List -->
-                            <t t-if="design === 'list'"
-                               t-call="ypu_teachers.card_design_list"/>
+                    <t t-foreach="slides" t-as="slide" t-key="slide.id">
+                        <div t-attf-class="carousel-item #{slide_first ? 'active' : ''}" role="option">
+                            <div class="row g-3">
+                                <t t-foreach="slide.teachers" t-as="teacher" t-key="teacher.id">
+                                    <div t-att-class="columnClass">
+                                        <!-- Design: Cards (vertical) -->
+                                        <t t-if="design === 'cards'"
+                                           t-call="ypu_teachers.card_design_cards"/>
+                                        <!-- Design: Horizontal -->
+                                        <t t-if="design === 'horizontal'"
+                                           t-call="ypu_teachers.card_design_horizontal"/>
+                                        <!-- Design: Minimal (circle) -->
+                                        <t t-if="design === 'minimal'"
+                                           t-call="ypu_teachers.card_design_minimal"/>
+                                        <!-- Design: List -->
+                                        <t t-if="design === 'list'"
+                                           t-call="ypu_teachers.card_design_list"/>
+                                    </div>
+                                </t>
+                            </div>
                         </div>
                     </t>
                 </div>
                 <!-- Arrows -->
-                <t t-if="teachers.length > chunkSize">
-                    <a t-attf-href="##{unique_id}" class="carousel-control-prev" data-bs-slide="prev" role="button" aria-label="Previous">
-                        <span class="oi oi-chevron-left rounded-pill p-3 bg-700"/>
+                <t t-if="slides.length > 1">
+                    <button class="carousel-control-prev" type="button" t-att-data-bs-target="'#' + unique_id" data-bs-slide="prev" aria-label="Previous">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"/>
                         <span class="visually-hidden">Previous</span>
-                    </a>
-                    <a t-attf-href="##{unique_id}" class="carousel-control-next" data-bs-slide="next" role="button" aria-label="Next">
-                        <span class="oi oi-chevron-right rounded-pill p-3 bg-700"/>
+                    </button>
+                    <button class="carousel-control-next" type="button" t-att-data-bs-target="'#' + unique_id" data-bs-slide="next" aria-label="Next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"/>
                         <span class="visually-hidden">Next</span>
-                    </a>
+                    </button>
                 </t>
             </div>
         </t>
@@ -79,7 +83,7 @@
                     <span class="ypu-card__initial" t-esc="teacher.name[0].toUpperCase()"/>
                 </t>
             </div>
-            <div class="ypu-card__body flex-1">
+            <div class="ypu-card__body flex-grow-1">
                 <h6 class="ypu-card__name mb-1" t-esc="teacher.name"/>
                 <t t-call="ypu_teachers.card_tags"/>
                 <t t-call="ypu_teachers.card_meta"/>
@@ -147,9 +151,9 @@
 
     <t t-name="ypu_teachers.card_meta">
         <ul class="ypu-card__meta list-unstyled mb-0 small text-muted">
-            <li t-if="teacher.email"><i class="fa fa-envelope-o me-1"/><span t-esc="teacher.email"/></li>
-            <li t-if="teacher.phone"><i class="fa fa-phone me-1"/><span t-esc="teacher.phone"/></li>
-            <li t-if="teacher.subject"><i class="fa fa-book me-1"/><span t-esc="teacher.subject"/></li>
+            <li t-if="teacher.email" class="ypu-card__meta-email"><i class="fa fa-envelope-o me-1"/><span t-esc="teacher.email"/></li>
+            <li t-if="teacher.phone" class="ypu-card__meta-phone"><i class="fa fa-phone me-1"/><span t-esc="teacher.phone"/></li>
+            <li t-if="teacher.subject" class="ypu-card__meta-subject"><i class="fa fa-book me-1"/><span t-esc="teacher.subject"/></li>
         </ul>
     </t>
 
@@ -161,11 +165,14 @@
     </t>
 
     <t t-name="ypu_teachers.card_action">
-        <t t-if="teacher.show_link_button and teacher.link_url">
-            <div class="ypu-card__action p-2 text-end">
+        <div class="ypu-card__action p-2 text-end">
+            <t t-if="teacher.show_link_button and teacher.link_url">
                 <a class="btn btn-sm btn-primary" t-att-href="teacher.link_url" target="_blank">View Profile</a>
-            </div>
-        </t>
+            </t>
+            <t t-else="">
+                <span class="ypu-card__action-spacer" aria-hidden="true"/>
+            </t>
+        </div>
     </t>
 
     <t t-name="ypu_teachers.card_action_inline">

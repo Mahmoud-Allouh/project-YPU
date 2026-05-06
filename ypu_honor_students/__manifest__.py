@@ -20,8 +20,13 @@ Key Features
     'depends': ['base', 'website'],
     'data': [
         'security/ir.model.access.csv',
+        'data/honor_year_data.xml',
+        'data/honor_study_year_data.xml',
+        'views/honor_year_views.xml',
+        'views/honor_study_year_views.xml',
         'views/honor_faculty_views.xml',
         'views/honor_student_views.xml',
+        'views/honor_student_import_views.xml',
         'views/snippets.xml',
     ],
     'assets': {

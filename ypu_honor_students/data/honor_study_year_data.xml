@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+
+    <record id="ypu_honor_study_year_1" model="ypu.honor.study.year">
+        <field name="name">Year 1</field>
+        <field name="code">1</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="ypu_honor_study_year_2" model="ypu.honor.study.year">
+        <field name="name">Year 2</field>
+        <field name="code">2</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="ypu_honor_study_year_3" model="ypu.honor.study.year">
+        <field name="name">Year 3</field>
+        <field name="code">3</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="ypu_honor_study_year_4" model="ypu.honor.study.year">
+        <field name="name">Year 4</field>
+        <field name="code">4</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="ypu_honor_study_year_5" model="ypu.honor.study.year">
+        <field name="name">Year 5</field>
+        <field name="code">5</field>
+        <field name="sequence">50</field>
+    </record>
+
+</odoo>

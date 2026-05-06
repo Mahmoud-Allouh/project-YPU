@@ -9,7 +9,8 @@
                 <field name="name"/>
                 <field name="student_number"/>
                 <field name="faculty_id"/>
-                <field name="study_year"/>
+                <field name="year_id" string="Year"/>
+                <field name="study_year_id" string="Study Year"/>
                 <field name="semester"/>
                 <field name="honor_title"/>
                 <filter name="published" string="Published" domain="[('website_published','=',True)]"/>
@@ -17,7 +18,8 @@
                 <filter name="active_only" string="Active" domain="[('active','=',True)]"/>
                 <separator/>
                 <filter name="group_faculty" string="Faculty" context="{'group_by':'faculty_id'}"/>
-                <filter name="group_year" string="Year" context="{'group_by':'study_year'}"/>
+                <filter name="group_year" string="Year" context="{'group_by':'year_id'}"/>
+                <filter name="group_study_year" string="Study Year" context="{'group_by':'study_year_id'}"/>
                 <filter name="group_semester" string="Semester" context="{'group_by':'semester'}"/>
             </search>
         </field>
@@ -33,7 +35,8 @@
                 <field name="name"/>
                 <field name="student_number" optional="show"/>
                 <field name="faculty_id"/>
-                <field name="study_year"/>
+                <field name="year_id" string="Year"/>
+                <field name="study_year_id" string="Study Year" optional="show"/>
                 <field name="semester"/>
                 <field name="gpa" optional="show"/>
                 <field name="honor_title" optional="show"/>
@@ -61,7 +64,8 @@
                         <group string="Academic Info">
                             <field name="student_number"/>
                             <field name="faculty_id"/>
-                            <field name="study_year"/>
+                            <field name="year_id" string="Year"/>
+                            <field name="study_year_id" string="Study Year"/>
                             <field name="semester"/>
                             <field name="gpa"/>
                             <field name="honor_title"/>
@@ -93,9 +97,15 @@
     </record>
 
     <menuitem id="menu_ypu_honor_root" name="YPU Honor Students" sequence="15"/>
-    <menuitem id="menu_ypu_honor_students" name="Honor Students"
+    <menuitem id="menu_ypu_honor_students" name="Students"
               parent="menu_ypu_honor_root" action="action_ypu_honor_student" sequence="10"/>
+    <menuitem id="menu_ypu_honor_configuration" name="Configuration"
+              parent="menu_ypu_honor_root" sequence="90"/>
     <menuitem id="menu_ypu_honor_faculties" name="Faculties"
-              parent="menu_ypu_honor_root" action="action_ypu_honor_faculty" sequence="20"/>
+              parent="menu_ypu_honor_configuration" action="action_ypu_honor_faculty" sequence="10"/>
+    <menuitem id="menu_ypu_honor_years" name="Years"
+              parent="menu_ypu_honor_configuration" action="action_ypu_honor_year" sequence="20"/>
+    <menuitem id="menu_ypu_honor_study_years" name="Study Years"
+              parent="menu_ypu_honor_configuration" action="action_ypu_honor_study_year" sequence="30"/>
 
 </odoo>

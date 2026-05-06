@@ -23,13 +23,13 @@
         </BuilderRow>
 
         <BuilderRow label.translate="Default Year">
-            <BuilderSelect dataAttributeAction="'studyYear'">
+            <BuilderSelect dataAttributeAction="'yearId'">
                 <BuilderSelectItem dataAttributeActionValue="'0'">All years</BuilderSelectItem>
-                <BuilderSelectItem dataAttributeActionValue="'1'">Year 1</BuilderSelectItem>
-                <BuilderSelectItem dataAttributeActionValue="'2'">Year 2</BuilderSelectItem>
-                <BuilderSelectItem dataAttributeActionValue="'3'">Year 3</BuilderSelectItem>
-                <BuilderSelectItem dataAttributeActionValue="'4'">Year 4</BuilderSelectItem>
-                <BuilderSelectItem dataAttributeActionValue="'5'">Year 5</BuilderSelectItem>
+                <t t-if="this.state and this.state.years">
+                    <t t-foreach="this.state.years" t-as="year" t-key="year.id">
+                        <BuilderSelectItem dataAttributeActionValue="'' + year.id"><t t-esc="year.name"/></BuilderSelectItem>
+                    </t>
+                </t>
             </BuilderSelect>
         </BuilderRow>
 
@@ -39,6 +39,17 @@
                 <BuilderSelectItem dataAttributeActionValue="'1'">Semester 1</BuilderSelectItem>
                 <BuilderSelectItem dataAttributeActionValue="'2'">Semester 2</BuilderSelectItem>
                 <BuilderSelectItem dataAttributeActionValue="'3'">Semester 3</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+
+        <BuilderRow label.translate="Default Study Year">
+            <BuilderSelect dataAttributeAction="'studyYear'">
+                <BuilderSelectItem dataAttributeActionValue="'0'">All study years</BuilderSelectItem>
+                <t t-if="this.state and this.state.studyYears">
+                    <t t-foreach="this.state.studyYears" t-as="studyYear" t-key="'study_opt_' + studyYear.id">
+                        <BuilderSelectItem dataAttributeActionValue="'' + studyYear.id"><t t-esc="studyYear.name"/></BuilderSelectItem>
+                    </t>
+                </t>
             </BuilderSelect>
         </BuilderRow>
 

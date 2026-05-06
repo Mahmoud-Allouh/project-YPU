@@ -15,11 +15,8 @@ class YpuHonorFaculty(models.Model):
     )
 
     def _compute_student_count(self):
-        grouped = self.env['ypu.honor.student'].read_group(
-            [('faculty_id', 'in', self.ids)],
-            ['faculty_id'],
-            ['faculty_id'],
-        )
-        count_map = {g['faculty_id'][0]: g['faculty_id_count'] for g in grouped}
+        Student = self.env['ypu.honor.student']
         for rec in self:
-            rec.student_count = count_map.get(rec.id, 0)
+            rec.student_count = Student.search_count([
+                ('faculty_id', '=', rec.id),
+            ])

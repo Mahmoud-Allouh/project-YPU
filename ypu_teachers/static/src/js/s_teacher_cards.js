@@ -10,8 +10,8 @@ import { utils as uiUtils } from "@web/core/ui/ui_service";
 /**
  * Dynamic "Teacher Cards" snippet – Interaction API (Odoo 19).
  *
- * Uses Bootstrap carousel (o_carousel_multi_items) for reliable
- * navigation in both public and editor modes.
+ * Renders server data into slide groups so Bootstrap carousel behavior
+ * stays consistent in both public and builder modes.
  */
 export class TeacherCardsSnippet extends Interaction {
     static selector = ".s_teacher_cards";
@@ -28,6 +28,9 @@ export class TeacherCardsSnippet extends Interaction {
     setup() {
         this.data = [];
         this.uniqueId = uniqueId("s_teacher_cards_");
+        this._observer = null;
+        this._carousel = null;
+        this.syncFromDataset();
     }
 
     async willStart() {
@@ -36,24 +39,51 @@ export class TeacherCardsSnippet extends Interaction {
 
     start() {
         this.render();
+        this.setupDatasetObserver();
     }
 
     destroy() {
+        if (this._observer) {
+            this._observer.disconnect();
+            this._observer = null;
+        }
+        this.disposeCarousel();
         const area = this.el.querySelector(".s_teacher_cards_content");
         if (area) {
             area.replaceChildren();
         }
     }
 
+    disposeCarousel() {
+        if (this._carousel) {
+            this._carousel.dispose();
+            this._carousel = null;
+        }
+    }
+
+    syncFromDataset() {
+        const ds = this.el.dataset;
+        this.selectedCategoryId = parseInt(ds.categoryId || "0", 10) || 0;
+    }
+
+    setupDatasetObserver() {
+        this._observer = new MutationObserver(() => {
+            this.syncFromDataset();
+            this.fetchTeachers().then(() => this.render());
+        });
+        this._observer.observe(this.el, {
+            attributes: true,
+            attributeFilter: ["data-category-id", "data-limit", "data-design"],
+        });
+    }
+
     // ── Data ─────────────────────────────────────────────────────
 
     async fetchTeachers() {
-        const ds = this.el.dataset;
-        const categoryId = parseInt(ds.categoryId || "0", 10) || 0;
         try {
             const res = await this.waitFor(
                 rpc("/ypu_teachers/snippet/teachers", {
-                    category_id: categoryId || false,
+                    category_id: this.selectedCategoryId || false,
                     limit: 0,
                     page: 1,
                 })
@@ -67,8 +97,51 @@ export class TeacherCardsSnippet extends Interaction {
     // ── Render ───────────────────────────────────────────────────
 
     get chunkSize() {
-        const limit = parseInt(this.el.dataset.limit || "4", 10) || 4;
-        return uiUtils.isSmall() ? 1 : Math.min(limit, 4);
+        const rawLimit = parseInt(this.el.dataset.limit || "4", 10) || 4;
+        const safeLimit = Math.max(1, Math.min(rawLimit, 6));
+        return uiUtils.isSmall() ? 1 : safeLimit;
+    }
+
+    get columnClass() {
+        const size = this.chunkSize;
+        if (size <= 1) {
+            return "col-12";
+        }
+        if (size === 2) {
+            return "col-12 col-md-6";
+        }
+        if (size === 3) {
+            return "col-12 col-md-6 col-xl-4";
+        }
+        if (size === 4) {
+            return "col-12 col-md-6 col-xl-3";
+        }
+        return "col-12 col-sm-6 col-lg-4 col-xxl-2";
+    }
+
+    get slides() {
+        const size = Math.max(this.chunkSize, 1);
+        const slides = [];
+        for (let i = 0; i < this.data.length; i += size) {
+            slides.push({
+                id: i / size,
+                teachers: this.data.slice(i, i + size),
+            });
+        }
+        return slides;
+    }
+
+    initCarousel(area) {
+        const carouselEl = area.querySelector(".ypu-teacher-carousel");
+        if (!carouselEl || !window.bootstrap?.Carousel) {
+            return;
+        }
+        this._carousel = window.bootstrap.Carousel.getOrCreateInstance(carouselEl, {
+            interval: false,
+            ride: false,
+            wrap: true,
+            touch: true,
+        });
     }
 
     render() {
@@ -82,27 +155,23 @@ export class TeacherCardsSnippet extends Interaction {
         }
 
         const design = this.el.dataset.design || "cards";
+        const slides = this.slides;
         const fragment = renderToFragment(
             "ypu_teachers.s_teacher_cards_content",
             {
-                teachers: this.data,
+                slides: slides,
                 design: design,
-                chunkSize: this.chunkSize,
+                columnClass: this.columnClass,
                 unique_id: this.uniqueId,
             }
         );
+
+        this.disposeCarousel();
         area.replaceChildren(fragment);
 
-        // Start Bootstrap carousel if present
+        // Initialize Bootstrap carousel once the new DOM is in place.
         this.waitForTimeout(() => {
-            const carouselEl = area.querySelector(".carousel");
-            if (carouselEl && window.bootstrap?.Carousel) {
-                window.bootstrap.Carousel.getOrCreateInstance(carouselEl, {
-                    interval: 0,
-                    ride: false,
-                    wrap: true,
-                });
-            }
+            this.initCarousel(area);
         }, 0);
     }
 }

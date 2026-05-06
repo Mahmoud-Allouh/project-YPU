@@ -13,13 +13,21 @@ export class HonorStudentsOption extends BaseOptionComponent {
         super.setup();
         this.state = useDomState(async () => {
             try {
-                const result = await rpc("/ypu_honor_students/snippet/faculties", {});
+                const [faculties, years, studyYears] = await Promise.all([
+                    rpc("/ypu_honor_students/snippet/faculties", {}),
+                    rpc("/ypu_honor_students/snippet/years", {}),
+                    rpc("/ypu_honor_students/snippet/study_years", {}),
+                ]);
                 return {
-                    faculties: Array.isArray(result) ? result : [],
+                    faculties: Array.isArray(faculties) ? faculties : [],
+                    years: Array.isArray(years) ? years : [],
+                    studyYears: Array.isArray(studyYears) ? studyYears : [],
                 };
             } catch {
                 return {
                     faculties: [],
+                    years: [],
+                    studyYears: [],
                 };
             }
         });

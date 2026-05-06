@@ -19,12 +19,19 @@ export class HonorStudentsSnippet extends Interaction {
     setup() {
         this.students = [];
         this.faculties = [];
+        this.years = [];
+        this.studyYears = [];
         this._observer = null;
         this.syncFromDataset();
     }
 
     async willStart() {
-        await Promise.all([this.fetchFaculties(), this.fetchStudents()]);
+        await Promise.all([
+            this.fetchFaculties(),
+            this.fetchYears(),
+            this.fetchStudyYears(),
+            this.fetchStudents(),
+        ]);
     }
 
     start() {
@@ -46,7 +53,8 @@ export class HonorStudentsSnippet extends Interaction {
     syncFromDataset() {
         const ds = this.el.dataset;
         this.selectedFacultyId = parseInt(ds.facultyId || "0", 10) || 0;
-        this.selectedStudyYear = String(ds.studyYear || "0");
+        this.selectedYearId = parseInt(ds.yearId || "0", 10) || 0;
+        this.selectedStudyYearId = parseInt(ds.studyYear || "0", 10) || 0;
         this.selectedSemester = String(ds.semester || "0");
         this.limit = Math.max(parseInt(ds.limit || "12", 10) || 12, 1);
         this.showFilters = (ds.showFilters || "true") !== "false";
@@ -61,6 +69,7 @@ export class HonorStudentsSnippet extends Interaction {
             attributes: true,
             attributeFilter: [
                 "data-faculty-id",
+                "data-year-id",
                 "data-study-year",
                 "data-semester",
                 "data-limit",
@@ -78,12 +87,31 @@ export class HonorStudentsSnippet extends Interaction {
         }
     }
 
+    async fetchYears() {
+        try {
+            const res = await this.waitFor(rpc("/ypu_honor_students/snippet/years", {}));
+            this.years = Array.isArray(res) ? res : [];
+        } catch {
+            this.years = [];
+        }
+    }
+
+    async fetchStudyYears() {
+        try {
+            const res = await this.waitFor(rpc("/ypu_honor_students/snippet/study_years", {}));
+            this.studyYears = Array.isArray(res) ? res : [];
+        } catch {
+            this.studyYears = [];
+        }
+    }
+
     async fetchStudents() {
         try {
             const res = await this.waitFor(
                 rpc("/ypu_honor_students/snippet/students", {
                     faculty_id: this.selectedFacultyId || false,
-                    study_year: this.selectedStudyYear !== "0" ? this.selectedStudyYear : false,
+                    year_id: this.selectedYearId || false,
+                    study_year: this.selectedStudyYearId || false,
                     semester: this.selectedSemester !== "0" ? this.selectedSemester : false,
                     limit: this.limit,
                     page: 1,
@@ -105,8 +133,12 @@ export class HonorStudentsSnippet extends Interaction {
             this.el.dataset.facultyId = String(this.selectedFacultyId);
         }
         if (filter === "year") {
-            this.selectedStudyYear = value;
-            this.el.dataset.studyYear = value;
+            this.selectedYearId = parseInt(value, 10) || 0;
+            this.el.dataset.yearId = String(this.selectedYearId);
+        }
+        if (filter === "study-year") {
+            this.selectedStudyYearId = parseInt(value, 10) || 0;
+            this.el.dataset.studyYear = String(this.selectedStudyYearId);
         }
         if (filter === "semester") {
             this.selectedSemester = value;
@@ -133,9 +165,12 @@ export class HonorStudentsSnippet extends Interaction {
         const fragment = renderToFragment("ypu_honor_students.s_honor_students_content", {
             students: this.students,
             faculties: this.faculties,
+            years: this.years,
+            studyYears: this.studyYears,
             showFilters: this.showFilters,
             selectedFacultyId: this.selectedFacultyId,
-            selectedStudyYear: this.selectedStudyYear,
+            selectedYearId: this.selectedYearId,
+            selectedStudyYearId: this.selectedStudyYearId,
             selectedSemester: this.selectedSemester,
         });
 

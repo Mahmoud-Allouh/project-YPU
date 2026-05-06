@@ -16,17 +16,17 @@ class YpuHonorStudent(models.Model):
         ondelete='restrict',
         index=True,
     )
-    study_year = fields.Selection(
-        selection=[
-            ('1', 'Year 1'),
-            ('2', 'Year 2'),
-            ('3', 'Year 3'),
-            ('4', 'Year 4'),
-            ('5', 'Year 5'),
-        ],
+    year_id = fields.Many2one(
+        'ypu.honor.year',
+        string='Year',
+        ondelete='restrict',
+        index=True,
+    )
+    study_year_id = fields.Many2one(
+        'ypu.honor.study.year',
         string='Study Year',
         required=True,
-        default='1',
+        ondelete='restrict',
         index=True,
     )
     semester = fields.Selection(
@@ -55,15 +55,24 @@ class YpuHonorStudent(models.Model):
         help='When disabled, this student is hidden from public website snippets.',
     )
 
-    year_label = fields.Char(compute='_compute_labels', string='Year Label')
-    semester_label = fields.Char(compute='_compute_labels', string='Semester Label')
+    year_label = fields.Char(compute='_compute_year_label', string='Year Label')
+    study_year_label = fields.Char(compute='_compute_study_year_label', string='Study Year Label')
+    semester_label = fields.Char(compute='_compute_semester_label', string='Semester Label')
 
-    @api.depends('study_year', 'semester')
-    def _compute_labels(self):
-        year_map = dict(self._fields['study_year'].selection)
+    @api.depends('year_id')
+    def _compute_year_label(self):
+        for rec in self:
+            rec.year_label = rec.year_id.name or ''
+
+    @api.depends('study_year_id', 'study_year_id.name')
+    def _compute_study_year_label(self):
+        for rec in self:
+            rec.study_year_label = rec.study_year_id.name or ''
+
+    @api.depends('semester')
+    def _compute_semester_label(self):
         sem_map = dict(self._fields['semester'].selection)
         for rec in self:
-            rec.year_label = year_map.get(rec.study_year, '')
             rec.semester_label = sem_map.get(rec.semester, '')
 
     @api.model
@@ -71,6 +80,7 @@ class YpuHonorStudent(models.Model):
         self,
         search='',
         faculty_id=False,
+        year_id=False,
         study_year=False,
         semester=False,
     ):
@@ -86,8 +96,20 @@ class YpuHonorStudent(models.Model):
                 faculty_id = False
             if faculty_id:
                 domain.append(('faculty_id', '=', faculty_id))
+        if year_id:
+            try:
+                year_id = int(year_id)
+            except (TypeError, ValueError):
+                year_id = False
+            if year_id:
+                domain.append(('year_id', '=', year_id))
         if study_year:
-            domain.append(('study_year', '=', str(study_year)))
+            try:
+                study_year_id = int(study_year)
+            except (TypeError, ValueError):
+                study_year_id = False
+            if study_year_id:
+                domain.append(('study_year_id', '=', study_year_id))
         if semester:
             domain.append(('semester', '=', str(semester)))
         if search:
