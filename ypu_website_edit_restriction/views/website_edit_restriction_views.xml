@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_website_edit_restriction_list" model="ir.ui.view">
+        <field name="name">ypu.website.edit.restriction.list</field>
+        <field name="model">ypu.website.edit.restriction</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="user_id"/>
+                <field name="restriction_enabled"/>
+                <field name="allowed_page_ids" widget="many2many_tags" optional="show"/>
+                <field name="allowed_blog_ids" widget="many2many_tags" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_website_edit_restriction_form" model="ir.ui.view">
+        <field name="name">ypu.website.edit.restriction.form</field>
+        <field name="model">ypu.website.edit.restriction</field>
+        <field name="arch" type="xml">
+            <form string="Website Edit Restriction">
+                <sheet>
+                    <group>
+                        <field name="user_id" options="{'no_create': True}"/>
+                        <field name="restriction_enabled"/>
+                    </group>
+                    <group string="Allowed Content" invisible="not restriction_enabled">
+                        <field name="allowed_page_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="allowed_blog_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_website_edit_restriction_search" model="ir.ui.view">
+        <field name="name">ypu.website.edit.restriction.search</field>
+        <field name="model">ypu.website.edit.restriction</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="user_id"/>
+                <filter name="enabled" string="Enabled" domain="[('restriction_enabled', '=', True)]"/>
+                <filter name="disabled" string="Disabled" domain="[('restriction_enabled', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+</odoo>

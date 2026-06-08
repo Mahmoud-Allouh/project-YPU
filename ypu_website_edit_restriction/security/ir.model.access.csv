@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ypu_website_edit_restriction_manager,ypu.website.edit.restriction manager,model_ypu_website_edit_restriction,ypu_website_edit_restriction.group_website_edit_restriction_manager,1,1,1,1
+access_ypu_website_edit_restriction_admin,ypu.website.edit.restriction admin,model_ypu_website_edit_restriction,base.group_system,1,1,1,1

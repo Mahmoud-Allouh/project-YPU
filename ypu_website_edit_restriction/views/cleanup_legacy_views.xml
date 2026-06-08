@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <delete
+        model="ir.ui.view"
+        search="[('key', '=', 'ypu_website_edit_restriction.view_users_form_website_edit_restriction')]"
+    />
+    <delete
+        model="ir.model.data"
+        search="[('module', '=', 'ypu_website_edit_restriction'), ('name', '=', 'view_users_form_website_edit_restriction')]"
+    />
+</odoo>
