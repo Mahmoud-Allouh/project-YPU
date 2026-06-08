@@ -3,9 +3,6 @@
     <template id="simple_rebrand_web_layout" inherit_id="web.layout" priority="1000">
         <xpath expr="." position="inside">
             <style>
-                /* remove logo*/
-                .navbar-brand, a.navbar-brand, .o_header_logo { display: none !important; }
-
                 /* remove links */
                 .o_social_links, .social-links, [class*="social"] { display: none !important; }
 
@@ -21,7 +18,6 @@
     <template id="simple_rebrand_website_layout" inherit_id="website.layout" priority="1000">
         <xpath expr="." position="inside">
             <style>
-                .navbar-brand, a.navbar-brand, .o_header_logo { display: none !important; }
                 .o_social_links, .social-links, [class*="social"] { display: none !important; }
             </style>
         </xpath>

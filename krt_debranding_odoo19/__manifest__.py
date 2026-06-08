@@ -1,6 +1,6 @@
 {
     "name": "KRT Debranding Odoo19",
-    "version": "19.0",
+    "version": "19.0.1.0.0",
     "summary": "Remove Odoo branding (login & website) for Odoo 19",
     "author": "Komorebi Technologies",
     "depends": ["web", "website"],
