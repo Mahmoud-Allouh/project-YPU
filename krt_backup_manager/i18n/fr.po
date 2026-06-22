@@ -1,0 +1,1953 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* krt_backup_manager
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 11:38+0000\n"
+"PO-Revision-Date: 2025-09-04 11:38+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "/db/local/path/"
+msgstr ""
+
+#. module: krt_backup_manager
+#: model:mail.template,body_html:krt_backup_manager.mail_template_data_db_backup_successful
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px;\">\n"
+"                        <span>Hello\n"
+"                            <t t-out=\"object.notify_user_id.name\"></t>,\n"
+"                        </span>\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        <span style=\"margin-top: 8px;\">A database backup of\n"
+"                            <i>\n"
+"                                <t t-out=\"object.db_name\"></t>\n"
+"                            </i>\n"
+"                            has been successfully generated and stored at\n"
+"                            <t t-if=\"object.backup_destination == 'local'\">\n"
+"                                <i>Local</i>\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'ftp'\">\n"
+"                                <i>FTP Server</i>\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'sftp'\">\n"
+"                                <i>SFTP Server</i>\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'next_cloud'\">\n"
+"                                <i>NextCloud</i>\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'amazon_s3'\">\n"
+"                                <i>Amazon S3</i>.\n"
+"                            </t>\n"
+"                            <br>\n"
+"                            <br>\n"
+"                            Database name:\n"
+"                            <t t-out=\"object.db_name\"></t>\n"
+"                            <br>\n"
+"                            Destination:\n"
+"                            <t t-if=\"object.backup_destination == 'local'\">\n"
+"                                Local\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'ftp'\">\n"
+"                                FTP Server\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'sftp'\">\n"
+"                                SFTP Server\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'next_cloud'\">\n"
+"                                NextCloud\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'amazon_s3'\">\n"
+"                                Amazon S3\n"
+"                            </t>\n"
+"                            <t t-if=\"object.backup_destination in ('local', 'ftp', 'sftp', 'next_cloud', 'amazon_s3')\">\n"
+"                                <br>\n"
+"                                Backup location:\n"
+"                                <t t-if=\"object.backup_destination == 'local'\">\n"
+"                                    <t t-out=\"object.backup_path\"></t>\n"
+"                                </t>\n"
+"                                <t t-elif=\"object.backup_destination == 'ftp'\">\n"
+"                                    <t t-out=\"object.ftp_path\"></t>\n"
+"                                </t>\n"
+"                                <t t-elif=\"object.backup_destination == 'sftp'\">\n"
+"                                    <t t-out=\"object.sftp_path\"></t>\n"
+"                                </t>\n"
+"                                <t t-elif=\"object.backup_destination == 'next_cloud'\">\n"
+"                                    <t t-out=\"object.nextcloud_folder_key\"></t>\n"
+"                                </t>\n"
+"                                <t t-elif=\"object.backup_destination == 'amazon_s3'\">\n"
+"                                    <t t-out=\"object.aws_folder_name\"></t>\n"
+"                                </t>\n"
+"                            </t>\n"
+"                            <br>\n"
+"                            Backup type:\n"
+"                            <t t-out=\"object.backup_format\"></t>\n"
+"                            <br>\n"
+"                            Backup file name:\n"
+"                            <t t-out=\"object.backup_filename\"></t>\n"
+"                        </span>\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+
+#. module: krt_backup_manager
+#: model:mail.template,body_html:krt_backup_manager.mail_template_data_db_backup_failed
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px;\">\n"
+"                        <span>Hello\n"
+"                            <t t-out=\"object.notify_user_id.name\"></t>,\n"
+"                        </span>\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        <span style=\"margin-top: 8px;\">The database backup of\n"
+"                            <i>\n"
+"                                <t t-out=\"object.db_name\"></t>\n"
+"                            </i>\n"
+"                            has failed.\n"
+"                            <br>\n"
+"                            <br>\n"
+"                            Database name:\n"
+"                            <t t-out=\"object.db_name\"></t>\n"
+"                            <br>\n"
+"                            Destination:\n"
+"                            <t t-if=\"object.backup_destination == 'local'\">\n"
+"                                Local\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'ftp'\">\n"
+"                                FTP Server\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'sftp'\">\n"
+"                                SFTP Server\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'next_cloud'\">\n"
+"                                NextCloud\n"
+"                            </t>\n"
+"                            <t t-elif=\"object.backup_destination == 'amazon_s3'\">\n"
+"                                Amazon S3\n"
+"                            </t>\n"
+"                            <t t-if=\"object.backup_destination in ('local', 'ftp', 'sftp', 'next_cloud','amazon_s3')\">\n"
+"                                <br>\n"
+"                                Backup location:\n"
+"                                <t t-if=\"object.backup_destination == 'local'\">\n"
+"                                    <t t-out=\"object.backup_path\"></t>\n"
+"                                </t>\n"
+"                                <t t-elif=\"object.backup_destination == 'ftp'\">\n"
+"                                    <t t-out=\"object.ftp_path\"></t>\n"
+"                                </t>\n"
+"                                <t t-elif=\"object.backup_destination == 'sftp'\">\n"
+"                                    <t t-out=\"object.sftp_path\"></t>\n"
+"                                </t>\n"
+"                                <t t-elif=\"object.backup_destination == 'next_cloud'\">\n"
+"                                    <t t-out=\"object.nextcloud_folder_key\"></t>\n"
+"                                </t>\n"
+"                                <t t-elif=\"object.backup_destination == 'amazon_s3'\">\n"
+"                                    <t t-out=\"object.aws_folder_name\"></t>\n"
+"                                </t>\n"
+"                            </t>\n"
+"                            <br>\n"
+"                            Backup type:\n"
+"                            <t t-out=\"object.backup_format\"></t>\n"
+"                            <br>\n"
+"                            <br>\n"
+"                            <b>Error message:</b>\n"
+"                            <br>\n"
+"                            <i>\n"
+"                                <t t-out=\"object.generated_exception\"></t>\n"
+"                            </i>\n"
+"                        </span>\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_delete_instance_wizard_view_form
+msgid ""
+"<span class=\"message-container-subtitle\">\n"
+"                                This action is irreversible !\n"
+"                            </span>"
+msgstr ""
+"<span class=\"message-container-subtitle\">\n"
+"                                Cette action est irréversible !\n"
+"                            </span>"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "<span class=\"o_backup_label\">Automatic deletion</span>"
+msgstr "<span class=\"o_backup_label\">Suppression automatique</span>"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "<span class=\"o_backup_label\">Frequency </span>"
+msgstr "<span class=\"o_backup_label\">Fréquence </span>"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "<span class=\"o_label\"> Backups</span>"
+msgstr "<span class=\"o_label\"> Sauvegardes</span>"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid ""
+"<span class=\"o_stat_text\">\n"
+"                                    History\n"
+"                                </span>"
+msgstr ""
+"<span class=\"o_stat_text\">\n"
+"                                    Historique\n"
+"                                </span>"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "<span> FTP Server</span>"
+msgstr "<span> Serveur FTP</span>"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "<span> Local Server</span>"
+msgstr "<span> Serveur local</span>"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "<span> SFTP Server</span>"
+msgstr "<span> Serveur SFTP</span>"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__aws_access_key
+#, python-format
+msgid "AWS Access Key"
+msgstr "Clé d'accès AWS"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__aws_folder_name
+#, python-format
+msgid "AWS Folder Name"
+msgstr "Nom du dossier AWS"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__aws_secret_access_key
+#, python-format
+msgid "AWS Secret Access Key"
+msgstr "Clé d'accès secrète AWS"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__help
+msgid "Action Description"
+msgstr "Description de l'action"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__name
+msgid "Action Name"
+msgstr "Nom de l'action"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__type
+msgid "Action Type"
+msgstr "Type d'action"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Activate"
+msgstr "Activer"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__active
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__active
+#, python-format
+msgid "Active"
+msgstr "Actif"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__manager_status
+#, python-format
+msgid "Active Manager"
+msgstr "Gestionnaire actif"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Active backup configurations"
+msgstr "Configurations de sauvegarde actives"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Active configurations"
+msgstr "Configurations actives"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_search
+msgid "Actived"
+msgstr "Activé"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__activity_type_id
+msgid "Activity Type"
+msgstr "Type d'activité"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_restore_instance_wizard_view_form
+msgid "Admin Access"
+msgstr "Accès administrateur"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/restore_wizard.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__admin_password
+#, python-format
+msgid "Administrator Password"
+msgstr "Mot de passe administrateur"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/restore_wizard.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__admin_username
+#, python-format
+msgid "Administrator Username"
+msgstr "Nom d'utilisateur administrateur"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "After"
+msgstr "Après"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_search
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_search
+msgid "All"
+msgstr "Tous"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__groups_id
+msgid "Allowed Groups"
+msgstr "Groupes autorisés"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#, python-format
+msgid "An error occurred during the connection test."
+msgstr "Une erreur s'est produite pendant le test de connexion."
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_search
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_search
+msgid "Archived"
+msgstr "Archivé"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__auto_remove_mode
+#, python-format
+msgid "Auto Remove Mode"
+msgstr "Mode de suppression automatique"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model,name:krt_backup_manager.model_db_backup_configure
+#, python-format
+msgid "Automated Database Backup"
+msgstr "Sauvegarde automatique de la base de données"
+
+#. module: krt_backup_manager
+#: model:ir.ui.menu,name:krt_backup_manager.krt_backup_manager_menu_root
+msgid "Automatic Backup Management"
+msgstr "Gestion automatique des sauvegardes"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Automatic Deletion"
+msgstr "Suppression automatique"
+
+#. module: krt_backup_manager
+#: model:ir.actions.server,name:krt_backup_manager.ir_cron_auto_check_if_exist_ir_actions_server
+msgid "Automatic check if backup exists"
+msgstr "Vérification automatique de l'existence d'une sauvegarde"
+
+#. module: krt_backup_manager
+#: model:ir.actions.server,name:krt_backup_manager.ir_cron_auto_db_backup_ir_actions_server
+msgid "Automatic deletion of different backups"
+msgstr "Suppression automatique des différentes sauvegardes"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__available_model_ids
+msgid "Available Models"
+msgstr "Modèles disponibles"
+
+#. module: krt_backup_manager
+#: model:ir.ui.menu,name:krt_backup_manager.db_backup_configure_menu
+msgid "Backup Agent"
+msgstr "Agent de sauvegarde"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_delete_instance_wizard_view_form
+msgid "Backup Deletion Wizard"
+msgstr "Assistant de suppression des sauvegardes"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__backup_destination
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_search
+#, python-format
+msgid "Backup Destination"
+msgstr "Destination de sauvegarde"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__backup_filename
+#, python-format
+msgid "Backup Filename"
+msgstr "Nom du fichier de sauvegarde"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__backup_format
+#, python-format
+msgid "Backup Format"
+msgstr "Format de sauvegarde"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__historiques_ids
+#, python-format
+msgid "Backup History"
+msgstr "Historique des sauvegardes"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model,name:krt_backup_manager.model_db_backup_instance
+#, python-format
+msgid "Backup Instance"
+msgstr "Instance de sauvegarde"
+
+#. module: krt_backup_manager
+#: model:ir.actions.client,name:krt_backup_manager.krt_backup_manager_backup_restore_dashboard_action
+msgid "Backup Management"
+msgstr "Gestion des sauvegardes"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__manager_id
+#: model:ir.ui.menu,name:krt_backup_manager.menu_krt_backup_manager_root
+#: model:res.groups,name:krt_backup_manager.module_krt_backup_manager_group_user
+#, python-format
+msgid "Backup Manager"
+msgstr "Gestionnaire de sauvegarde"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__manager_id
+#: model:ir.ui.menu,name:krt_backup_manager.menu_krt_backup_manager_root
+#: model:res.groups,name:krt_backup_manager.module_krt_backup_manager_group_user
+#, python-format
+msgid "Access the module"
+msgstr "Accéder au module"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__backup_path
+#, python-format
+msgid "Backup Path"
+msgstr "Chemin de sauvegarde"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__status
+#, python-format
+msgid "Backup Status"
+msgstr "État de la sauvegarde"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#, python-format
+msgid "Backup configuration"
+msgstr "Configuration de la sauvegarde"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Backup configurations"
+msgstr "Configurations de sauvegarde"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_form
+msgid "Backup error"
+msgstr "Erreur de sauvegarde"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: model:ir.actions.act_window,name:krt_backup_manager.db_backup_instance_action
+#, python-format
+msgid "Backup history"
+msgstr "Historique des sauvegardes"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_search
+msgid "Backup manager"
+msgstr "Gestionnaire de sauvegardes"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/backup_delete_wizard.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_delete_instance__backup_id
+#, python-format
+msgid "Backup to Delete"
+msgstr "Sauvegarde à supprimer"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/restore_wizard.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__backup_id
+#, python-format
+msgid "Backup to Restore"
+msgstr "Sauvegarde à restaurer"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__binding_model_id
+msgid "Binding Model"
+msgstr "Modèle de liaison"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__binding_type
+msgid "Binding Type"
+msgstr "Type de liaison"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__binding_view_types
+msgid "Binding View Types"
+msgstr "Types d'affichage des liaisons"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__update_boolean_value
+msgid "Boolean Value"
+msgstr "Valeur booléenne"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__bucket_file_name
+#, python-format
+msgid "Bucket Name"
+msgstr "Nom du compartiment"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#, python-format
+msgid "Bucket not found. Please verify the name of the bucket and retry."
+msgstr "Compartiment introuvable. Veuillez vérifier le nom du compartiment et réessayer."
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_delete_instance_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_restore_instance_wizard_view_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_delete_instance_wizard_view_form
+msgid "Cancel deletion"
+msgstr "Annuler la suppression"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__child_ids
+msgid "Child Actions"
+msgstr "Actions enfants"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Code"
+msgstr "Code"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__color
+#, python-format
+msgid "Color"
+msgstr "Couleur"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Complete backup history"
+msgstr "Historique complet des sauvegardes"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: model:ir.actions.act_window,name:krt_backup_manager.krt_backup_manager_configure_action
+#, python-format
+msgid "Configuration"
+msgstr "Configuration"
+
+#. module: krt_backup_manager
+#: model:ir.ui.menu,name:krt_backup_manager.db_backup_configure_kanban_menu
+msgid "Configure Backups"
+msgstr "Configurer les sauvegardes"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_delete_instance_wizard_view_form
+msgid "Confirm deletion"
+msgstr "Confirmer la suppression"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#, python-format
+msgid "Connection Test Failed!"
+msgstr "Échec du test de connexion !"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#, python-format
+msgid "Connection Test Successful!"
+msgstr "Réussite du test de connexion !"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__create_uid
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__create_uid
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_delete_instance__create_uid
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__create_date
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__create_date
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_delete_instance__create_date
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_tree
+msgid "Creation date"
+msgstr "Date de création"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__selection_value
+msgid "Custom Value"
+msgstr "Valeur personnalisée"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: model:ir.ui.menu,name:krt_backup_manager.menu_backup_restore_dashboard
+#, python-format
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/backup_delete_wizard.py:0
+#: model:ir.model,name:krt_backup_manager.model_db_delete_instance
+#, python-format
+msgid "Database Deletion Assistant"
+msgstr "Assistant de suppression de base de données"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: code:addons/krt_backup_manager/wizard/restore_wizard.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__db_name
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__restore_db_name
+#, python-format
+msgid "Database Name"
+msgstr "Nom de la base de données"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/restore_wizard.py:0
+#: model:ir.model,name:krt_backup_manager.model_db_restore_instance_wizard
+#, python-format
+msgid "Database Restore Wizard"
+msgstr "Assistant de restauration de base de données"
+
+#. module: krt_backup_manager
+#: model:mail.template,name:krt_backup_manager.mail_template_data_db_backup_failed
+msgid "Database backup failed: Notification"
+msgstr "Échec de la sauvegarde de la base de données : Notification"
+
+#. module: krt_backup_manager
+#: model:mail.template,subject:krt_backup_manager.mail_template_data_db_backup_failed
+msgid "Database backup failed: {{ object.db_name }}"
+msgstr "Échec de la sauvegarde de la base de données : {{ object.db_name }}"
+
+#. module: krt_backup_manager
+#: model:mail.template,name:krt_backup_manager.mail_template_data_db_backup_successful
+msgid "Database backup successful: Notification"
+msgstr "Sauvegarde de la base de données réussie : Notification"
+
+#. module: krt_backup_manager
+#: model:mail.template,subject:krt_backup_manager.mail_template_data_db_backup_successful
+msgid "Database backup successful: {{ object.db_name }}"
+msgstr "Sauvegarde de la base de données réussie : {{ object.db_name }}"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__restore_error_message
+#, python-format
+msgid "Database restoration error"
+msgstr "Erreur de restauration de la base de données"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Date"
+msgstr "Date"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "Day"
+msgstr "Jour"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Days"
+msgstr "Jours"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Deactivate"
+msgstr "Désactiver"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_delete_instance_wizard_view_form
+#, python-format
+msgid "Delete"
+msgstr "Supprimer"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/backup_delete_wizard.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_delete_instance__delete_attach_file
+#, python-format
+msgid "Delete Associated File"
+msgstr "Supprimer le fichier associé"
+
+#. module: krt_backup_manager
+#: model:ir.actions.act_window,name:krt_backup_manager.db_deletion_instance_wizard_action
+msgid "Delete Backup"
+msgstr "Supprimer la sauvegarde"
+
+#. module: krt_backup_manager
+#: model:res.groups,name:krt_backup_manager.module_krt_backup_manager_delete_group
+msgid "Delete a Backup"
+msgstr "Supprimer une sauvegarde"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Delete after"
+msgstr "Supprimer après"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#, python-format
+msgid "Delete the backup"
+msgstr "Supprimer la sauvegarde"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_form
+msgid "Deletion error"
+msgstr "Erreur de suppression"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Destination"
+msgstr "Destination"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Destination:"
+msgstr "Destination :"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__display_name
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__display_name
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_delete_instance__display_name
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_delete_instance_wizard_view_form
+msgid "Do you want to delete this backup ?"
+msgstr "Voulez-vous supprimer cette sauvegarde ?"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__domain
+#, python-format
+msgid "Domain"
+msgstr "Domaine"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Domain Name"
+msgstr "Nom de domaine"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/const.py:0
+#: model:ir.model.fields.selection,name:krt_backup_manager.selection__db_backup_instance__status__success
+#, python-format
+msgid "Done"
+msgstr "Terminé"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: model:ir.actions.server,name:krt_backup_manager.db_backup_instance_download_action_server
+#, python-format
+msgid "Download"
+msgstr "Télécharger"
+
+#. module: krt_backup_manager
+#: model:res.groups,name:krt_backup_manager.module_krt_backup_manager_download_group
+msgid "Download a Backup"
+msgstr "Télécharger une sauvegarde"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_form
+msgid "Download error"
+msgstr "Erreur de téléchargement"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__activity_date_deadline_range
+msgid "Due Date In"
+msgstr "Date d'échéance dans"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__activity_date_deadline_range_type
+msgid "Due type"
+msgstr "Type d'échéance"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__template_id
+msgid "Email Template"
+msgstr "Modèle d'e-mail"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__error_message
+#, python-format
+msgid "Error message"
+msgstr "Message d'erreur"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#, python-format
+msgid "Everything seems to be correctly configured!"
+msgstr "Tout semble être correctement configuré !"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__generated_exception
+#, python-format
+msgid "Exception encountered during backup creation"
+msgstr "Exception rencontrée lors de la création de la sauvegarde"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__xml_id
+msgid "External ID"
+msgstr "ID externe"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__ftp_host
+#, python-format
+msgid "FTP Host"
+msgstr "Hôte FTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__ftp_password
+#, python-format
+msgid "FTP Password"
+msgstr "Mot de passe FTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__ftp_path
+#, python-format
+msgid "FTP Path"
+msgstr "Chemin FTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__ftp_port
+#, python-format
+msgid "FTP Port"
+msgstr "Port FTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__ftp_user
+#, python-format
+msgid "FTP User"
+msgstr "Utilisateur FTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/const.py:0
+#: model:ir.model.fields.selection,name:krt_backup_manager.selection__db_backup_instance__status__fail
+#, python-format
+msgid "Failed"
+msgstr "Échec"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#, python-format
+msgid "Failures"
+msgstr "Échecs"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__update_field_type
+msgid "Field Type"
+msgstr "Type de champ"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__update_field_id
+msgid "Field to Update"
+msgstr "Champ à mettre à jour"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__update_path
+msgid "Field to Update Path"
+msgstr "Chemin d'accès au champ à mettre à jour"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__name
+#, python-format
+msgid "File Name"
+msgstr "Nom du fichier"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/backup_delete_wizard.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_delete_instance__file_exist
+#, python-format
+msgid "File Present"
+msgstr "Fichier présent"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__file_size_human
+#, python-format
+msgid "File Size"
+msgstr "Taille du fichier"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__file_size
+#, python-format
+msgid "File Size (Bytes)"
+msgstr "Taille du fichier (Bytes)"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__deletion_error_message
+#, python-format
+msgid "File deletion error"
+msgstr "Erreur de suppression du fichier"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__download_error_message
+#, python-format
+msgid "File download error"
+msgstr "Erreur de téléchargement du fichier"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__download_path
+#, python-format
+msgid "File download location"
+msgstr "Emplacement de téléchargement du fichier"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__file_is_present
+#, python-format
+msgid "File is present"
+msgstr "Le fichier est présent."
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "File name"
+msgstr "Nom du fichier."
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/backup.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__check_exist_error_message
+#, python-format
+msgid "File verification error"
+msgstr "Erreur de vérification du fichier."
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Folder ID"
+msgstr "ID du dossier."
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_search
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_search
+msgid "Group by"
+msgstr "Regrouper par"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__hide_active
+#, python-format
+msgid "Hide Active"
+msgstr "Masquer les éléments actifs"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_tree
+#, python-format
+msgid "History"
+msgstr "Historique"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "Hour"
+msgstr "Heure"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "Hours"
+msgstr "Heures"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Inactive"
+msgstr "Inactif"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__interval_number
+msgid "Interval Number"
+msgstr "Numéro d'intervalle"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__interval_type
+msgid "Interval Unit"
+msgstr "Unité d'intervalle"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#, python-format
+msgid "Invalid Database Name!"
+msgstr "Nom de base de données invalide !"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#, python-format
+msgid "Invalid Master Password!"
+msgstr "Mot de passe principal invalide !"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Keep only the"
+msgstr "Conserver uniquement les"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "Keep the"
+msgstr "Conserver les"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "most recent"
+msgstr "plus récentes"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__lastcall
+msgid "Last Execution Date"
+msgstr "Date de la dernière exécution"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__trigger_user_id
+msgid "Last Trigger User"
+msgstr "Dernier utilisateur déclencheur"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__write_uid
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__write_uid
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_delete_instance__write_uid
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__write_date
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_instance__write_date
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_delete_instance__write_date
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Last databases"
+msgstr "Dernières bases de données"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__link_field_id
+msgid "Link Field"
+msgstr "Champ de lien"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "List of all backup configurations"
+msgstr "Liste de toutes les configurations de sauvegarde"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "List of backups on all configurations"
+msgstr "Liste des sauvegardes sur toutes les configurations"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Load more data"
+msgstr "Charger plus de données"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__hide_active
+#, python-format
+msgid "Make active field readonly"
+msgstr "Rendre le champ actif en lecture seule"
+
+#. module: krt_backup_manager
+#: model:ir.module.category,description:krt_backup_manager.module_krt_backup_manager_category
+#: model:ir.module.category,name:krt_backup_manager.module_krt_backup_manager_category
+msgid "Manage Automatic Backup"
+msgstr "Gestion sauvegarde automatique"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_search
+msgid "Manager"
+msgstr "Gestionnaire"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: code:addons/krt_backup_manager/wizard/restore_wizard.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__master_pwd
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__restore_master_pwd
+#, python-format
+msgid "Master Password"
+msgstr "Mot de passe principal"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__master_pwd
+#, python-format
+msgid "Master password"
+msgstr "Mot de passe principal"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/restore_wizard.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_restore_instance_wizard__restore_master_pwd
+#, python-format
+msgid "Master password for restoring the database"
+msgstr "Mot de passe principal pour restaurer la base de données"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "Minute"
+msgstr "Minute"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "Minutes"
+msgstr "Minutes"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__model_id
+msgid "Model"
+msgstr "Modèle"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__model_name
+msgid "Model Name"
+msgstr "Nom du modèle"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__model_id
+msgid "Model on which the server action runs."
+msgstr "Modèle sur lequel l'action du serveur s'exécute."
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "Months"
+msgstr "Mois"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__cron_name
+#, python-format
+msgid "Name"
+msgstr "Nom"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__bucket_file_name
+#, python-format
+msgid "Name of the S3 bucket"
+msgstr "Nom du compartiment S3"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__aws_folder_name
+#, python-format
+msgid "Name of the S3 folder"
+msgstr "Nom du dossier S3"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/restore_wizard.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_restore_instance_wizard__restore_db_name
+#, python-format
+msgid "Name of the new database"
+msgstr "Nom de la nouvelle base de données"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Name..."
+msgstr "Nom..."
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__nextcloud_folder_key
+#, python-format
+msgid "Next Cloud Folder Identifier"
+msgstr "Suivant Identifiant du dossier cloud"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__nextcall
+msgid "Next Execution Date"
+msgstr "Suivant Date d'exécution"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__nextcall
+msgid "Next planned execution date for this job."
+msgstr "Prochaine date d'exécution prévue pour cette tâche."
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__next_cloud_password
+#, python-format
+msgid "Nextcloud Password"
+msgstr "Mot de passe Nextcloud"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__next_cloud_username
+#, python-format
+msgid "Nextcloud Username"
+msgstr "Nom d'utilisateur Nextcloud"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__next_cloud_password
+#, python-format
+msgid "Nextcloud password"
+msgstr "Mot de passe Nextcloud"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__next_cloud_username
+#, python-format
+msgid "Nextcloud username"
+msgstr "Nom d'utilisateur Nextcloud"
+
+#. module: krt_backup_manager
+#: model_terms:ir.actions.act_window,help:krt_backup_manager.db_backup_instance_action
+msgid "No backup !"
+msgstr "Aucune sauvegarde !"
+
+#. module: krt_backup_manager
+#: model_terms:ir.actions.act_window,help:krt_backup_manager.krt_backup_manager_configure_action
+msgid "No backup configured!"
+msgstr "Aucune sauvegarde configurée !"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__activity_note
+msgid "Note"
+msgstr "Remarque"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__enable_user_notify
+#, python-format
+msgid "Notify User"
+msgstr "Notifier l'utilisateur"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__historiques_count
+#, python-format
+msgid "Number of Backups"
+msgstr "Nombre de sauvegardes"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields.selection,name:krt_backup_manager.selection__db_backup_configure__auto_remove_mode__database_number
+#, python-format
+msgid "Number of Databases"
+msgstr "Nombre de bases de données"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields.selection,name:krt_backup_manager.selection__db_backup_configure__auto_remove_mode__days_number
+#, python-format
+msgid "Number of Days"
+msgstr "Nombre de jours"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__auto_remove_mode
+#, python-format
+msgid ""
+"Number of Days: Remove backups older than X days\n"
+"Number of Databases: Keep only the X most recent backups"
+msgstr ""
+"Nombre de jours : supprimer les sauvegardes datant de plus de X jours\n"
+"Nombre de bases de données : ne conserver que les X sauvegardes les plus récentes"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Number of backups"
+msgstr "Nombre de sauvegardes"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Overview"
+msgstr "Aperçu"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__partner_ids
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Password"
+msgstr "Mot de passe"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__ftp_path
+#, python-format
+msgid "Path to store backups on FTP server"
+msgstr "Chemin d'accès pour stocker les sauvegardes sur le serveur FTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__sftp_path
+#, python-format
+msgid "Path to store backups on SFTP server"
+msgstr "Chemin d'accès pour stocker les sauvegardes sur le serveur SFTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__backup_path
+#, python-format
+msgid "Path to store backups on local server"
+msgstr "Chemin d'accès pour stocker les sauvegardes sur le serveur local"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__priority
+msgid "Priority"
+msgstr "Priorité"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Recent backups"
+msgstr "Sauvegardes récentes"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__resource_ref
+msgid "Record"
+msgstr "Enregistrer"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__crud_model_id
+msgid "Record to Create"
+msgstr "Enregistrer pour créer"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Refresh"
+msgstr "Actualiser"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__auto_remove_number
+#, python-format
+msgid "Remove After"
+msgstr "Supprimer après"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__auto_remove
+#, python-format
+msgid "Remove Old Backups"
+msgstr "Supprimer les anciennes sauvegardes"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__auto_remove_number
+#, python-format
+msgid "Remove backups after the number of [days | databases] specified."
+msgstr "Supprimer les sauvegardes après le nombre de [jours | bases de données] spécifié."
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__auto_remove
+#, python-format
+msgid "Remove old backups"
+msgstr "Supprimer les anciennes sauvegardes"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__doall
+msgid "Repeat Missed"
+msgstr "Répéter Manqué"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__interval_number
+msgid "Repeat every x."
+msgstr "Répéter toutes les x."
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/restore_wizard.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__reset_admin_account_access
+#, python-format
+msgid "Reset Administrator Access"
+msgstr "Réinitialiser l'accès administrateur"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__activity_user_id
+msgid "Responsible"
+msgstr "Responsable"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: model:ir.actions.server,name:krt_backup_manager.db_backup_instance_restore_action_server
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_tree
+#, python-format
+msgid "Restore"
+msgstr "Restaurer"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_restore_instance_wizard_view_form
+msgid "Restore Backup"
+msgstr "Restaurer la sauvegarde"
+
+#. module: krt_backup_manager
+#: model:ir.actions.act_window,name:krt_backup_manager.db_restore_instance_wizard_wizard_action
+msgid "Restore Database"
+msgstr "Restaurer la base de données"
+
+#. module: krt_backup_manager
+#: model:res.groups,name:krt_backup_manager.module_krt_backup_manager_restore_group
+msgid "Restore a Backup"
+msgstr "Restaurer une sauvegarde"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_form
+msgid "Restore error"
+msgstr "Erreur de restauration"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#, python-format
+msgid "Restore the database"
+msgstr "Restaurer la base de données"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#, python-format
+msgid "SFTP Exception: %s"
+msgstr "Exception SFTP : %s"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__sftp_host
+#, python-format
+msgid "SFTP Host"
+msgstr "Hôte SFTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__sftp_password
+#, python-format
+msgid "SFTP Password"
+msgstr "Mot de passe SFTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__sftp_path
+#, python-format
+msgid "SFTP Path"
+msgstr "Chemin SFTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__sftp_port
+#, python-format
+msgid "SFTP Port"
+msgstr "Port SFTP"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__sftp_user
+#, python-format
+msgid "SFTP User"
+msgstr "Utilisateur SFTP"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__webhook_sample_payload
+msgid "Sample Payload"
+msgstr "Exemple de charge utile"
+
+#. module: krt_backup_manager
+#: model:ir.model,name:krt_backup_manager.model_ir_cron
+msgid "Scheduled Actions"
+msgstr "Actions planifiéesActions planifiées"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__user_id
+msgid "Scheduler User"
+msgstr "Utilisateur du planificateur"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__mail_post_method
+msgid "Send Email As"
+msgstr "Envoyer un e-mail en tant que"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__enable_user_notify
+#, python-format
+msgid ""
+"Send an email notification to the user when a backup is successful or fails"
+msgstr ""
+"Envoyer une notification par e-mail à l'utilisateur lorsqu'une sauvegarde réussit ou échoue."
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__sequence
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__ir_actions_server_id
+msgid "Server action"
+msgstr "Action du serveur"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Size"
+msgstr "Taille"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Status"
+msgstr "Statut"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Storage used"
+msgstr "Espace de stockage utilisé"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__mail_post_autofollow
+msgid "Subscribe Recipients"
+msgstr "Abonnés"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Success rate"
+msgstr "Taux de réussite"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#, python-format
+msgid "Successes"
+msgstr "Réussites"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#, python-format
+msgid "Successful backups"
+msgstr "Sauvegardes réussies"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__crud_model_name
+msgid "Target Model Name"
+msgstr "Nom du modèle cible"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Task Scheduling"
+msgstr "Planification des tâches"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Test Connection"
+msgstr "Test de connexion"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#, python-format
+msgid "Test de connexion réussi !"
+msgstr "Test de connexion réussi !"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "The"
+msgstr "Les"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/wizard/restore_wizard.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_restore_instance_wizard__is_copy
+#, python-format
+msgid "This database is a copy"
+msgstr "Cette base de données est une copie"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__activity_summary
+msgid "Title"
+msgstr "Titre"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__backup_filename
+#, python-format
+msgid "To store the filename of the generated backup"
+msgstr "Pour stocker le nom du fichier de la sauvegarde générée"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/js/dashboard.js:0
+#, python-format
+msgid "Total backups"
+msgstr "Total des sauvegardes"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "Total number of backups"
+msgstr "Nombre total de sauvegardes"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#, python-format
+msgid "Tout semble correctement configuré !"
+msgstr "Tout semble correctement configuré !"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__state
+msgid "Type"
+msgstr "Type"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__webhook_url
+msgid "URL to send the POST request to."
+msgstr "URL à laquelle envoyer la requête POST."
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__nextcloud_folder_key
+#, python-format
+msgid "Unique identifier of the Nextcloud folder"
+msgstr "Identifiant unique du dossier Nextcloud"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__update_related_model_id
+msgid "Update Related Model"
+msgstr "Modèle associé à la mise à jour"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__usage
+msgid "Usage"
+msgstr "Utilisation"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__domain
+#, python-format
+msgid "Used to store the domain name"
+msgstr "Utilisé pour stocker le nom de domaine"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__notify_user_id
+#, python-format
+msgid "User"
+msgstr "Utilisateur"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__activity_user_field_name
+msgid "User Field"
+msgstr "Champ utilisateur"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__activity_user_type
+msgid "User Type"
+msgstr "Type d'utilisateur"
+
+#. module: krt_backup_manager
+#. odoo-python
+#: code:addons/krt_backup_manager/models/manager/base.py:0
+#: model:ir.model.fields,help:krt_backup_manager.field_db_backup_configure__notify_user_id
+#, python-format
+msgid "User to notify"
+msgstr "Utilisateur à notifier"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_view_form
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__value
+msgid "Value"
+msgstr "Valeur"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__value_field_to_show
+msgid "Value Field To Show"
+msgstr "Champ de valeur à afficher"
+
+#. module: krt_backup_manager
+#: model:ir.model.fields,field_description:krt_backup_manager.field_db_backup_configure__evaluation_type
+msgid "Value Type"
+msgstr "Type de valeur"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_instance_view_form
+msgid "Verification error"
+msgstr "Erreur de vérification"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "Week"
+msgstr "Semaine"
+
+#. module: krt_backup_manager
+#: model_terms:ir.ui.view,arch_db:krt_backup_manager.db_backup_configure_kanban_view
+msgid "Weeks"
+msgstr "Semaines"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "active"
+msgstr "actives"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "latest backup operations on all configurations"
+msgstr "dernières opérations de sauvegarde sur toutes les configurations"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "of files absent"
+msgstr "de fichiers absents"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "of files present"
+msgstr "de fichiers présents"
+
+#. module: krt_backup_manager
+#. odoo-javascript
+#: code:addons/krt_backup_manager/static/src/xml/dashboard.xml:0
+#, python-format
+msgid "in total"
+msgstr "au total"

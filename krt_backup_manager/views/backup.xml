@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="db_backup_instance_view_tree" model="ir.ui.view">
+        <field name="name">db.backup.instance.view.tree</field>
+        <field name="model">db.backup.instance</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="(not active)">
+                <field name="id" column_invisible="True"/>
+                <field name="name"/>
+                <field name="status" widget="badge" decoration-success="status == 'success'" decoration-danger="status == 'fail'"/>
+                <field name="file_size_human" widget="badge" readonly="1" decoration-info="file_is_present == True" decoration-warning="file_is_present == False"/>
+                <field name="file_is_present" decoration-success="file_is_present == True" decoration-danger="file_is_present == False"/>
+                <field name="create_date" string="Creation date" widget="datetime"/>
+                <field name="active" column_invisible="1"></field>
+                <button groups="krt_backup_manager.module_krt_backup_manager_restore_group" name="retore_db_view" invisible="file_is_present != True" type="object" icon="fa-refresh" string="Restore" class="oe_highlight"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="db_backup_instance_view_form" model="ir.ui.view">
+        <field name="name">db.backup.instance.view.form</field>
+        <field name="model">db.backup.instance</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" />
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="active" widget="boolean_toggle"/>
+                        <field name="file_is_present" widget="boolean_toggle" decoration-success="file_is_present == True" decoration-danger="file_is_present == False"/>
+                        <field name="status" decoration-success="status == 'success'" decoration-danger="status == 'fail'"/>
+                    </group>
+                    <group>
+                        <field name="file_size"/>
+                        <field name="manager_id" readonly="1"/>
+                        <field name="manager_status" widget="boolean_toggle" readonly="1"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Backup error">
+                        <field name="error_message"/>
+                    </page>
+                    <page string="Verification error">
+                        <field name="check_exist_error_message"/>
+                    </page>
+                    <page string="Restore error">
+                        <field name="restore_error_message"/>
+                    </page>
+                    <page string="Download error">
+                        <field name="download_error_message"/>
+                    </page>
+                    <page string="Deletion error">
+                        <field name="deletion_error_message"/>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="db_backup_instance_view_search" model="ir.ui.view">
+        <field name="name">db.backup.instance.view.search</field>
+        <field name="model">db.backup.instance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter string="All" name="all" domain="['|', ('active', '=',  True), ('active', '!=',  True)]"/>
+                <separator/>
+                <filter string="Actived" name="isactive" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Manager" name="manager_id" domain="[]" context="{'group_by': 'manager_id'}"/>
+                </group>
+                <searchpanel>
+                    <field name="manager_id" string="Backup manager" icon="fa-filter" expand="1" enable_counters="1" />
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="db_backup_instance_action" model="ir.actions.act_window">
+        <field name="name">Backup history</field>
+        <field name="res_model">db.backup.instance</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No backup !
+            </p>
+        </field>
+        <field name="context">{'search_default_all': 1}</field>
+    </record>
+
+    <record model="ir.actions.server" id="db_backup_instance_restore_action_server">
+        <field name="name">Restore</field>
+        <field name="model_id" ref="model_db_backup_instance"/>
+        <field name="binding_model_id" ref="model_db_backup_instance" />
+        <field name="state">code</field>
+        <field name="binding_view_types">form</field>
+        <field name="group_ids" eval="[(4, ref('krt_backup_manager.module_krt_backup_manager_restore_group'))]"/>
+        <field name="code">
+if records:
+    action = records.retore_db_view()
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="db_backup_instance_download_action_server">
+        <field name="name">Download</field>
+        <field name="model_id" ref="model_db_backup_instance"/>
+        <field name="binding_model_id" ref="model_db_backup_instance" />
+        <field name="state">code</field>
+        <field name="binding_view_types">form</field>
+        <field name="group_ids" eval="[(4, ref('krt_backup_manager.module_krt_backup_manager_download_group'))]"/>
+        <field name="code">
+if records:
+    action = records.download_backup()
+        </field>
+    </record>
+</odoo>

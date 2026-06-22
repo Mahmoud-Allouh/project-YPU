@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="krt_backup_manager.MessageZone" owl="1">
+        <div class="o_db_backup_restore_manager_popover">
+            <span>
+                <t t-out="props.message"/>
+            </span>
+            <t t-if="props.icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <g fill="none" stroke="#f87171" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
+                        <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2m-7-7h.01M14 14h.01"/>
+                        <path d="M10 18a3.5 3.5 0 0 1 4 0"/>
+                    </g>
+                </svg>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="krt_backup_manager.BackupRestoreDashboard">
+        <div class="auto-backup-dashboard-container">
+            <div class="dashboard-header">
+                <h2>Dashboard</h2>
+                <button class="sync-button" onclick="window.location.reload()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+                    </svg>
+                    <span>Refresh</span>
+                </button>
+            </div>
+
+            <div class="tabs-header">
+                <div class="tabs">
+                    <button class="tab" t-on-click.stop.prevent="() => this.goToPage('apercu')" t-att-class="{active: state.page == 'apercu'}">Overview</button>
+                    <button class="tab" t-on-click.stop.prevent="() => this.goToPage('historique')" t-att-class="{active: state.page == 'historique'}">Backup history</button>
+                    <button class="tab" t-on-click.stop.prevent="() => this.goToPage('configuration')" t-att-class="{active: state.page == 'configuration'}">Configuration</button>
+                </div>
+            </div>
+
+            <t t-if="state.page == 'apercu'">
+                <div class="page-apercu">
+                    <!-- STATS -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Total number of backups</span>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                                </svg>
+                            </div>
+                            <div class="stat-value">
+                                <t t-out="state.instance_total"/>
+                            </div>
+                            <div class="stat-subtitle" style="color: rgb(22, 163, 74)">
+                                <t t-out="state.instance_pourcentage_presence + '% '"/>
+                                of files present
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Storage used</span>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+                                </svg>
+                            </div>
+                            <div class="stat-value">
+                                <t t-out="state.fichier_present_file_size"/>
+                            </div>
+                            <div class="stat-subtitle" style="color: #f87171">
+                                <t t-out="state.fichier_absent_file_size"/>
+                                of files absent
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Active configurations</span>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="stat-value">
+                                <t t-out="state.configs_active"/>
+                            </div>
+                            <div class="stat-subtitle" style="color: rgb(107, 114, 128)">
+                                <t t-out="state.configs_total"/>
+                                in total
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Success rate</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="#6366f1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <path d="m14 19l3 3l5-5M4 6v6s0 3 7 3s7-3 7-3V6"/>
+                                        <path d="M11 3c7 0 7 3 7 3s0 3-7 3s-7-3-7-3s0-3 7-3m0 18c-7 0-7-3-7-3v-6"/>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="stat-value">
+                                <t t-out="state.pourcentage_instance_success + '%'"/>
+                            </div>
+                            <div class="progress-bar">
+                                <t t-if="state.pourcentage_instance_success >= 50">
+                                    <div class="progress-value green" t-att-style="'width: ' + state.pourcentage_instance_success + '%'"></div>
+                                </t>
+                                <t t-else="">
+                                    <div class="progress-value red" t-att-style="'width: ' + state.pourcentage_instance_success + '%'"></div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CHARTS -->
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <h3 class="chart-title">Backup history
+                                <div class="chart-type-change">
+                                    <button class="chart-type-btn" t-on-click.stop.prevent="() => this.setHistoryChartType('line')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 512 512">
+                                            <t t-if="state.history_chart_type == 'line'">
+                                                <path fill="#FFFFFF" class="active-chart" d="M496 384H64V80c0-8.84-7.16-16-16-16H16C7.16 64 0 71.16 0 80v336c0 17.67 14.33 32 32 32h464c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16M464 96H345.94c-21.38 0-32.09 25.85-16.97 40.97l32.4 32.4L288 242.75l-73.37-73.37c-12.5-12.5-32.76-12.5-45.25 0l-68.69 68.69c-6.25 6.25-6.25 16.38 0 22.63l22.62 22.62c6.25 6.25 16.38 6.25 22.63 0L192 237.25l73.37 73.37c12.5 12.5 32.76 12.5 45.25 0l96-96l32.4 32.4c15.12 15.12 40.97 4.41 40.97-16.97V112c.01-8.84-7.15-16-15.99-16"></path>
+                                            </t>
+                                            <t t-else="">
+                                                <path fill="#8587FF" d="M496 384H64V80c0-8.84-7.16-16-16-16H16C7.16 64 0 71.16 0 80v336c0 17.67 14.33 32 32 32h464c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16M464 96H345.94c-21.38 0-32.09 25.85-16.97 40.97l32.4 32.4L288 242.75l-73.37-73.37c-12.5-12.5-32.76-12.5-45.25 0l-68.69 68.69c-6.25 6.25-6.25 16.38 0 22.63l22.62 22.62c6.25 6.25 16.38 6.25 22.63 0L192 237.25l73.37 73.37c12.5 12.5 32.76 12.5 45.25 0l96-96l32.4 32.4c15.12 15.12 40.97 4.41 40.97-16.97V112c.01-8.84-7.15-16-15.99-16"></path>
+                                            </t>
+                                        </svg>
+                                    </button>
+                                    <button class="chart-type-btn" t-on-click.stop.prevent="() => this.setHistoryChartType('bar')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 512 512">
+                                            <t t-if="state.history_chart_type == 'bar'">
+                                                <path fill="#FFFFFF" class="active-chart" d="M480 496H48a32 32 0 0 1-32-32V32a16 16 0 0 1 32 0v432h432a16 16 0 0 1 0 32"></path>
+                                                <path fill="#FFFFFF" class="active-chart" d="M156 432h-40a36 36 0 0 1-36-36V244a36 36 0 0 1 36-36h40a36 36 0 0 1 36 36v152a36 36 0 0 1-36 36m144 0h-40a36 36 0 0 1-36-36V196a36 36 0 0 1 36-36h40a36 36 0 0 1 36 36v200a36 36 0 0 1-36 36m143.64 0h-40a36 36 0 0 1-36-36V132a36 36 0 0 1 36-36h40a36 36 0 0 1 36 36v264a36 36 0 0 1-36 36"></path>
+                                            </t>
+                                            <t t-else="">
+                                                <path fill="#8587ff" d="M480 496H48a32 32 0 0 1-32-32V32a16 16 0 0 1 32 0v432h432a16 16 0 0 1 0 32"></path>
+                                                <path fill="#8587ff" d="M156 432h-40a36 36 0 0 1-36-36V244a36 36 0 0 1 36-36h40a36 36 0 0 1 36 36v152a36 36 0 0 1-36 36m144 0h-40a36 36 0 0 1-36-36V196a36 36 0 0 1 36-36h40a36 36 0 0 1 36 36v200a36 36 0 0 1-36 36m143.64 0h-40a36 36 0 0 1-36-36V132a36 36 0 0 1 36-36h40a36 36 0 0 1 36 36v264a36 36 0 0 1-36 36"></path>
+                                            </t>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </h3>
+                            <canvas t-ref="historyChart" class="chart"></canvas>
+                        </div>
+
+                        <div class="chart-card">
+                            <h3 class="chart-title">Success rate
+                                <div class="chart-type-change">
+                                    <button class="chart-type-btn" t-on-click.stop.prevent="() => this.setSuccessChartType('pie')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 56 56">
+                                            <t t-if="state.success_chart_type == 'pie'">
+                                                <path fill="#FFFFFF" class="active-chart" d="m29.09 25.938l18.422-10.57C43.574 9.226 36.8 5.054 29.09 4.702Zm-1.102 25.359c5.696 0 10.922-2.086 15-5.508L26.512 29.664c-.446-.422-.563-.82-.563-1.453V4.773C14.113 5.805 4.74 15.836 4.74 27.977c0 12.82 10.476 23.32 23.25 23.32m17.32-7.781c3.68-4.125 5.954-9.586 5.954-15.54c0-3.515-.797-6.867-2.203-9.89L30.426 28.82Z"></path>
+                                            </t>
+                                            <t t-else="">
+                                                <path fill="#8587ff" d="m29.09 25.938l18.422-10.57C43.574 9.226 36.8 5.054 29.09 4.702Zm-1.102 25.359c5.696 0 10.922-2.086 15-5.508L26.512 29.664c-.446-.422-.563-.82-.563-1.453V4.773C14.113 5.805 4.74 15.836 4.74 27.977c0 12.82 10.476 23.32 23.25 23.32m17.32-7.781c3.68-4.125 5.954-9.586 5.954-15.54c0-3.515-.797-6.867-2.203-9.89L30.426 28.82Z"></path>
+                                            </t>
+                                        </svg>
+                                    </button>
+                                    <button class="chart-type-btn" t-on-click.stop.prevent="() => this.setSuccessChartType('doughnut')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                            <t t-if="state.success_chart_type == 'doughnut'">
+                                                <path fill="#FFFFFF" class="active-chart" d="M13 6c2.507.423 4.577 2.493 5 5h4c-.471-4.717-4.283-8.529-9-9z"></path>
+                                                <path fill="#FFFFFF" class="active-chart" d="M18 13c-.478 2.833-2.982 4.949-5.949 4.949c-3.309 0-6-2.691-6-6C6.051 8.982 8.167 6.478 11 6V2c-5.046.504-8.949 4.773-8.949 9.949c0 5.514 4.486 10 10 10c5.176 0 9.445-3.903 9.949-8.949z"></path>
+                                            </t>
+                                            <t t-else="">
+                                                <path fill="#8587ff" d="M13 6c2.507.423 4.577 2.493 5 5h4c-.471-4.717-4.283-8.529-9-9z"></path>
+                                                <path fill="#8587ff" d="M18 13c-.478 2.833-2.982 4.949-5.949 4.949c-3.309 0-6-2.691-6-6C6.051 8.982 8.167 6.478 11 6V2c-5.046.504-8.949 4.773-8.949 9.949c0 5.514 4.486 10 10 10c5.176 0 9.445-3.903 9.949-8.949z"></path>
+                                            </t>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </h3>
+                            <canvas t-ref="successChart" class="chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="tables-grid">
+                        <div class="table-card">
+                            <div class="table-header">
+                                <span>
+                                    <h3 class="table-title">Recent backups</h3>
+                                    <p class="table-subtitle">
+                                        The <t t-out="lastInstanceCount"/>
+                                        latest backup operations on all configurations
+                                    </p>
+                                </span>
+                                <button class="table-header-button" t-on-click.stop.prevent="goToInstanceGlobalTreeView">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path fill="#8587ff" d="M2 18h7v2H2zm0-7h9v2H2zm0-7h20v2H2zm18.674 9.025l1.156-.391l1 1.732l-.916.805a4 4 0 0 1 0 1.658l.916.805l-1 1.732l-1.156-.391a4 4 0 0 1-1.435.83L19 21h-2l-.24-1.196a4 4 0 0 1-1.434-.83l-1.156.392l-1-1.732l.916-.805a4 4 0 0 1 0-1.658l-.916-.805l1-1.732l1.156.391c.41-.37.898-.655 1.435-.83L17 11h2l.24 1.196a4 4 0 0 1 1.434.83M18 18a2 2 0 1 0 0-4a2 2 0 0 0 0 4"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>File name</th>
+                                        <th>Destination</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <t t-if="has_restore_group || has_download_group || has_delete_group">
+                                            <th></th>
+                                        </t>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="state.last_dashboard_instance_list" t-as="instance" t-key="instance_index">
+                                        <tr>
+                                            <td>
+                                                <t t-out="instance_index + 1"/>
+                                            </td>
+                                            <td>
+                                                <a href="" t-on-click.stop.prevent="() => this.goToInstanceFormView(instance.id)">
+                                                    <t t-out="instance.name"/>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <span class="status-badge">
+                                                    <t t-out="instance.destination"/>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <t t-if="instance.status == 'fail'">
+                                                    <span class="status-badge failed">
+                                                        <t t-out="instance.status_display"/>
+                                                    </span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="status-badge completed">
+                                                        <t t-out="instance.status_display"/>
+                                                    </span>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-out="instance.create_datetime"/>
+                                            </td>
+                                            <t t-if="has_restore_group || has_download_group || has_delete_group">
+                                                <td style="text-align: right; position: relative;">
+                                                    <button class="menu-button" t-on-click.stop.prevent="() => this.toggleMenu(('menu-instance-id-' + instance.id))">•••</button>
+                                                    <div t-att-id="'menu-instance-id-' + instance.id" class="context-menu">
+                                                        <t t-if="instance.file_is_present">
+                                                            <t t-if="has_download_group">
+                                                                <div class="context-menu-item" t-on-click.prevent="() => this.download(instance.id)">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+                                                                        <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5l5-5m-5-7v12"/>
+                                                                    </svg>
+                                                                    <span>Download</span>
+                                                                </div>
+                                                            </t>
+                                                            <t t-if="has_restore_group">
+                                                                <div class="context-menu-item" t-on-click.prevent="() => this.restorer(instance.id)">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+                                                                        <path fill="#000" d="M12 21q-3.15 0-5.575-1.912T3.275 14.2q-.1-.375.15-.687t.675-.363q.4-.05.725.15t.45.6q.6 2.25 2.475 3.675T12 19q2.925 0 4.963-2.037T19 12t-2.037-4.962T12 5q-1.725 0-3.225.8T6.25 8H8q.425 0 .713.288T9 9t-.288.713T8 10H4q-.425 0-.712-.288T3 9V5q0-.425.288-.712T4 4t.713.288T5 5v1.35q1.275-1.6 3.113-2.475T12 3q1.875 0 3.513.713t2.85 1.924t1.925 2.85T21 12t-.712 3.513t-1.925 2.85t-2.85 1.925T12 21m0-7q-.825 0-1.412-.587T10 12t.588-1.412T12 10t1.413.588T14 12t-.587 1.413T12 14"/>
+                                                                    </svg>
+                                                                    <span>Restore</span>
+                                                                </div>
+                                                            </t>
+                                                        </t>
+
+                                                        <t t-if="has_delete_group">
+                                                            <t t-if="has_restore_group || has_download_group">
+                                                                <div class="context-menu-separator"></div>
+                                                            </t>
+                                                            <div class="context-menu-item" style="color: rgb(220, 38, 38);" t-on-click.prevent="() => this.deletion(instance.id, instance.file_is_present)">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+                                                                    <g fill="none" fill-rule="evenodd">
+                                                                        <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"/>
+                                                                        <path fill="#dc2626" d="M14.28 2a2 2 0 0 1 1.897 1.368L16.72 5H20a1 1 0 1 1 0 2h-1v12a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H4a1 1 0 0 1 0-2h3.28l.543-1.632A2 2 0 0 1 9.721 2zM17 7H7v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1zm-2.72-3H9.72l-.333 1h5.226z"/>
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Delete</span>
+                                                            </div>
+                                                        </t>
+                                                    </div>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-card">
+                            <div class="table-header">
+                                <span>
+                                    <h3 class="table-title">Backup configurations</h3>
+                                    <p class="table-subtitle">Active backup configurations</p>
+                                </span>
+                                <button class="table-header-button" t-on-click.stop.prevent="goToConfigTreeView">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path fill="#8587ff" d="M2 18h7v2H2zm0-7h9v2H2zm0-7h20v2H2zm18.674 9.025l1.156-.391l1 1.732l-.916.805a4 4 0 0 1 0 1.658l.916.805l-1 1.732l-1.156-.391a4 4 0 0 1-1.435.83L19 21h-2l-.24-1.196a4 4 0 0 1-1.434-.83l-1.156.392l-1-1.732l.916-.805a4 4 0 0 1 0-1.658l-.916-.805l1-1.732l1.156.391c.41-.37.898-.655 1.435-.83L17 11h2l.24 1.196a4 4 0 0 1 1.434.83M18 18a2 2 0 1 0 0-4a2 2 0 0 0 0 4"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="configs-list">
+                                <t t-foreach="state.configs_active_list" t-as="config" t-key="config.id">
+                                    <div class="config-item">
+                                        <div class="config-info">
+                                            <h4>
+                                                <a href="" t-on-click.stop.prevent="() => this.goToConfigFormView(config.id)">
+                                                    <t t-out="config.name"/>
+                                                </a>
+                                            </h4>
+                                            <div class="config-destination">Destination: <t t-out="config.backup_destination"/>
+                                            </div>
+                                        </div>
+                                        <span class="status-badge active">active</span>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+
+            <t t-elif="state.page == 'historique'">
+                <div class="page-historique">
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3 class="table-title">Complete backup history</h3>
+                            <p class="table-subtitle">List of backups on all configurations</p>
+                        </div>
+                        <table id="full-table-instances">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>File name</th>
+                                    <th>Status</th>
+                                    <th>Size</th>
+                                    <th>Destination</th>
+                                    <th>Date</th>
+                                    <th>Configuration</th>
+                                    <th></th>
+                                    <t t-if="has_restore_group || has_download_group || has_delete_group">
+                                        <th></th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.all_instance_list" t-as="instance_item" t-key="instance_item.id">
+                                    <tr>
+                                        <td>
+                                            <t t-out="instance_item_index + 1"/>
+                                        </td>
+                                        <td>
+                                            <a href="" t-on-click.stop.prevent="() => this.goToInstanceFormView(instance_item.id)">
+                                                <t t-out="instance_item.name"/>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="status-cell">
+                                                <t t-if="instance_item.status == 'fail'">
+                                                    <span class="status-badge failed">
+                                                        <t t-out="instance_item.status_display"/>
+                                                    </span>
+                                                    <t t-if="instance_item.error_message">
+                                                        <i class="fa fa-exclamation-triangle" style="cursor: pointer" t-on-click.stop.prevent="(e) => this.showMessage(e, instance_item.error_message)"></i>
+                                                    </t>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="status-badge completed">
+                                                        <t t-out="instance_item.status_display"/>
+                                                    </span>
+                                                </t>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <t t-out="instance_item.file_size"/>
+                                        </td>
+                                        <td>
+                                            <span class="status-badge">
+                                                <t t-out="instance_item.destination"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <t t-out="instance_item.create_datetime"/>
+                                        </td>
+                                        <td>
+                                            <a href="" t-on-click.stop.prevent="() => this.goToConfigFormView(instance_item.manager_id.id)">
+                                                <t t-out="instance_item.manager_id.name"/>
+                                            </a>
+                                        </td>
+                                        <td style="text-align: right">
+                                            <t t-if="instance_item.file_is_present == false">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" t-on-click.stop.prevent="(e) => this.showAlert(e, 'File not found')" style="cursor: pointer">
+                                                    <path fill="none" stroke="#f87171" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4.01l.01-.011M9 3H4v3m0 5v2m16-2v2M15 3h5v3M9 21H4v-3m11 3h5v-3"/>
+                                                </svg>
+                                            </t>
+                                        </td>
+                                        <t t-if="has_restore_group || has_download_group || has_delete_group">
+                                            <td style="text-align: right; position: relative;">
+                                                <button class="menu-button" t-on-click.stop.prevent="() => this.toggleMenu(('full-menu-instance-id-' + instance_item.id))">•••</button>
+                                                <div t-att-id="'full-menu-instance-id-' + instance_item.id" class="context-menu">
+                                                    <t t-if="instance_item.file_is_present">
+                                                        <t t-if="has_download_group">
+                                                            <div class="context-menu-item" t-on-click.prevent="() => this.download(instance_item.id)">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+                                                                    <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5l5-5m-5-7v12"/>
+                                                                </svg>
+                                                                <span>Download</span>
+                                                            </div>
+                                                        </t>
+                                                        <t t-if="has_restore_group">
+                                                            <div class="context-menu-item" t-on-click.prevent="() => this.restorer(instance_item.id)">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+                                                                    <path fill="#000" d="M12 21q-3.15 0-5.575-1.912T3.275 14.2q-.1-.375.15-.687t.675-.363q.4-.05.725.15t.45.6q.6 2.25 2.475 3.675T12 19q2.925 0 4.963-2.037T19 12t-2.037-4.962T12 5q-1.725 0-3.225.8T6.25 8H8q.425 0 .713.288T9 9t-.288.713T8 10H4q-.425 0-.712-.288T3 9V5q0-.425.288-.712T4 4t.713.288T5 5v1.35q1.275-1.6 3.113-2.475T12 3q1.875 0 3.513.713t2.85 1.924t1.925 2.85T21 12t-.712 3.513t-1.925 2.85t-2.85 1.925T12 21m0-7q-.825 0-1.412-.587T10 12t.588-1.412T12 10t1.413.588T14 12t-.587 1.413T12 14"/>
+                                                                </svg>
+                                                                <span>Restore</span>
+                                                            </div>
+                                                        </t>
+                                                    </t>
+                                                    <t t-if="has_delete_group">
+                                                        <t t-if="has_restore_group || has_download_group">
+                                                            <div class="context-menu-separator"></div>
+                                                        </t>
+                                                        <div class="context-menu-item" style="color: rgb(220, 38, 38);" t-on-click.prevent="() => this.deletion(instance_item.id, instance_item.file_is_present)">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+                                                                <g fill="none" fill-rule="evenodd">
+                                                                    <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"/>
+                                                                    <path fill="#dc2626" d="M14.28 2a2 2 0 0 1 1.897 1.368L16.72 5H20a1 1 0 1 1 0 2h-1v12a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H4a1 1 0 0 1 0-2h3.28l.543-1.632A2 2 0 0 1 9.721 2zM17 7H7v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1zm-2.72-3H9.72l-.333 1h5.226z"/>
+                                                                </g>
+                                                            </svg>
+                                                            <span>Delete</span>
+                                                        </div>
+                                                    </t>
+                                                </div>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <t t-if="state.moreDataAreLoading">
+                                    <tr class="skeleton-row">
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block id"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-cell">
+                                                <div class="skeleton-block icon"></div>
+                                                <div class="skeleton-block filename"></div>
+                                            </div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block status"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block size"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block location"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block date"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block description"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block action"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block id"></div>
+                                        </td>
+                                    </tr>
+                                    <tr class="skeleton-row">
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block id"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-cell">
+                                                <div class="skeleton-block icon"></div>
+                                                <div class="skeleton-block filename"></div>
+                                            </div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block status"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block size"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block location"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block date"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block description"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block action"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block id"></div>
+                                        </td>
+                                    </tr>
+                                    <tr class="skeleton-row">
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block id"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-cell">
+                                                <div class="skeleton-block icon"></div>
+                                                <div class="skeleton-block filename"></div>
+                                            </div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block status"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block size"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block location"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block date"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block description"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block action"></div>
+                                        </td>
+                                        <td class="skeleton-col">
+                                            <div class="skeleton-block id"></div>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <t t-if="(state.instance_total > state.all_instance_list.length) &amp;&amp; (state.moreDataAreLoading == false)">
+                            <button class="sync-button" t-on-click.stop.prevent="loadMoreInstance" style="margin: 20px auto 10px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"></path>
+                                </svg>
+                                <span>Load more data</span>
+                            </button>
+                        </t>
+                    </div>
+                </div>
+            </t>
+
+            <t t-elif="state.page == 'configuration'">
+                <div class="page-configuration">
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3 class="table-title">Backup configurations</h3>
+                            <p class="table-subtitle">List of all backup configurations</p>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Name</th>
+                                    <th>Destination</th>
+                                    <th>Status</th>
+                                    <th>Number of backups</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.all_configs_list" t-as="config" t-key="config.id">
+                                    <tr>
+                                        <td>
+                                            <t t-out="config_index + 1"/>
+                                        </td>
+                                        <td>
+                                            <a href="" t-on-click.stop.prevent="() => this.goToConfigFormView(config.id)">
+                                                <t t-out="config.name"/>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="status-badge">
+                                                <t t-out="config.backup_destination"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <t t-if="config.active">
+                                                <span class="status-badge completed">
+                                                    Active
+                                                </span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="status-badge failed">
+                                                    Inactive
+                                                </span>
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <a href="" t-on-click.stop.prevent="() => this.goToInstanceTreeView(config.id)">
+                                                <span class="status-badge completed">
+                                                    <t t-out="config.historiques_count"/>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
+                                                        <defs>
+                                                            <path id="weuiArrowOutlined0" fill="currentColor" d="m7.588 12.43l-1.061 1.06L.748 7.713a.996.996 0 0 1 0-1.413L6.527.52l1.06 1.06l-5.424 5.425z"/>
+                                                        </defs>
+                                                        <use fill-rule="evenodd" href="#weuiArrowOutlined0" transform="rotate(-180 5.02 9.505)"/>
+                                                    </svg>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td style="text-align: right; position: relative;">
+                                            <button class="menu-button" t-on-click.stop.prevent="() => this.toggleMenu(('menu-config-id-' + config.id))">•••</button>
+                                            <div t-att-id="'menu-config-id-' + config.id" class="context-menu">
+                                                <t t-if="config.active">
+                                                    <div class="context-menu-item" t-on-click.prevent="() => this.toggleConfigStatus(config.id, config.active)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 16 16">
+                                                            <path fill="#000" d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4a5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8a4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/>
+                                                        </svg>
+                                                        <span>Deactivate</span>
+                                                    </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="context-menu-item" t-on-click.prevent="() => this.toggleConfigStatus(config.id, config.active)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 16 16">
+                                                            <path fill="#000" d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8a4 4 0 0 1 0 8"/>
+                                                        </svg>
+                                                        <span>Activate</span>
+                                                    </div>
+                                                </t>
+                                                <div class="context-menu-item" t-on-click.stop.prevent="() => this.goToInstanceTreeView(config.id, true)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+                                                        <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 6v36h36M14 30v4m8-12v12m8-28v28m8-20v20"/>
+                                                    </svg>
+                                                    <span>History</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

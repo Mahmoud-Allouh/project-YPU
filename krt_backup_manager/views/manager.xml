@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Database backup configuration views -->
+    <record id="db_backup_configure_view_tree" model="ir.ui.view">
+        <field name="name">db.backup.configure.view.tree</field>
+        <field name="model">db.backup.configure</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="(not active)">
+                <field name="name"/>
+                <field name="db_name"/>
+                <field name="backup_destination"/>
+                <field name="active"/>
+                <button name="view_backup_history" icon="fa-history" type="object" string="History" groups="base.group_system"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="db_backup_configure_view_form" model="ir.ui.view">
+        <field name="name">db.backup.configure.view.form</field>
+        <field name="model">db.backup.configure</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="view_backup_history" class="oe_stat_button" icon="fa-history" type="object">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_info o_stat_value d-flex" style="flex-direction: row;">
+                                    <field name="historiques_count" readonly="1"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    History
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="db_name" placeholder="/db/local/path/"/>
+                            <field name="master_pwd" password="True"/>
+                            <field name="backup_format"/>
+
+                            <field name="enable_user_notify" widget="boolean_toggle"/>
+                            <field name="notify_user_id" invisible="enable_user_notify == False"/>
+
+                            <field name="active" widget="boolean_toggle" readonly="hide_active == False"/>
+                            <field name="hide_active" invisible="1"/>
+
+                            <field name="color" widget="color_picker"/>
+                        </group>
+                        <group>
+                            <field name="backup_destination" required="1"/>
+                            <field name="backup_path" invisible="backup_destination != 'local'" required="backup_destination == 'local'"/>
+                            <field name="ftp_host" invisible="backup_destination != 'ftp'" required="backup_destination == 'ftp'"/>
+                            <field name="ftp_port" invisible="backup_destination != 'ftp'" required="backup_destination == 'ftp'"/>
+                            <field name="ftp_user" invisible="backup_destination != 'ftp'" required="backup_destination == 'ftp'"/>
+                            <field name="ftp_password" invisible="backup_destination != 'ftp'" required="backup_destination == 'ftp'" password="True"/>
+                            <field name="ftp_path" invisible="backup_destination != 'ftp'" required="backup_destination == 'ftp'"/>
+                            <field name="sftp_host" invisible="backup_destination != 'sftp'" required="backup_destination == 'sftp'"/>
+                            <field name="sftp_port" invisible="backup_destination != 'sftp'" required="backup_destination == 'sftp'"/>
+                            <field name="sftp_user" invisible="backup_destination != 'sftp'" required="backup_destination == 'sftp'"/>
+                            <field name="sftp_password" invisible="backup_destination != 'sftp'" required="backup_destination == 'sftp'" password="True"/>
+                            <field name="sftp_path" invisible="backup_destination != 'sftp'" required="backup_destination == 'sftp'"/>
+                            <field name="domain" string="Domain Name" invisible="backup_destination != 'next_cloud'"/>
+                            <field name="next_cloud_username" string="Username" invisible="backup_destination != 'next_cloud'"/>
+                            <field name="next_cloud_password" string="Password" invisible="backup_destination != 'next_cloud'"/>
+                            <field name="nextcloud_folder_key" string="Folder ID" invisible="backup_destination != 'next_cloud'"/>
+                            <field name="aws_access_key" invisible="backup_destination != 'amazon_s3'"/>
+                            <field name="aws_secret_access_key" invisible="backup_destination != 'amazon_s3'"/>
+                            <field name="bucket_file_name" invisible="backup_destination != 'amazon_s3'"/>
+                            <field name="aws_folder_name" invisible="backup_destination != 'amazon_s3'"/>
+
+                            <button name="run_sftp_connection" type="object" string="Test Connection" icon="fa-television" invisible="backup_destination not in ('ftp', 'sftp')"/>
+                            <button name="run_nextcloud_connection" type="object" string="Test Connection" icon="fa-television" invisible="backup_destination != 'next_cloud'"/>
+                            <button name="run_s3cloud_connection" type="object" string="Test Connection" icon="fa-television" invisible="backup_destination != 'amazon_s3'"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Task Scheduling">
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="user_id"/>
+                                </h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="interval_number"/>
+                                    <field name="interval_type"/>
+                                </group>
+                                <group>
+                                    <field name="nextcall"/>
+                                    <field name="priority"/>
+                                    <field name="model_id" readonly="1" />
+                                    <field name="state" readonly="1" />
+                                </group>
+                            </group>
+                            <group string="Code">
+                                <field name="code" readonly="1" />
+                            </group>
+                        </page>
+                        <page string="Automatic Deletion">
+                            <group>
+                                <field name="auto_remove" widget="boolean_toggle"/>
+                                <field name="auto_remove_mode" invisible="auto_remove == False"/>
+
+                                <label for="auto_remove_number" string="Delete after" class="oe_inline" invisible="auto_remove == False or auto_remove_mode != 'days_number'"/>
+                                <div invisible="auto_remove == False or auto_remove_mode != 'days_number'">
+                                    <field name="auto_remove_number" class="oe_inline" required="auto_remove == True"/>
+                                    Days
+                                </div>
+
+                                <label for="auto_remove_number" string="Keep only the" class="oe_inline" invisible="auto_remove == False or auto_remove_mode != 'database_number'"/>
+                                <div invisible="auto_remove == False or auto_remove_mode != 'database_number'">
+                                    <field name="auto_remove_number" class="oe_inline" required="auto_remove == True"/>
+                                    Last databases
+                                </div>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="db_backup_configure_view_search" model="ir.ui.view">
+        <field name="name">db.backup.configure.view.search</field>
+        <field name="model">db.backup.configure</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="db_name"/>
+                <filter string="All" name="all" domain="['|', ('active', '=',  True), ('active', '!=',  True)]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Backup Destination" name="backup_type" domain="[]" context="{'group_by': 'backup_destination'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="db_backup_configure_kanban_view" model="ir.ui.view">
+        <field name="name">db.backup.configure.kanban</field>
+        <field name="model">db.backup.configure</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard o_db_backup_kanban" highlight_color="color" sample="1">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="color"/>
+                <field name="db_name"/>
+                <field name="backup_destination"/>
+                <field name="backup_format"/>
+                <field name="interval_number"/>
+                <field name="interval_type"/>
+                <field name="nextcall"/>
+                <field name="active"/>
+                <field name="historiques_count"/>
+                <field name="auto_remove"/>
+                <field name="auto_remove_number"/>
+                <field name="auto_remove_mode"/>
+
+                <templates>
+                    <t t-name="card">
+                        <main>
+                            <div class="o_project_kanban_main d-flex align-items-baseline gap-1">
+                                <div class="o_kanban_card_content d-flex" style="width: 100%%">
+                                    <div class="o_kanban_primary_left" style="width: 100%%">
+                                        <div class="o_primary flex-column d-flex">
+                                            <span class="o_text_overflow" t-att-title="record.name.value">
+                                                <t t-esc="record.name.value"/>
+                                            </span>
+                                            <div class="o_secondary">
+                                                <i class="fa fa-database me-1" role="img" aria-label="Database" title="Database"/>
+                                                <field name="db_name"/>
+                                            </div>
+                                            <div class="o_backup_detail_item">
+                                                <span class="o_backup_label">Frequency </span>
+                                                <span class="o_backup_value">
+                                                    <i class="fa fa-hourglass-start me-1" role="img" aria-label="Frequency" title="Frequency"/>
+                                                    <t t-esc="record.interval_number.raw_value"/>
+                                                    <t t-if="record.interval_type.raw_value == 'days'">
+                                                        <t t-if="record.interval_number.raw_value > 1"> Days</t>
+                                                        <t t-else=""> Day</t>
+                                                    </t>
+                                                    <t t-elif="record.interval_type.raw_value == 'weeks'">
+                                                        <t t-if="record.interval_number.raw_value > 1"> Weeks</t>
+                                                        <t t-else=""> Week</t>
+                                                    </t>
+                                                    <t t-elif="record.interval_type.raw_value == 'months'"> Months</t>
+                                                    <t t-elif="record.interval_type.raw_value == 'hours'">
+                                                        <t t-if="record.interval_number.raw_value > 1"> Hours</t>
+                                                        <t t-else=""> Hour</t>
+                                                    </t>
+                                                    <t t-elif="record.interval_type.raw_value == 'minutes'">
+                                                        <t t-if="record.interval_number.raw_value > 1"> Minutes</t>
+                                                        <t t-else=""> Minute</t>
+                                                    </t>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!-- Auto Remove -->
+                                        <t t-if="record.auto_remove.raw_value">
+                                            <div class="o_backup_detail_item">
+                                                <span class="o_backup_label">Automatic deletion</span>
+                                                <span class="o_backup_value" title="Automatic Deletion">
+                                                    <i class="fa fa-trash-o me-1" role="img" aria-label="Trash" title="Trash"/>
+                                                    <t t-if="record.auto_remove_mode.raw_value == 'days_number'">
+                                                        After <t t-esc="record.auto_remove_number.raw_value"/> Days
+                                                    </t>
+                                                    <t t-else="">
+                                                        Keep the <t t-esc="record.auto_remove_number.raw_value"/> most recent
+                                                    </t>
+                                                </span>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <field name="active" widget="boolean_toggle" />
+                                </div>
+                            </div>
+                        </main>
+                        <footer class="mt-auto">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="o_project_kanban_boxes d-flex align-items-baseline">
+                                    <a class="o_project_kanban_box" name="view_backup_history" type="object">
+                                        <div>
+                                            <span class="o_value">
+                                                <t t-esc="record.historiques_count.value"/>
+                                            </span>
+                                            <span class="o_label"> Backups</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <field name="backup_format" widget="badge" decoration-info="backup_format == 'dump'" decoration-primary="backup_format == 'zip'" />
+                            </div>
+                            <div class="d-flex ms-auto align-items-center">
+                                <div class="o_backup_destination me-2">
+                                    <t t-if="record.backup_destination.raw_value == 'local'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 26 26">
+                                            <path fill="none" stroke="#007bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.75 17.25v-.228a4.5 4.5 0 0 0-.12-1.03l-2.268-9.64a3.375 3.375 0 0 0-3.285-2.602H7.923a3.375 3.375 0 0 0-3.285 2.602l-2.268 9.64a4.5 4.5 0 0 0-.12 1.03v.228m19.5 0a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3m19.5 0a3 3 0 0 0-3-3H5.25a3 3 0 0 0-3 3m16.5 0h.008v.008h-.008zm-3 0h.008v.008h-.008z"/>
+                                        </svg>
+                                        <span> Local Server</span>
+                                    </t>
+                                    <t t-elif="record.backup_destination.raw_value == 'sftp'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 26 26">
+                                            <path fill="#6f42c1" d="M10.75 6.5a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5zM6 7.25a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 6 7.25m4 9a.75.75 0 0 1 .75-.75h6.5a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1-.75-.75m-3.25-.75a.75.75 0 0 0 0 1.5h.5a.75.75 0 0 0 0-1.5z"/>
+                                            <path fill="#6f42c1" d="M3.25 2h17.5c.966 0 1.75.784 1.75 1.75v7c0 .372-.116.716-.314 1c.198.284.314.628.314 1v7a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75v-7c0-.358.109-.707.314-1a1.74 1.74 0 0 1-.314-1v-7C1.5 2.784 2.284 2 3.25 2m0 10.5a.25.25 0 0 0-.25.25v7c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25v-7a.25.25 0 0 0-.25-.25Zm0-1.5h17.5a.25.25 0 0 0 .25-.25v-7a.25.25 0 0 0-.25-.25H3.25a.25.25 0 0 0-.25.25v7c0 .138.112.25.25.25"/>
+                                        </svg>
+                                        <span> SFTP Server</span>
+                                    </t>
+                                    <t t-elif="record.backup_destination.raw_value == 'ftp'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 26 26">
+                                            <path fill="none" stroke="#a55eea" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3.002 5.127l.011 5.715a1.15 1.15 0 0 0 1.155 1.15l15.68-.03a1.15 1.15 0 0 0 1.15-1.155l-.011-5.714a1.15 1.15 0 0 0-1.154-1.15l-15.68.03a1.15 1.15 0 0 0-1.15 1.154m14.548 2.835h-3.018m-10.37 4.032c-.636 0-1.152.516-1.152 1.152v5.761c0 .636.516 1.152 1.152 1.152h15.68c.637 0 1.153-.516 1.153-1.152v-5.76c0-.637-.516-1.153-1.152-1.153m-2.293 4.033h-3.018"/>
+                                        </svg>
+                                        <span> FTP Server</span>
+                                    </t>
+                                    <t t-elif="record.backup_destination.raw_value == 'next_cloud'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                            <path fill="#17a2b8" d="M12.018 6.537c-2.5 0-4.6 1.712-5.241 4.015c-.56-1.232-1.793-2.105-3.225-2.105A3.57 3.57 0 0 0 0 12a3.57 3.57 0 0 0 3.552 3.553c1.432 0 2.664-.874 3.224-2.106c.641 2.304 2.742 4.016 5.242 4.016c2.487 0 4.576-1.693 5.231-3.977c.569 1.21 1.783 2.067 3.198 2.067A3.57 3.57 0 0 0 24 12a3.57 3.57 0 0 0-3.553-3.553c-1.416 0-2.63.858-3.199 2.067c-.654-2.284-2.743-3.978-5.23-3.977m0 2.085c1.878 0 3.378 1.5 3.378 3.378s-1.5 3.378-3.378 3.378A3.36 3.36 0 0 1 8.641 12c0-1.878 1.5-3.378 3.377-3.378m-8.466 1.91c.822 0 1.467.645 1.467 1.468s-.644 1.467-1.467 1.468A1.45 1.45 0 0 1 2.085 12a1.45 1.45 0 0 1 1.467-1.467zm16.895 0c.823 0 1.468.645 1.468 1.468s-.645 1.468-1.468 1.468A1.45 1.45 0 0 1 18.98 12a1.45 1.45 0 0 1 1.467-1.467z"/>
+                                        </svg>
+                                        <span> Nextcloud</span>
+                                    </t>
+                                    <t t-elif="record.backup_destination.raw_value == 'amazon_s3'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="20" viewBox="0 0 660 580">
+                                            <path fill="#fd7e14" d="M180.41 203.01c-.72 22.65 10.6 32.68 10.88 39.05a8.16 8.16 0 0 1-4.1 6.27l-12.8 8.96a10.66 10.66 0 0 1-5.63 1.92c-.43-.02-8.19 1.83-20.48-25.61a78.6 78.6 0 0 1-62.61 29.45c-16.28.89-60.4-9.24-58.13-56.21c-1.59-38.28 34.06-62.06 70.93-60.05c7.1.02 21.6.37 46.99 6.27v-15.62c2.69-26.46-14.7-46.99-44.81-43.91c-2.4.01-19.4-.5-45.84 10.11c-7.36 3.38-8.3 2.82-10.75 2.82c-7.41 0-4.36-21.48-2.94-24.2c5.21-6.4 35.86-18.35 65.94-18.18a76.86 76.86 0 0 1 55.69 17.28a70.3 70.3 0 0 1 17.67 52.36zM93.99 235.4c32.43-.47 46.16-19.97 49.29-30.47c2.46-10.05 2.05-16.41 2.05-27.4c-9.67-2.32-23.59-4.85-39.56-4.87c-15.15-1.14-42.82 5.63-41.74 32.26c-1.24 16.79 11.12 31.4 29.96 30.48m170.92 23.05c-7.86.72-11.52-4.86-12.68-10.37l-49.8-164.65c-.97-2.78-1.61-5.65-1.92-8.58a4.61 4.61 0 0 1 3.86-5.25c.24-.04-2.13 0 22.25 0c8.78-.88 11.64 6.03 12.55 10.37l35.72 140.83l33.16-140.83c.53-3.22 2.94-11.07 12.8-10.24h17.16c2.17-.18 11.11-.5 12.68 10.37l33.42 142.63L420.98 80.1c.48-2.18 2.72-11.37 12.68-10.37h19.72c.85-.13 6.15-.81 5.25 8.58c-.43 1.85 3.41-10.66-52.75 169.9c-1.15 5.51-4.82 11.09-12.68 10.37h-18.69c-10.94 1.15-12.51-9.66-12.68-10.75L328.67 110.7l-32.78 136.99c-.16 1.09-1.73 11.9-12.68 10.75h-18.3zm273.48 5.63c-5.88.01-33.92-.3-57.36-12.29a12.8 12.8 0 0 1-7.81-11.91v-10.75c0-8.45 6.2-6.9 8.83-5.89c10.04 4.06 16.48 7.14 28.81 9.6c36.65 7.53 52.77-2.3 56.72-4.48c13.15-7.81 14.19-25.68 5.25-34.95c-10.48-8.79-15.48-9.12-53.13-21c-4.64-1.29-43.7-13.61-43.79-52.36c-.61-28.24 25.05-56.18 69.52-55.95c12.67-.01 46.43 4.13 55.57 15.62c1.35 2.09 2.02 4.55 1.92 7.04v10.11c0 4.44-1.62 6.66-4.87 6.66c-7.71-.86-21.39-11.17-49.16-10.75c-6.89-.36-39.89.91-38.41 24.97c-.43 18.96 26.61 26.07 29.7 26.89c36.46 10.97 48.65 12.79 63.12 29.58c17.14 22.25 7.9 48.3 4.35 55.44c-19.08 37.49-68.42 34.44-69.26 34.42m40.2 104.86c-70.03 51.72-171.69 79.25-258.49 79.25A469.13 469.13 0 0 1 2.83 327.46c-6.53-5.89-.77-13.96 7.17-9.47a637.37 637.37 0 0 0 316.88 84.12a630.2 630.2 0 0 0 241.59-49.55c11.78-5 21.77 7.8 10.12 16.38m29.19-33.29c-8.96-11.52-59.28-5.38-81.81-2.69c-6.79.77-7.94-5.12-1.79-9.47c40.07-28.17 105.88-20.1 113.44-10.63c7.55 9.47-2.05 75.41-39.56 106.91c-5.76 4.87-11.27 2.3-8.71-4.1c8.44-21.25 27.39-68.49 18.43-80.02"/>
+                                        </svg>
+                                        <span> Amazon S3</span>
+                                    </t>
+                                </div>
+                                <field name="notify_user_id" widget="many2one_avatar_user"/>
+                            </div>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="krt_backup_manager_configure_action" model="ir.actions.act_window">
+        <field name="name">Configuration</field>
+        <field name="res_model">db.backup.configure</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No backup configured!
+            </p>
+        </field>
+        <field name="context" model="db.backup.configure" eval="obj()._using_both_ref_and_model_id()" />
+    </record>
+
+    <menuitem id="krt_backup_manager_menu_root" name="Automatic Backup Management" parent="base.menu_custom" sequence="9"/>
+    <menuitem id="db_backup_configure_menu" parent="krt_backup_manager_menu_root" name="Backup Agent" action="krt_backup_manager_configure_action"/>
+</odoo>

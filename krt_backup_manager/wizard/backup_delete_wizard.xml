@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="db_delete_instance_wizard_view_form" model="ir.ui.view">
+        <field name="name">db.delete.instance.view.form.wizard</field>
+        <field name="model">db.delete.instance</field>
+        <field name="arch" type="xml">
+            <form string="Backup Deletion Wizard">
+                <sheet class="db_delete_instance_view_form_wizard">
+                    <div class="message-container">
+                        <h2>
+                            <div class="message-container-title">
+                                Do you want to delete this backup ?
+                            </div>
+                            <span class="message-container-subtitle">
+                                This action is irreversible !
+                            </span>
+                        </h2>
+                    </div>
+                    <field name="file_exist" invisible="1"/>
+                    <group>
+                        <field name="delete_attach_file" invisible="not file_exist" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel" help="Cancel deletion"/>
+                    <button string="Delete" name="confirm_deletion" type="object" class="oe_highlight" data-hotkey="q" help="Confirm deletion"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="db_deletion_instance_wizard_action" model="ir.actions.act_window">
+        <field name="name">Delete Backup</field>
+        <field name="res_model">db.delete.instance</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

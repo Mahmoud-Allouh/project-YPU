@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="50"
+   height="50"
+   viewBox="0 0 50 50"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="icon (3).svg"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   inkscape:export-filename="../Downloads/icon.png"
+   inkscape:export-xdpi="1134.72"
+   inkscape:export-ydpi="1134.72"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title4">Odoo Custom Module: El. Backup Manager</title>
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="9.63"
+     inkscape:cx="24.974039"
+     inkscape:cy="24.974039"
+     inkscape:window-width="1440"
+     inkscape:window-height="900"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2"
+     inkscape:export-bgcolor="#00000000" />
+  <g
+     id="g4"
+     transform="translate(-0.94967639,1.0962159)">
+    <g
+       id="g3">
+      <ellipse
+         style="fill:#985184;fill-opacity:1;stroke-width:1.26578"
+         id="path2"
+         cx="21.014771"
+         cy="35.440491"
+         rx="16.174299"
+         ry="9.4243555" />
+      <ellipse
+         style="fill:#fc868b;fill-opacity:1;stroke-width:1.26578"
+         id="path2-6"
+         cx="21.014771"
+         cy="27.934269"
+         rx="16.174299"
+         ry="9.4243555" />
+      <ellipse
+         style="fill:#fbb94b;fill-opacity:1;stroke-width:1.26578"
+         id="path2-6-8"
+         cx="21.014771"
+         cy="20.428047"
+         rx="16.174299"
+         ry="9.4243555" />
+    </g>
+    <g
+       id="g2"
+       transform="translate(7.330795,0.672411)">
+      <path
+         d="M 37.748733,14.643932 A 12.374366,12.374366 0 1 0 19.18607,25.360549 l 6.187183,-10.716617 h 12.374923 z"
+         fill="#fc868b"
+         id="path1"
+         style="stroke-width:0.556852" />
+      <path
+         d="M 15.401146,19.827111 A 12.374366,12.374366 0 1 0 33.541159,5.9074798 L 27.353975,16.624098 Z"
+         fill="#2ebcfa"
+         id="path2-4"
+         style="stroke-width:0.556852" />
+      <path
+         d="m 25.373253,27.018298 c 6.834802,0 12.374923,-5.540678 12.374923,-12.374923 0,-2.912336 -1.006232,-5.590238 -2.690709,-7.7040484 A 12.322022,12.322022 0 0 0 27.353419,4.2491743 c -6.834246,0 -12.374367,5.5401211 -12.374367,12.3743667 0,2.912336 1.006232,5.590794 2.690153,7.704048 a 12.322022,12.322022 0 0 0 7.704048,2.690709 z"
+         fill="#2d6388"
+         id="path3"
+         style="stroke-width:0.556852" />
+      <path
+         d="m 16.740932,5.7794038 c 0.359727,-0.3508168 0.740613,-0.6793595 1.141547,-0.9845145 0.126405,0.031184 0.247799,0.089653 0.355828,0.1759653 l 9.005412,7.2084494 c 1.01347,0.810777 1.083634,2.334324 0.165385,3.252016 -0.918249,0.917136 -2.44291,0.846972 -3.2548,-0.165385 L 16.939171,6.2683199 A 0.91936274,0.91936274 0 0 1 16.740932,5.7794038 Z"
+         fill="#ffffff"
+         id="path4"
+         style="stroke-width:0.556852" />
+    </g>
+  </g>
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>Odoo Custom Module: El. Backup Manager</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Oua Koua Elysee Kevin KOUA</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Oua Koua Elysee Kevin KOUA</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
