@@ -52,24 +52,42 @@
                                         <th class="ypu-col-num text-center">CH</th>
                                         <th t-if="section.show_prerequisite_column" class="ypu-col-prereq">Prerequisite</th>
                                         <th t-if="section.show_description_column" class="ypu-col-desc">Description</th>
+                                        <th class="ypu-col-pdf text-center">PDF</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <t t-if="!section.courses.length">
                                         <tr>
-                                            <td colspan="8" class="text-center text-muted py-3">No courses in this section.</td>
+                                            <td colspan="9" class="text-center text-muted py-3">No courses in this section.</td>
                                         </tr>
                                     </t>
                                     <t t-foreach="section.courses" t-as="course" t-key="course.id">
                                         <tr>
-                                            <td class="ypu-col-code"><code t-esc="course.code or '-'"/></td>
-                                            <td class="ypu-col-name" t-esc="course.name_ar or '-'"/>
+                                            <td class="ypu-col-code">
+                                                <t t-if="course.page_url">
+                                                    <a t-att-href="course.page_url"><code t-esc="course.code or '-'"/></a>
+                                                </t>
+                                                <t t-else=""><code t-esc="course.code or '-'"/></t>
+                                            </td>
+                                            <td class="ypu-col-name">
+                                                <t t-if="course.page_url">
+                                                    <a t-att-href="course.page_url" t-esc="course.name_ar or '-'"/>
+                                                </t>
+                                                <t t-else=""><t t-esc="course.name_ar or '-'"/></t>
+                                            </td>
                                             <td class="ypu-col-name-en" t-esc="course.name_en or '-'"/>
                                             <td class="ypu-col-num text-center" t-esc="course.theory_hours ? course.theory_hours : '-'"/>
                                             <td class="ypu-col-num text-center" t-esc="course.practical_hours ? course.practical_hours : '-'"/>
                                             <td class="ypu-col-num text-center"><strong t-esc="course.credit_hours ? course.credit_hours : '-'"/></td>
                                             <td t-if="section.show_prerequisite_column" class="ypu-col-prereq" t-esc="course.prerequisite || '-'"/>
                                             <td t-if="section.show_description_column" class="ypu-col-desc small" t-esc="course.description || ''"/>
+                                            <td class="ypu-col-pdf text-center">
+                                                <a t-if="course.pdf_url" t-att-href="course.pdf_url"
+                                                   class="btn btn-sm btn-outline-secondary" target="_blank"
+                                                   title="Download PDF">
+                                                    <i class="fa fa-file-pdf-o"/>
+                                                </a>
+                                            </td>
                                         </tr>
                                     </t>
                                 </tbody>
@@ -81,6 +99,7 @@
                                         <td class="text-center fw-bold" t-esc="section.total_credit"/>
                                         <td t-if="section.show_prerequisite_column"/>
                                         <td t-if="section.show_description_column"/>
+                                        <td/>
                                     </tr>
                                 </tfoot>
                             </table>

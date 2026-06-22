@@ -32,6 +32,14 @@ class YpuStudyPlanSnippet(Controller):
         for section in plan.section_ids.sorted(lambda s: (s.sequence, s.id)):
             courses = []
             for course in section.course_ids.sorted(lambda c: (c.sequence, c.id)):
+                pdf_url = (
+                    f'/web/content/ypu.study.plan.course/{course.id}/pdf_file'
+                    f'?download=true&filename={course.pdf_filename or (course.code or "course") + ".pdf"}'
+                    if course.pdf_file else ''
+                )
+                page_url = ''
+                if course.website_page_id and course.website_page_id.is_published:
+                    page_url = course.website_page_id.url
                 courses.append({
                     'id': course.id,
                     'code': course.code or '',
@@ -42,6 +50,8 @@ class YpuStudyPlanSnippet(Controller):
                     'credit_hours': course.credit_hours,
                     'prerequisite': course.prerequisite or '',
                     'description': course.description or '',
+                    'pdf_url': pdf_url,
+                    'page_url': page_url,
                 })
             sections.append({
                 'id': section.id,

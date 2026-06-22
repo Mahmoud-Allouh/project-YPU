@@ -11,4 +11,10 @@
               action="action_ypu_study_plan"
               sequence="10"/>
 
+    <menuitem id="menu_ypu_study_plan_courses"
+              name="Courses"
+              parent="menu_ypu_study_plans_root"
+              action="action_ypu_study_plan_course"
+              sequence="20"/>
+
 </odoo>

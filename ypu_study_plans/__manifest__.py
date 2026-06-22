@@ -16,6 +16,7 @@ simple snippet picker on the page.
     'data': [
         'security/ir.model.access.csv',
         'views/study_plan_views.xml',
+        'views/study_plan_import_views.xml',
         'views/menu.xml',
         'views/website_templates.xml',
         'views/snippets.xml',
