@@ -37,6 +37,28 @@ class YpuTeacher(models.Model):
     phone = fields.Char(string="Phone")
     linkedin_url = fields.Char(string="LinkedIn URL")
     research_gate = fields.Char(string="Research Gate")
+    google_scholar = fields.Char(string="Google Scholar URL")
+
+    # ── CV ───────────────────────────────────────────────────
+    cv_file = fields.Binary(string="CV (PDF)", attachment=True)
+    cv_filename = fields.Char(string="CV Filename")
+    cv_url = fields.Char(
+        string="CV URL",
+        help="External CV link, used if no CV file is uploaded.",
+    )
+    cv_download_url = fields.Char(
+        string="CV Download Link", compute='_compute_cv_download_url',
+    )
+
+    @api.depends('cv_file', 'cv_url')
+    def _compute_cv_download_url(self):
+        for rec in self:
+            if rec.cv_file:
+                rec.cv_download_url = f'/web/content/ypu.teacher/{rec.id}/cv_file?download=true'
+            elif rec.cv_url:
+                rec.cv_download_url = rec.cv_url
+            else:
+                rec.cv_download_url = False
 
     # ── Website display ──────────────────────────────────────
     sequence = fields.Integer(
@@ -161,8 +183,6 @@ class YpuTeacher(models.Model):
         """Build HTML for the Contact tab from structured fields."""
         e = _html_lib.escape
         parts = []
-        if self.phone:
-            parts.append(f'<p class="lead">Mobile phone: {e(self.phone)}</p>')
         if self.email:
             parts.append(
                 f'<p class="lead">E-mail: '
@@ -172,6 +192,12 @@ class YpuTeacher(models.Model):
             u = e(self.linkedin_url)
             parts.append(
                 f'<p class="lead">LinkedIn: '
+                f'<a href="{u}" target="_blank" rel="noopener noreferrer">{u}</a></p>'
+            )
+        if self.google_scholar:
+            u = e(self.google_scholar)
+            parts.append(
+                f'<p class="lead">Google Scholar: '
                 f'<a href="{u}" target="_blank" rel="noopener noreferrer">{u}</a></p>'
             )
         if self.research_gate:
@@ -185,49 +211,118 @@ class YpuTeacher(models.Model):
         return '\n'.join(parts)
 
     def _build_page_arch(self):
-        """Return the arch XML string for this teacher's dedicated website.page view.
-
-        The structure mirrors the existing manually-built profile pages:
-        • Section 1 – o_cc5 dark band with teacher name (s_text_block)
-        • Section 2 – o_cc2 framed intro with photo + bio (s_framed_intro)
-        • Section 3 – o_cc2 tabbed content (s_tabs)
-        • Trailing oe_structure for extra snippets
-        """
+        """Return arch XML for this teacher's website.page view (modern design)."""
         e = _html_lib.escape
         name_safe = e(self.name or '')
 
-        # ── Photo ────────────────────────────────────────────
+        # ── Photo ────────────────────────────────────────────────────
         if self.image_1920:
             image_html = (
                 f'<img src="/web/image/ypu.teacher/{self.id}/image_1920" '
-                f'alt="{name_safe}" class="img img-fluid o_we_custom_image" '
-                f'style="width: 100% !important;" loading="lazy"/>'
+                f'alt="{name_safe}" loading="lazy" '
+                f'style="width:260px;height:260px;object-fit:cover;border-radius:24px;'
+                f'box-shadow:0 20px 60px rgba(0,0,0,0.3);border:4px solid rgba(255,255,255,0.2);"/>'
             )
         else:
             initial = e((self.name or ' ')[0].upper())
             image_html = (
-                f'<div style="width:200px;height:200px;border-radius:50%;'
-                f'background:#e2e8f0;font-size:4rem;font-weight:700;color:#2563eb;'
-                f'display:flex;align-items:center;justify-content:center;margin:0 auto;">'
+                f'<div style="width:200px;height:200px;border-radius:24px;'
+                f'background:rgba(255,255,255,0.1);border:4px solid rgba(255,255,255,0.2);'
+                f'font-size:4rem;font-weight:700;color:#fff;'
+                f'display:inline-flex;align-items:center;justify-content:center;">'
                 f'{initial}</div>'
             )
 
-        # ── Bio ──────────────────────────────────────────────
+        # ── Subtitle (rank — subject) ────────────────────────────────
+        sub_parts = []
+        if self.rank:
+            sub_parts.append(e(self.rank))
+        if self.subject:
+            sub_parts.append(e(self.subject))
+        subtitle_html = ''
+        if sub_parts:
+            subtitle_html = (
+                f'<p style="color:rgba(255,255,255,0.8);font-size:1.1rem;margin-bottom:16px;">'
+                f'{" &mdash; ".join(sub_parts)}</p>'
+            )
+
+        # ── Metadata pills ───────────────────────────────────────────
+        pill = ('background:rgba(255,255,255,0.15);color:#fff;'
+                'padding:4px 12px;border-radius:20px;font-size:0.82rem;font-weight:500;')
+        pills = []
+        if self.department:
+            pills.append(f'<span style="{pill}">{e(self.department)}</span>')
+        if self.position_id:
+            pills.append(f'<span style="{pill}">{e(self.position_id.name)}</span>')
+        if self.category_id:
+            pills.append(f'<span style="{pill}">{e(self.category_id.name)}</span>')
+        pills_html = ''
+        if pills:
+            pills_html = (f'<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">'
+                          f'{"".join(pills)}</div>')
+
+        # ── Social links + CV ────────────────────────────────────────
+        soc = ('background:rgba(255,255,255,0.12);color:#fff;'
+               'border:1px solid rgba(255,255,255,0.3);border-radius:8px;'
+               'padding:7px 16px;text-decoration:none;font-size:0.87rem;'
+               'display:inline-flex;align-items:center;gap:6px;')
+        cv_sty = ('background:#f59e0b;color:#1a1a1a;border:none;border-radius:8px;'
+                  'padding:7px 16px;text-decoration:none;font-size:0.87rem;font-weight:600;'
+                  'display:inline-flex;align-items:center;gap:6px;')
+        links = []
+        if self.linkedin_url:
+            links.append(
+                f'<a href="{e(self.linkedin_url)}" target="_blank" rel="noopener noreferrer" '
+                f'style="{soc}"><i class="fa fa-linkedin"></i> LinkedIn</a>')
+        if self.google_scholar:
+            links.append(
+                f'<a href="{e(self.google_scholar)}" target="_blank" rel="noopener noreferrer" '
+                f'style="{soc}"><i class="fa fa-graduation-cap"></i> Google Scholar</a>')
+        if self.research_gate:
+            links.append(
+                f'<a href="{e(self.research_gate)}" target="_blank" rel="noopener noreferrer" '
+                f'style="{soc}"><i class="fa fa-flask"></i> Research Gate</a>')
+        if self.email:
+            links.append(
+                f'<a href="mailto:{e(self.email)}" '
+                f'style="{soc}"><i class="fa fa-envelope"></i> Email</a>')
+        cv_link = self.cv_download_url
+        if cv_link:
+            cv_tgt = '' if cv_link.startswith('/') else ' target="_blank" rel="noopener noreferrer"'
+            links.append(
+                f'<a href="{e(cv_link)}"{cv_tgt} '
+                f'style="{cv_sty}"><i class="fa fa-download"></i> Download CV</a>')
+        links_html = ''
+        if links:
+            links_html = f'<div style="display:flex;flex-wrap:wrap;gap:8px;">{"".join(links)}</div>'
+
+        # ── Bio section ──────────────────────────────────────────────
         bio_html = str(self.bio) if self.bio else ''
         if not bio_html and self.subject:
             bio_html = f'<p class="lead"><strong>{e(self.subject)}</strong></p>'
+        bio_section = ''
+        if bio_html:
+            bio_section = f'''
+            <section style="background:#fff;padding:48px 0;border-bottom:1px solid #e5e7eb;">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-9">
+                            <div class="ypu-bio-content">{bio_html}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>'''
 
-        # ── Tabs ─────────────────────────────────────────────
+        # ── Tabs ─────────────────────────────────────────────────────
         uid = str(self.id)
         tab_defs = [
             (f'personal-{uid}', 'Personal Information', self.personal_info or ''),
-            (f'contact-{uid}',  'Contact Information',  self._contact_html()),
-            (f'education-{uid}', 'Education',           self.education or ''),
-            (f'career-{uid}',   'Career',               self.career or ''),
-            (f'admin-{uid}',    'Administration',       self.administration or ''),
-            (f'sup-{uid}',      'Supervising',          self.supervising or ''),
-            (f'pubs-{uid}',     'Publications',         self.publications or ''),
-            (f'courses-{uid}',  'Courses',              self.courses or ''),
+            (f'education-{uid}', 'Education',            self.education or ''),
+            (f'career-{uid}',    'Career',               self.career or ''),
+            (f'admin-{uid}',     'Administration',       self.administration or ''),
+            (f'sup-{uid}',       'Supervising',          self.supervising or ''),
+            (f'pubs-{uid}',      'Publications',         self.publications or ''),
+            (f'courses-{uid}',   'Courses',              self.courses or ''),
         ]
         active_tabs = [
             (tid, tname, str(tcontent))
@@ -235,93 +330,58 @@ class YpuTeacher(models.Model):
             if str(tcontent).strip()
         ]
 
-        headers_html = ''
-        panes_html = ''
-        for idx, (tab_id, tab_name, content) in enumerate(active_tabs):
-            active_cls = ' active' if idx == 0 else ''
-            show_cls = ' show' if idx == 0 else ''
-            selected = 'true' if idx == 0 else 'false'
-            headers_html += (
-                f'\n                        <li class="nav-item" role="presentation">'
-                f'\n                            <a class="nav-link text-break{active_cls}"'
-                f' id="nav_tab_{tab_id}" data-bs-toggle="tab"'
-                f' href="#nav_pane_{tab_id}" role="tab"'
-                f' aria-controls="nav_pane_{tab_id}" aria-selected="{selected}">'
-                f'{e(tab_name)}</a>'
-                f'\n                        </li>'
-            )
-            panes_html += (
-                f'\n                    <div class="tab-pane fade{show_cls}{active_cls}"'
-                f' id="nav_pane_{tab_id}" role="tabpanel"'
-                f' aria-labelledby="nav_tab_{tab_id}">'
-                f'\n                        <div class="oe_structure oe_empty">'
-                f'\n                            <section class="s_text_block" data-snippet="s_text_block">'
-                f'\n                                <div class="container s_allow_columns">'
-                f'\n                                    {content}'
-                f'\n                                </div>'
-                f'\n                            </section>'
-                f'\n                        </div>'
-                f'\n                    </div>'
-            )
-
         tabs_section = ''
         if active_tabs:
+            headers_html = ''
+            panes_html = ''
+            for idx, (tab_id, tab_name, content) in enumerate(active_tabs):
+                active_cls = ' active' if idx == 0 else ''
+                show_cls = ' show' if idx == 0 else ''
+                headers_html += (
+                    f'<li class="nav-item" role="presentation">'
+                    f'<button class="ypu-tab-btn{active_cls}" '
+                    f'data-bs-toggle="tab" data-bs-target="#nav_pane_{tab_id}" '
+                    f'type="button" role="tab">{e(tab_name)}</button></li>'
+                )
+                panes_html += (
+                    f'<div class="tab-pane fade{show_cls}{active_cls}" '
+                    f'id="nav_pane_{tab_id}" role="tabpanel">'
+                    f'<div class="ypu-tab-content">{content}</div>'
+                    f'</div>'
+                )
             tabs_section = f'''
-            <section class="s_tabs_common s_tabs o_colored_level pb144 o_cc o_cc2 pt16 o_half_screen_height"
-                     data-vcss="003" data-vxml="002" data-snippet="s_tabs" data-name="Tabs">
+            <section style="background:#f8faff;padding:48px 0 64px;">
                 <div class="container">
-                    <div class="s_tabs_main o_direction_horizontal">
-                        <div class="s_tabs_nav mb-3 overflow-y-hidden overflow-x-auto"
-                             data-name="Tab Header" role="navigation">
-                            <ul class="nav nav-underline flex-nowrap nav-justified" role="tablist">
-                                {headers_html}
-                            </ul>
-                        </div>
-                        <div class="s_tabs_content tab-content">
-                            {panes_html}
-                        </div>
-                    </div>
+                    <ul class="nav ypu-tabs-nav mb-4" role="tablist">{headers_html}</ul>
+                    <div class="tab-content">{panes_html}</div>
                 </div>
             </section>'''
 
         return f'''<t t-call="website.layout">
-            <div id="wrap" class="oe_structure oe_empty">
+            <div id="wrap">
 
-                <section class="s_text_block pt40 o_colored_level o_cc o_cc5 pb32"
-                         data-snippet="s_text_block">
-                    <div class="s_allow_columns container">
-                        <div class="row o_grid_mode" data-row-count="2">
-                            <div class="o_grid_item g-col-lg-12 o_colored_level g-height-2 col-lg-12"
-                                 style="grid-area: 1 / 1 / 3 / 13; z-index: 1;">
-                                <h1 style="text-align: center;">{name_safe}</h1>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="s_framed_intro o_colored_level o_cc o_cc2 pb32 pt64"
-                         data-snippet="s_framed_intro" data-name="Framed Intro">
+                <section style="background:linear-gradient(135deg,color-mix(in srgb,var(--bs-primary) 50%,#000000) 0%,var(--bs-primary) 100%);padding:56px 0 48px;">
                     <div class="container">
-                        <div class="row o_grid_mode" data-row-count="8">
-                            <div class="o_grid_item o_grid_item_image o_cc o_colored_level g-col-lg-5 g-height-8 col-lg-5 o_cc3 rounded"
-                                 style="grid-area: 1 / 8 / 9 / 13; z-index: 3;
-                                        --grid-item-padding-y: 32px; --grid-item-padding-x: 32px;
-                                        --box-border-bottom-left-radius: 35px;
-                                        --box-border-bottom-right-radius: 35px;
-                                        --box-border-top-right-radius: 35px;
-                                        --box-border-top-left-radius: 35px;">
+                        <a href="/teachers" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:0.85rem;display:inline-flex;align-items:center;gap:6px;margin-bottom:28px;">
+                            &#8592; Back to Directory
+                        </a>
+                        <div class="row align-items-center g-5">
+                            <div class="col-lg-7 order-2 order-lg-1">
+                                <h1 style="color:#fff;font-weight:700;font-size:2.4rem;margin-bottom:8px;">{name_safe}</h1>
+                                {subtitle_html}
+                                {pills_html}
+                                {links_html}
+                            </div>
+                            <div class="col-lg-5 order-1 order-lg-2 text-center">
                                 {image_html}
                             </div>
-                            <div class="o_grid_item g-col-lg-6 align-content-end o_colored_level g-height-5 col-lg-6"
-                                 style="z-index: 2; grid-area: 2 / 1 / 7 / 7;">
-                                {bio_html}
-                            </div>
                         </div>
                     </div>
                 </section>
+                {bio_section}
                 {tabs_section}
 
-                <div class="oe_structure oe_empty"/>
+                <div class="oe_structure oe_empty"></div>
 
             </div>
         </t>'''

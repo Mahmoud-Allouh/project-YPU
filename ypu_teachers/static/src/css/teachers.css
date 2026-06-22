@@ -5,7 +5,7 @@
 :root {
     --ypu-bg: #f7f8fb;
     --ypu-card: #ffffff;
-    --ypu-accent: #2563eb;
+    --ypu-accent: var(--bs-primary);
     --ypu-accent-2: #22c55e;
     --ypu-text: #0f172a;
     --ypu-muted: #6b7280;
@@ -299,6 +299,77 @@
     opacity: 0.5;
 }
 
+/* ── Profile page – social link buttons (on dark hero) ──────────── */
+
+.ypu-social-btn {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 7px 16px;
+    text-decoration: none !important;
+    font-size: 0.87rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s ease;
+}
+.ypu-social-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff !important;
+}
+.ypu-social-btn--cv {
+    background: #f59e0b;
+    color: #1a1a1a !important;
+    border-color: #f59e0b;
+    font-weight: 600;
+}
+.ypu-social-btn--cv:hover {
+    background: #d97706;
+    color: #1a1a1a !important;
+}
+
+/* ── Profile page – bio ──────────────────────────────────────────── */
+
+.ypu-bio-content {
+    color: #374151;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+.ypu-bio-content p { margin-bottom: 1rem; }
+
+/* ── Profile page – tabs ─────────────────────────────────────────── */
+
+.ypu-tabs-nav {
+    border-bottom: 2px solid #e2e8f0;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.ypu-tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    color: #6b7280;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: -2px;
+    padding: 10px 20px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.ypu-tab-btn:hover  { color: var(--bs-primary); border-bottom-color: rgba(var(--bs-primary-rgb), 0.3); }
+.ypu-tab-btn.active { color: var(--bs-primary); border-bottom-color: var(--bs-primary); font-weight: 600; }
+
+.ypu-tab-content {
+    padding: 32px 0;
+    color: #374151;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+.ypu-tab-content p { margin-bottom: 1rem; }
+
 /* ── Responsive ────────────────────────────────────────────────── */
 
 @media (max-width: 767px) {
@@ -335,6 +406,11 @@
 
     .ypu-card--featured h5 {
         white-space: normal;
+    }
+
+    .ypu-tab-btn {
+        padding: 8px 12px;
+        font-size: 0.82rem;
     }
 }
 

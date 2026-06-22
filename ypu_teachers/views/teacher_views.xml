@@ -79,13 +79,18 @@
                         </group>
                         <group string="Contact">
                             <field name="email" widget="email"/>
-                            <field name="phone" widget="phone"/>
                             <field name="linkedin_url" widget="url" placeholder="https://linkedin.com/in/…"/>
+                            <field name="google_scholar" widget="url" placeholder="https://scholar.google.com/…"/>
                             <field name="research_gate" widget="url" placeholder="https://researchgate.net/…"/>
                         </group>
                     </group>
 
                     <group>
+                        <group string="CV">
+                            <field name="cv_file" filename="cv_filename" widget="binary"/>
+                            <field name="cv_filename" invisible="1"/>
+                            <field name="cv_url" widget="url" placeholder="https://… (used if no file uploaded)"/>
+                        </group>
                         <group string="Website Display">
                             <field name="sequence"/>
                             <field name="website_published"/>
@@ -102,20 +107,11 @@
                         <page string="Profile / Bio">
                             <field name="bio"/>
                         </page>
-                        <page string="Personal Info">
-                            <field name="personal_info"/>
-                        </page>
                         <page string="Education">
                             <field name="education"/>
                         </page>
                         <page string="Career">
                             <field name="career"/>
-                        </page>
-                        <page string="Administration">
-                            <field name="administration"/>
-                        </page>
-                        <page string="Supervising">
-                            <field name="supervising"/>
                         </page>
                         <page string="Publications">
                             <field name="publications"/>
